@@ -1,0 +1,48 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public </font>MustInherit <font color= "blue"></font>Class Contacts
+<font color= "blue">        Inherits</font> ASPNetPortal.PortalModuleControl
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>myDataGrid As System.Web.UI.WebControls.DataGrid
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Load event handler on this User Control is used to</font>
+<font color= "green">        ' obtain a DataReader of contact information from the Contacts</font>
+<font color= "green">        ' table, and then databind the results to a DataGrid</font>
+<font color= "green">        ' server control.  It uses the ASPNetPortal.ContactsDB()</font>
+<font color= "green">        ' data component to encapsulate all data functionality.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************'</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+<font color= "blue"></font>
+<font color= "green">            ' Obtain contact information from Contacts table</font>
+<font color= "green">            ' and bind to the DataGrid Control</font>
+<font color= "blue">            Dim </font>contacts <font color= "blue">As </font>New ASPNetPortal.ContactsDB()
+<font color= "blue"></font>
+<font color= "blue">            </font>myDataGrid.DataSource = contacts.GetContacts(ModuleId)
+<font color= "blue">            </font>myDataGrid.DataBind()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "AddContact" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure adds a new contact to the database for a specific module 
+            in the portal. The input parameters include the contact's name, role, team, 
+            email, and contact information, and the output parameter is the ItemId of the 
+            new database record.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE AddContact
+    (
+        @ModuleID int,
+        @UserName nvarchar(100),
+        @Name     nvarchar(50),
+        @Role     nvarchar(100),
+        @Email    nvarchar(100),
+        @Contact1 nvarchar(250),
+        @Contact2 nvarchar(250),
+        @ItemID   int OUTPUT
+    )
+    AS
+
+    INSERT INTO Contacts
+    (
+        CreatedByUser,
+        CreatedDate,
+        ModuleID,
+        Name,
+        Role,
+        Email,
+        Contact1,
+        Contact2
+    )
+
+    VALUES
+    (
+        @UserName,
+        GetDate(),
+        @ModuleID,
+        @Name,
+        @Role,
+        @Email,
+        @Contact1,
+        @Contact2
+    )
+
+    SELECT
+        @ItemID = @@Identity
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Contacts:</i>
+        &nbsp;Each record in the Contacts table is a single item, as displayed by the 
+        Contacts Portal Module. Since all Contacts modules store their record in this 
+        table, each item contains a ModuleID to permit related items to be retrieved in 
+        a single query.
+        <p>
+        The primary key in this table is the ItemID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/contacts.jpg">
+    </body>
+</html>

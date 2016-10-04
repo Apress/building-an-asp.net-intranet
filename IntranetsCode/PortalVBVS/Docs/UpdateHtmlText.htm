@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "UpdateHtmlText" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure is used by the HtmlModule edit page to apply changes to 
+            an existing HtmlText item. The input parameters include the item's primary key 
+            (ModuleID), plus Desktop HTML, Mobile Summary text and Mobile details text.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE UpdateHtmlText
+    (
+        @ModuleID      int,
+        @DesktopHtml   ntext,
+        @MobileSummary ntext,
+        @MobileDetails ntext
+    )
+    AS
+
+    IF NOT EXISTS (
+        SELECT 
+            * 
+        FROM 
+            HtmlText 
+        WHERE 
+            ModuleID = @ModuleID
+    )
+    INSERT INTO HtmlText (
+        ModuleID,
+        DesktopHtml,
+        MobileSummary,
+        MobileDetails
+    ) 
+    VALUES (
+        @ModuleID,
+        @DesktopHtml,
+        @MobileSummary,
+        @MobileDetails
+    )
+    ELSE
+    UPDATE
+        HtmlText
+
+    SET
+        DesktopHtml   = @DesktopHtml,
+        MobileSummary = @MobileSummary,
+        MobileDetails = @MobileDetails
+
+    WHERE
+        ModuleID = @ModuleID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>HtmlText:</i>
+        &nbsp;Each record in the HtmlText holds the HTML and text associated with a 
+        specific Html module.&nbsp; Each of the text field - DesktopHtml, 
+        MobileSummary, and MobileDetails - is stored in a SQL Unicode text field, and 
+        can hold up to 1,073,741,823 characters.
+        <p>
+        The primary key in this table is the ModuleID field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/htmltext.jpg">
+        </p>
+    </body>
+</html>

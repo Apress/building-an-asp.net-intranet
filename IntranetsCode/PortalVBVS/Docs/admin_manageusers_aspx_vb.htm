@@ -1,0 +1,229 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> ManageUsers
+<font color= "blue">        Inherits</font> System.Web.UI.Page
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>Email As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>Password As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>allRoles As System.Web.UI.WebControls.DropDownList
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>addExisting As System.Web.UI.WebControls.LinkButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>userRoles As System.Web.UI.WebControls.DataList
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>saveBtn As System.Web.UI.WebControls.LinkButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>title As System.Web.UI.HtmlControls.HtmlGenericControl
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>UpdateUserBtn As System.Web.UI.WebControls.LinkButton
+<font color= "blue"></font>
+<font color= "blue">        Private </font>userId <font color= "blue">As </font>Integer = -1
+<font color= "blue">        Private </font>userName <font color= "blue">As </font>String = ""
+<font color= "blue">        Private </font>tabIndex <font color= "blue">As </font>Integer = 0
+<font color= "blue">        Private </font>tabId <font color= "blue">As </font>Integer = 0
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Load server event handler on this page is used</font>
+<font color= "green">        ' to populate the role information for the page</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+<font color= "blue"></font>
+<font color= "green">            ' Verify that the current user has access to access this page</font>
+<font color= "blue"></font><font color= "blue">            If </font>PortalSecurity.IsInRoles("Admins") = False <font color= "blue">Then</font>
+<font color= "blue">                </font>Response.Redirect("~/Admin/EditAccessDenied.aspx")
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Calculate userid</font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (Request.Params("userid") Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                </font>userId <font color= "blue"></font>= Int32.Parse(Request.Params("userid"))
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (Request.Params("username") Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                </font>userName <font color= "blue"></font>= CStr(Request.Params("username"))
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (Request.Params("tabid") Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                </font>tabId <font color= "blue"></font>= Int32.Parse(Request.Params("tabid"))
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (Request.Params("tabindex") Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                </font>tabIndex <font color= "blue"></font>= Int32.Parse(Request.Params("tabindex"))
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' If this is the first visit to the page, bind the role data to the datalist</font>
+<font color= "blue"></font><font color= "blue">            If </font>Page.IsPostBack = False <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                ' new user?</font>
+<font color= "blue"></font><font color= "blue">                If </font>userName = "" <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                    Dim </font>users <font color= "blue">As </font>New UsersDB()
+<font color= "blue"></font>
+<font color= "green">                    ' make a unique new user record</font>
+<font color= "blue">                    Dim </font>uid <font color= "blue">As </font>Integer = -1
+<font color= "blue">                    Dim </font>i <font color= "blue">As </font>Integer = 0
+<font color= "blue"></font>
+<font color= "blue">                    While</font> uid = -1
+<font color= "blue"></font>
+<font color= "blue">                        Dim </font>friendlyName <font color= "blue">As </font>String = "New User created " & DateTime.Now.ToString()
+<font color= "blue">                        </font>userName <font color= "blue"></font>= "New User" & i.ToString()
+<font color= "blue">                        </font>uid <font color= "blue"></font>= users.AddUser(friendlyName, userName, "")
+<font color= "blue">                        </font>i <font color= "blue"></font>+= 1
+<font color= "blue">                    </font>End <font color= "blue"></font>While
+<font color= "blue"></font>
+<font color= "green">                    ' redirect to this page with the corrected querystring args</font>
+<font color= "blue">                    </font>Response.Redirect(("~/Admin/ManageUsers.aspx?userId=" & uid & "&username=" & userName & "&tabindex=" & tabIndex & "&tabid=" & tabId))
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                </font>BindData()
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Save_Click server event handler on this page is used</font>
+<font color= "green">        ' to save the current security settings to the configuration system</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Save_Click(ByVal Sender As Object, ByVal e As EventArgs) Handles saveBtn.Click
+<font color= "blue"></font>
+<font color= "green">            ' Navigate back to admin page</font>
+<font color= "blue">            </font>Response.Redirect(("~/DesktopDefault.aspx?tabindex=" & tabIndex & "&tabid=" & tabId))
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The AddRole_Click server event handler is used to add</font>
+<font color= "green">        ' the user to this security role</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> AddRole_Click(ByVal sender As Object, ByVal e As EventArgs) Handles addExisting.Click
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>roleId <font color= "blue">As </font>Integer
+<font color= "blue"></font>
+<font color= "green">            'get user id from dropdownlist of existing users</font>
+<font color= "blue">            </font>roleId <font color= "blue"></font>= Int32.Parse(allRoles.SelectedItem.Value)
+<font color= "blue"></font>
+<font color= "green">            ' Add a new userRole to the database</font>
+<font color= "blue">            Dim </font>admin <font color= "blue">As </font>New AdminDB()
+<font color= "blue">            </font>admin.AddUserRole(roleId, userId)
+<font color= "blue"></font>
+<font color= "green">            ' Rebind list</font>
+<font color= "blue">            </font>BindData()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The UpdateUser_Click server event handler is used to add</font>
+<font color= "green">        ' the update the user settings</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> UpdateUser_Click(ByVal sender As Object, ByVal e As EventArgs) Handles UpdateUserBtn.Click
+<font color= "blue"></font>
+<font color= "green">            ' update the user record in the database</font>
+<font color= "blue">            Dim </font>users <font color= "blue">As </font>New UsersDB()
+<font color= "blue">            </font>users.UpdateUser(userId, Email.Text, Password.Text)
+<font color= "blue"></font>
+<font color= "green">            ' redirect to this page with the corrected querystring args</font>
+<font color= "blue">            </font>Response.Redirect(("~/Admin/ManageUsers.aspx?userId=" & userId & "&username=" & Email.Text & "&tabindex=" & tabIndex & "&tabid=" & tabId))
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The UserRoles_ItemCommand server event handler on this page</font>
+<font color= "green">        ' is used to handle deleting the user from roles</font>
+<font color= "green">        ' from the userRoles asp:datalist control</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> UserRoles_ItemCommand(ByVal sender As Object, ByVal e As DataListCommandEventArgs) Handles userRoles.ItemCommand
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>admin <font color= "blue">As </font>New AdminDB()
+<font color= "blue">            Dim </font>roleId <font color= "blue">As </font>Integer = CInt(userRoles.DataKeys(e.Item.ItemIndex))
+<font color= "blue"></font>
+<font color= "green">            ' update database</font>
+<font color= "blue">            </font>admin.DeleteUserRole(roleId, userId)
+<font color= "blue"></font>
+<font color= "green">            ' Ensure that item is not editable</font>
+<font color= "blue">            </font>userRoles.EditItemIndex = -1
+<font color= "blue"></font>
+<font color= "green">            ' Repopulate list</font>
+<font color= "blue">            </font>BindData()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The BindData helper method is used to bind the list of</font>
+<font color= "green">        ' security roles for this portal to an asp:datalist server control</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Sub</font> BindData()
+<font color= "blue"></font>
+<font color= "green">            ' Bind the Email and Password</font>
+<font color= "blue">            Dim </font>users <font color= "blue">As </font>New UsersDB()
+<font color= "blue">            Dim </font>dr <font color= "blue">As </font>SqlDataReader = users.GetSingleUser(userName)
+<font color= "blue"></font>
+<font color= "green">            ' Read first row from database</font>
+<font color= "blue">            </font>dr.Read()
+<font color= "blue"></font>
+<font color= "blue">            </font>Email.Text = CStr(dr("Email"))
+<font color= "blue">            </font>Password.Text = CStr(dr("Password"))
+<font color= "blue"></font>
+<font color= "blue">            </font>dr.Close()
+<font color= "blue"></font>
+<font color= "green">            ' add the user name to the title</font>
+<font color= "blue"></font><font color= "blue">            If </font>userName <> "" <font color= "blue">Then</font>
+<font color= "blue">                </font>title.InnerText = "Manage User: " & userName
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' bind users in role to DataList</font>
+<font color= "blue">            </font>userRoles.DataSource = users.GetRolesByUser(userName)
+<font color= "blue">            </font>userRoles.DataBind()
+<font color= "blue"></font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(Context.Items("PortalSettings"), PortalSettings)
+<font color= "blue"></font>
+<font color= "green">            ' Get the portal's roles from the database</font>
+<font color= "blue">            Dim </font>admin <font color= "blue">As </font>New AdminDB()
+<font color= "blue"></font>
+<font color= "green">            ' bind all portal roles to dropdownlist</font>
+<font color= "blue">            </font>allRoles.DataSource = admin.GetPortalRoles(_portalSettings.PortalId)
+<font color= "blue">            </font>allRoles.DataBind()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

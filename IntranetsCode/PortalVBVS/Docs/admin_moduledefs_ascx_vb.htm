@@ -1,0 +1,113 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public </font>MustInherit <font color= "blue"></font>Class ModuleDefs
+<font color= "blue">        Inherits</font> ASPNetPortal.PortalModuleControl
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>defsList As System.Web.UI.WebControls.DataList
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>AddDefBtn As System.Web.UI.WebControls.LinkButton
+<font color= "blue"></font>
+<font color= "blue">        Private </font>tabIndex <font color= "blue">As </font>Integer = 0
+<font color= "blue">        Private </font>tabId <font color= "blue">As </font>Integer = 0
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Load server event handler on this user control is used</font>
+<font color= "green">        ' to populate the current defs settings from the configuration system</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+<font color= "blue"></font>
+<font color= "green">            ' Verify that the current user has access to access this page</font>
+<font color= "blue"></font><font color= "blue">            If </font>PortalSecurity.IsInRoles("Admins") = False <font color= "blue">Then</font>
+<font color= "blue">                </font>Response.Redirect("~/Admin/EditAccessDenied.aspx")
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (Request.Params("tabid") Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                </font>tabId <font color= "blue"></font>= Int32.Parse(Request.Params("tabid"))
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (Request.Params("tabindex") Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                </font>tabIndex <font color= "blue"></font>= Int32.Parse(Request.Params("tabindex"))
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' If this is the first visit to the page, bind the definition data to the datalist</font>
+<font color= "blue"></font><font color= "blue">            If </font>Page.IsPostBack = False <font color= "blue">Then</font>
+<font color= "blue">                </font>BindData()
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The AddDef_Click server event handler is used to add</font>
+<font color= "green">        ' a new module definition for this portal</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> AddDef_Click(ByVal Sender As Object, ByVal e As EventArgs) Handles AddDefBtn.Click
+<font color= "blue"></font>
+<font color= "green">            ' redirect to edit page</font>
+<font color= "blue">            </font>Response.Redirect(("~/Admin/ModuleDefinitions.aspx?defId=-1&tabindex=" & tabIndex & "&tabid=" & tabId))
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The DefsList_ItemCommand server event handler on this page</font>
+<font color= "green">        ' is used to handle the user editing module definitions</font>
+<font color= "green">        ' from the DefsList asp:datalist control</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> DefsList_ItemCommand(ByVal sender As Object, ByVal e As DataListCommandEventArgs) Handles defsList.ItemCommand
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>moduleDefId <font color= "blue">As </font>Integer = CInt(defsList.DataKeys(e.Item.ItemIndex))
+<font color= "blue"></font>
+<font color= "green">            ' redirect to edit page</font>
+<font color= "blue">            </font>Response.Redirect(("~/Admin/ModuleDefinitions.aspx?defId=" & moduleDefId & "&tabindex=" & tabIndex & "&tabid=" & tabId))
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The BindData helper method is used to bind the list of</font>
+<font color= "green">        ' module definitions for this portal to an asp:datalist server control</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Sub</font> BindData()
+<font color= "blue"></font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(Context.Items("PortalSettings"), PortalSettings)
+<font color= "blue"></font>
+<font color= "green">            ' Get the portal's defs from the database</font>
+<font color= "blue">            Dim </font>admin <font color= "blue">As </font>New AdminDB()
+<font color= "blue"></font>
+<font color= "blue">            </font>defsList.DataSource = admin.GetModuleDefinitions(_portalSettings.PortalId)
+<font color= "blue">            </font>defsList.DataBind()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

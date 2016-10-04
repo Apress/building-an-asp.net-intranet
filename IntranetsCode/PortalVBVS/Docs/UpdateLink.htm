@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "UpdateLink" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure is used by the Links edit page to apply changes to an 
+            existing link item. The input parameters include the item's primary key 
+            (ItemID), plus title, Url and description. The editor's UserName is also passed 
+            in, and used to update the CreatedByUser field.
+        </P>
+        <b>Definition:</b>
+        <pre>
+
+    CREATE PROCEDURE UpdateLink
+    (
+        @ItemID      int,
+        @UserName    nvarchar(100),
+        @Title       nvarchar(100),
+        @Url         nvarchar(250),
+        @MobileUrl   nvarchar(250),
+        @ViewOrder   int,
+        @Description nvarchar(2000)
+    )
+    AS
+
+    UPDATE
+        Links
+
+    SET
+        CreatedByUser = @UserName,
+        CreatedDate   = GetDate(),
+        Title         = @Title,
+        Url           = @Url,
+        MobileUrl     = @MobileUrl,
+        ViewOrder     = @ViewOrder,
+        Description   = @Description
+
+    WHERE
+        ItemID = @ItemID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Links:</i>
+        &nbsp;Each record in the Links table is a hyperlink, as displayed by the Links 
+        Portal Module. Since all Links modules store their record in this table, each 
+        item contains a ModuleID to permit related items to be retrieved in a single 
+        query.
+        <p>
+        The primary key in this table is the ItemID identity field. Note that the link 
+        description is limited to 4000 characters.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/links.jpg">
+        </p>
+    </body>
+</html>

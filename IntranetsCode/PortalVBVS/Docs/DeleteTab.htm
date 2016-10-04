@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "DeleteTab" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure deletes the selected tab from the portal. The input 
+            parameter is TabID, the primary key for the record.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE DeleteTab
+    (
+        @TabID int
+    )
+    AS
+
+    DELETE FROM
+        Tabs
+
+    WHERE
+        TabID = @TabID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Tabs:</i>
+        &nbsp;Each record in the Tabs table defines the name and access permissions for 
+        a tab in the selected portal. The primary key in this table is the TabID 
+        identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/tabs.jpg">
+        </p>
+    </body>
+</html>

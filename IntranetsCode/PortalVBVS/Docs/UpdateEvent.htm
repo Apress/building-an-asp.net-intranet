@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "UpdateEvent" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure is used by the Events edit page to apply changes to an 
+            existing event item. The input parameters include the item's primary key 
+            (ItemID), plus title, WhereWhen, expiration date and description. The editor's 
+            UserName is also passed in, and used to update the CreatedByUser field.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE UpdateEvent
+    (
+        @ItemID      int,
+        @UserName    nvarchar(100),
+        @Title       nvarchar(100),
+        @ExpireDate  datetime,
+        @Description nvarchar(2000),
+        @WhereWhen   nvarchar(100)
+    )
+
+    AS
+
+    UPDATE
+        Events
+
+    SET
+        CreatedByUser = @UserName,
+        CreatedDate   = GetDate(),
+        Title         = @Title,
+        ExpireDate    = @ExpireDate,
+        Description   = @Description,
+        WhereWhen     = @WhereWhen
+
+    WHERE
+        ItemID = @ItemID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Events:</i>
+        &nbsp;Each record in the Events table is a single item, as displayed by the 
+        Events Portal Module. Since all Events modules store their record in this 
+        table, each item contains a ModuleID to permit related items to be retrieved in 
+        a single query.
+        <p>
+        The primary key in this table is the ItemID identity field. Note that event 
+        descriptions are limited to 2000 characters.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/events.jpg">
+        </p>
+    </body>
+</html>

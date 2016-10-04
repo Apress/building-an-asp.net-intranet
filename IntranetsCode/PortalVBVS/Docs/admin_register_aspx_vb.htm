@@ -1,0 +1,66 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Imports</font> System.Web.Security
+<font color= "blue"></font>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> Register
+<font color= "blue">        Inherits</font> System.Web.UI.Page
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>Name As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>RequiredFieldValidator1 As System.Web.UI.WebControls.RequiredFieldValidator
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>Email As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>RegularExpressionValidator1 As System.Web.UI.WebControls.RegularExpressionValidator
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>RequiredFieldValidator2 As System.Web.UI.WebControls.RequiredFieldValidator
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>Password As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>RequiredFieldValidator3 As System.Web.UI.WebControls.RequiredFieldValidator
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>ConfirmPassword As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>RequiredFieldValidator4 As System.Web.UI.WebControls.RequiredFieldValidator
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>CompareValidator1 As System.Web.UI.WebControls.CompareValidator
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>RegisterBtn As System.Web.UI.WebControls.LinkButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>Message As System.Web.UI.WebControls.Label
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> RegisterBtn_Click(ByVal sender As Object, ByVal E As EventArgs) Handles RegisterBtn.Click
+<font color= "blue"></font>
+<font color= "green">            ' Only attempt a login if all form fields on the page are valid</font>
+<font color= "blue"></font><font color= "blue">            If </font>Page.IsValid = True <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                ' Add New User to Portal User Database</font>
+<font color= "blue">                Dim </font>accountSystem <font color= "blue">As </font>New ASPNetPortal.UsersDB()
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>accountSystem.AddUser(Name.Text, Email.Text, Password.Text) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                    ' Set the user's authentication name to the userId</font>
+<font color= "blue">                    </font>FormsAuthentication.SetAuthCookie(Email.Text, False)
+<font color= "blue"></font>
+<font color= "green">                    ' Redirect browser back to home page'</font>
+<font color= "blue">                    </font>Response.Redirect("~/DesktopDefault.aspx")
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>Message.Text = "Registration Failed!  <" & "u" & ">" & Email.Text & "<" & "/u" & "> is already registered." & "<" & "br" & ">" & "Please register using a different email address."
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

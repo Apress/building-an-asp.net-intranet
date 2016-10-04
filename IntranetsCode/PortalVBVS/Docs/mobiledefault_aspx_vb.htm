@@ -1,0 +1,218 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Imports</font> System.Web.UI.MobileControls
+<font color= "blue"></font>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> MobileDefault
+<font color= "blue">        Inherits</font> System.Web.UI.MobileControls.MobilePage
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Label1 <font color= "blue">As </font>System.Web.UI.MobileControls.Label
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>TabView As ASPNetPortal.MobileControls.TabbedPanel
+<font color= "blue">        Protected </font>Form1 <font color= "blue">As </font>System.Web.UI.MobileControls.Form
+<font color= "blue">        Protected </font>DeviceSpecific1 <font color= "blue">As </font>System.Web.UI.MobileControls.DeviceSpecific
+<font color= "blue"></font>
+<font color= "blue">        Private </font>authorizedTabs <font color= "blue">As </font>New ArrayList()
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Page_Init Event Handler</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Init event handler executes at the very beginning of each page</font>
+<font color= "green">        ' request (immediately before Page_Load).</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Init event handler calls the PopulateTabs utility method</font>
+<font color= "green">        ' to insert empty tabs into the tab view. It then determines the tab</font>
+<font color= "green">        ' index of the currently requested portal, and then calls the</font>
+<font color= "green">        ' PopulateTabView utility method to dynamically populate the</font>
+<font color= "green">        ' active portal view.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>tabIndex <font color= "blue">As </font>Integer = 0
+<font color= "blue">            Dim </font>tabID <font color= "blue">As </font>Integer = 0
+<font color= "blue"></font>
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue"></font>
+<font color= "green">            ' Obtain current tab index and tab id settings</font>
+<font color= "blue">            Dim </font>tabSetting <font color= "blue">As </font>String = CType(HiddenVariables("ti"), String)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (tabSetting Is Nothing) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>comma <font color= "blue">As </font>Integer = tabSetting.IndexOf(","c)
+<font color= "blue">                </font>tabIndex <font color= "blue"></font>= CInt(tabSetting.Substring(0, comma))
+<font color= "blue">                </font>tabID <font color= "blue"></font>= CInt(tabSetting.Substring((comma + 1)))
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            </font>LoadPortalSettings(tabIndex, tabID)
+<font color= "blue"></font>
+<font color= "green">            ' Populate tab list with empty tabs</font>
+<font color= "blue">            </font>PopulateTabStrip()
+<font color= "blue"></font>
+<font color= "green">            ' Populate the current tab view</font>
+<font color= "blue">            </font>PopulateTabView(tabIndex)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PopulateTabStrip method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The PopulateTabStrip method is used to dynamically create and add</font>
+<font color= "green">        ' tabs for each tab view defined in the portal configuration.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Sub</font> PopulateTabStrip()
+<font color= "blue"></font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(HttpContext.Current.Items("PortalSettings"), PortalSettings)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>i <font color= "blue">As </font>Integer
+<font color= "blue">            For</font> i = 0 To _portalSettings.MobileTabs.Count - 1
+<font color= "blue"></font>
+<font color= "green">                ' Create a MobilePortalTab control for the tab,</font>
+<font color= "green">                ' and add it to the tab view.</font>
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>tab <font color= "blue">As </font>TabStripDetails = CType(_portalSettings.MobileTabs(i), TabStripDetails)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>PortalSecurity.IsInRoles(tab.AuthorizedRoles) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                    Dim </font>tabPanel <font color= "blue">As </font>New MobilePortalTab()
+<font color= "blue">                    </font>tabPanel.PaneTitle = tab.TabName
+<font color= "blue"></font>
+<font color= "blue">                    </font>TabView.Panes.Add(tabPanel)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            Next</font> i
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PopulateTabView method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The PopulateTabView method dynamically populates a portal tab</font>
+<font color= "green">        ' with each module defined in the portal configuration.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Sub</font> PopulateTabView(ByVal tabIndex As Integer)
+<font color= "blue"></font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(HttpContext.Current.Items("PortalSettings"), PortalSettings)
+<font color= "blue"></font>
+<font color= "green">            ' Ensure that the visiting user has access to the current page</font>
+<font color= "blue"></font><font color= "blue">            If </font>PortalSecurity.IsInRoles(_portalSettings.ActiveTab.AuthorizedRoles) = False <font color= "blue">Then</font>
+<font color= "blue">                </font>Response.Redirect("~/Admin/MobileAccessDenied.aspx")
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Obtain reference to container mobile tab</font>
+<font color= "blue">            Dim </font>view <font color= "blue">As </font>MobilePortalTab = CType(TabView.Panes(tabIndex), MobilePortalTab)
+<font color= "blue"></font>
+<font color= "green">            ' Dynamically populate the view</font>
+<font color= "blue"></font><font color= "blue">            If </font>_portalSettings.ActiveTab.Modules.Count > 0 <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                ' Loop through each entry in the configuration system for this tab</font>
+<font color= "blue">                Dim </font>_moduleSettings <font color= "blue">As </font>ModuleSettings
+<font color= "blue">                For Each</font> _moduleSettings In _portalSettings.ActiveTab.Modules
+<font color= "blue"></font>
+<font color= "green">                    ' Only add the module if it support Mobile devices</font>
+<font color= "blue"></font><font color= "blue">                    If </font>_moduleSettings.ShowMobile <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                        Dim </font>moduleControl <font color= "blue">As </font>MobilePortalModuleControl = CType(Page.LoadControl(_moduleSettings.MobileSrc), MobilePortalModuleControl)
+<font color= "blue">                        </font>moduleControl.ModuleConfiguration = _moduleSettings
+<font color= "blue"></font>
+<font color= "blue">                        </font>view.Panes.Add(moduleControl)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                Next</font> _moduleSettings
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' TabView_OnActivate Event Handler</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The TabView_OnActivate event handler executes when the user switches</font>
+<font color= "green">        ' tabs in the tab view. It calls the PopulateTabView utility</font>
+<font color= "green">        ' method to dynamically populate the newly activated view.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> TabView_OnTabActivate(ByVal sender As Object, ByVal e As EventArgs) Handles TabView.TabActivate
+<font color= "blue"></font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(HttpContext.Current.Items("PortalSettings"), PortalSettings)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>tabIndex <font color= "blue">As </font>Integer = TabView.ActivePaneIndex
+<font color= "blue">            Dim </font>tabID <font color= "blue">As </font>Integer = CType(_portalSettings.MobileTabs(tabIndex), TabStripDetails).TabId
+<font color= "blue"></font>
+<font color= "green">            ' Store tabindex in a hidden variable to preserve accross round trips</font>
+<font color= "blue"></font><font color= "blue">            If </font>tabIndex <> 0 <font color= "blue">Then</font>
+<font color= "blue">                </font>HiddenVariables("ti") = String.Concat(tabIndex.ToString(), ",", tabID.ToString())
+<font color= "blue"></font><font color= "blue">            Else</font><font color= "blue"></font>
+<font color= "blue">                </font>HiddenVariables.Remove("ti")
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Check to see if portal settings need reloading</font>
+<font color= "blue">            </font>LoadPortalSettings(tabIndex, tabID)
+<font color= "blue"></font>
+<font color= "green">            ' Populate the newly active tab.</font>
+<font color= "blue">            </font>PopulateTabView(tabIndex)
+<font color= "blue"></font>
+<font color= "green">            ' Set the view to summary mode, where a summary of all the modules are shown.</font>
+<font color= "blue">            </font>CType(TabView.ActivePane, MobilePortalTab).SummaryView = True
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' LoadPortalSettings method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' LoadPortalSettings is a helper methods that loads portal settings for</font>
+<font color= "green">        ' the selected tab.  It first verifies that the settings haven't already</font>
+<font color= "green">        ' been set within the Global.asax file -- if they are different (in the</font>
+<font color= "green">        ' case that a tab change is made) then the method reloads the appropriate</font>
+<font color= "green">        ' tab data.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Sub</font> LoadPortalSettings(ByVal tabIndex As Integer, ByVal tabId As Integer)
+<font color= "blue"></font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(HttpContext.Current.Items("PortalSettings"), PortalSettings)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>_portalSettings.ActiveTab.TabId <> tabId Or _portalSettings.ActiveTab.TabIndex <> tabIndex <font color= "blue">Then</font>
+<font color= "blue">                </font>HttpContext.Current.Items("PortalSettings") = New PortalSettings(tabIndex, tabId)
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

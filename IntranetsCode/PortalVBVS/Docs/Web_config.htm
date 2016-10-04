@@ -1,0 +1,54 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">&lt</font><font color="maroon">configuration</font><font color= "blue">&gt</font>
+
+    <font color= "green">&lt!-- application specific settings --&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">appSettings</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">add</font> key="ConnectionString" value="server=localhost;Trusted_Connection=true;database=portal" <font color= "blue">/&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">appSettings</font><font color= "blue">&gt</font>
+
+    <font color= "blue">&lt</font><font color="maroon">system.web</font><font color= "blue">&gt</font>
+
+        <font color= "green">&lt!-- set debugmode to false for running application --&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">compilation</font> debug="false" <font color= "blue">/&gt</font>
+
+        <font color= "blue">&lt!</font><font color="maroon">--IBuySpy</font> Portal supports either Forms authentication (Internet)
+            or Windows authentication (for intranets).  Forms Authentication is
+            the default.  To change to Windows authentication, comment the 
+            <font color= "blue">&lt</font><font color="maroon">authentication</font> mode="Forms"<font color= "blue">&gt</font> section below, and uncomment the 
+            <font color= "blue">&lt</font><font color="maroon">authentication</font> mode="Windows"<font color= "blue">&gt</font> section. --<font color= "blue">&gt</font>
+            
+        <font color= "blue">&lt</font><font color="maroon">authentication</font> mode="Forms"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">forms</font> name=".ASPXAUTH" protection="All" timeout="60" <font color= "blue">/&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">authentication</font><font color= "blue">&gt</font>
+        
+        <font color= "blue">&lt!</font>--<font color= "blue">&lt</font><font color="maroon">authentication</font> mode="Windows" <font color= "blue">/&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">authorization</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">deny</font> users="?" <font color= "blue">/&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">authorization</font><font color= "blue">&gt</font>--<font color= "blue">&gt</font>
+        
+        <font color= "blue">&lt</font><font color="maroon">httpRuntime</font> useFullyQualifiedRedirectUrl="true" <font color= "blue">/&gt</font>
+        
+        <font color= "green">&lt!-- Adapter configuration for mobile controls used in the portal --&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">mobileControls</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">device</font> name="PortalHtmlDeviceAdapters" inheritsFrom="HtmlDeviceAdapters"<font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">control</font> name="ASPNetPortal.MobileControls.TabbedPanel, Portal" adapter="ASPNetPortal.MobileControls.HtmlTabbedPanelAdapter,Portal" <font color= "blue">/&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">control</font> name="ASPNetPortal.MobileControls.LinkCommand, Portal" adapter="ASPNetPortal.MobileControls.HtmlLinkCommandAdapter,Portal" <font color= "blue">/&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">device</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">device</font> name="PortalChtmlDeviceAdapters" inheritsFrom="ChtmlDeviceAdapters"<font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">control</font> name="ASPNetPortal.MobileControls.TabbedPanel, Portal" adapter="ASPNetPortal.MobileControls.ChtmlTabbedPanelAdapter,Portal" <font color= "blue">/&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">device</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">device</font> name="PortalWmlDeviceAdapters" inheritsFrom="WmlDeviceAdapters"<font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">control</font> name="ASPNetPortal.MobileControls.TabbedPanel, Portal" adapter="ASPNetPortal.MobileControls.WmlTabbedPanelAdapter,Portal" <font color= "blue">/&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">device</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">mobileControls</font><font color= "blue">&gt</font>
+        
+        <font color= "green">&lt!-- Mobile device filters used for customizing portal --&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">deviceFilters</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">filter</font> name="isJScript" compare="javascript" argument="true" <font color= "blue">/&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">filter</font> name="isPocketIE" compare="browser" argument="Pocket IE" <font color= "blue">/&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">filter</font> name="isHTML32" compare="preferredRenderingType" argument="html32" <font color= "blue">/&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">deviceFilters</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">system.web</font><font color= "blue">&gt</font>
+
+<font color= "blue">&lt/</font><font color="maroon">configuration</font><font color= "blue">&gt</font>
+</pre>

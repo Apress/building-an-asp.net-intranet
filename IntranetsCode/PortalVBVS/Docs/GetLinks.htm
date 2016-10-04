@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetLinks" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure returns all of the links for a specific Links module 
+            within the portal. The input parameter is the ModuleID. Only announcements 
+            whose expiration date is later than today are shown.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE GetLinks
+    (
+        @ModuleID int
+    )
+    AS
+
+    SELECT
+        ItemID,
+        CreatedByUser,
+        CreatedDate,
+        Title,
+        Url,
+        ViewOrder,
+        Description
+
+    FROM
+        Links
+
+    WHERE
+        ModuleID = @ModuleID
+
+    ORDER BY
+        ViewOrder
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Links:</i>
+        &nbsp;Each record in the Links table is a hyperlink, as displayed by the Links 
+        Portal Module. Since all Links modules store their record in this table, each 
+        item contains a ModuleID to permit related items to be retrieved in a single 
+        query.
+        <p>
+        The primary key in this table is the ItemID identity field. Note that the link 
+        description is limited to 2000 characters.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/links.jpg">
+        </p>
+    </body>
+</html>

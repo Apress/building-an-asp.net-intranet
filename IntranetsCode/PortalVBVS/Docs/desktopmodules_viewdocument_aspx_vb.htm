@@ -1,0 +1,70 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> ViewDocument
+<font color= "blue">        Inherits</font> System.Web.UI.Page
+<font color= "blue"></font>
+<font color= "blue">        Private </font>documentId <font color= "blue">As </font>Integer = -1
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Load event handler on this Page is used to</font>
+<font color= "green">        ' obtain obtain the contents of a document from the</font>
+<font color= "green">        ' Documents table, construct an HTTP Response of the</font>
+<font color= "green">        ' correct type for the document, and then stream the</font>
+<font color= "green">        ' document contents to the response.  It uses the</font>
+<font color= "green">        ' ASPNetPortal.DocumentDB() data component to encapsulate</font>
+<font color= "green">        ' the data access functionality.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (Request.Params("DocumentId") Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                </font>documentId <font color= "blue"></font>= Int32.Parse(Request.Params("DocumentId"))
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>documentId <> -1 <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                ' Obtain Document Data from Documents table</font>
+<font color= "blue">                Dim </font>documents <font color= "blue">As </font>New ASPNetPortal.DocumentDB()
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>dBContent <font color= "blue">As </font>SqlDataReader = documents.GetDocumentContent(documentId)
+<font color= "blue">                </font>dBContent.Read()
+<font color= "blue"></font>
+<font color= "green">                ' Serve up the file by name</font>
+<font color= "blue">                </font>Response.AppendHeader("content-disposition", "filename=" & CStr(dBContent("FileFriendlyName")))
+<font color= "blue"></font>
+<font color= "green">                ' set the content type for the Response to that of the</font>
+<font color= "green">                ' document to display.  For example. "application/msword"</font>
+<font color= "blue">                </font>Response.ContentType = CType(dBContent("ContentType"), String)
+<font color= "blue"></font>
+<font color= "green">                ' output the actual document contents to the response output stream</font>
+<font color= "blue">                </font>Response.OutputStream.Write(CType(dBContent("Content"), Byte()), 0, CInt(dBContent("ContentSize")))
+<font color= "blue"></font>
+<font color= "green">                ' end the response</font>
+<font color= "blue">                </font>Response.End()
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

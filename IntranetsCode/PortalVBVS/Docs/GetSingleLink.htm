@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetSingleLink" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+        This stored procedure returns a single link item from the database. The input 
+        parameter is ItemID, the primary key for the record. The return values include 
+        the link details, as well as information about the users that created and last 
+        edited this item.
+        <p>
+            This stored procedure is used by the edit page for Links.
+        </p>
+        <b>Definition:</b>
+        <pre>
+
+    CREATE PROCEDURE GetSingleLink
+    (
+        @ItemID int
+    )
+    AS
+
+    SELECT
+        CreatedByUser,
+        CreatedDate,
+        Title,
+        Url,
+        MobileUrl,
+        ViewOrder,
+        Description
+
+    FROM
+        Links
+
+    WHERE
+        ItemID = @ItemID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Links:</i>
+        &nbsp;Each record in the Links table is a hyperlink, as displayed by the Links 
+        Portal Module. Since all Links modules store their record in this table, each 
+        item contains a ModuleID to permit related items to be retrieved in a single 
+        query.
+        <p>
+        The primary key in this table is the ItemID identity field. Note that the link 
+        description is limited to 4000 characters.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/links.jpg">
+        </p>
+    </body>
+</html>

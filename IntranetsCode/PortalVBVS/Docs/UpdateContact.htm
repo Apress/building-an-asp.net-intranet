@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "UpdateContact" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure is used by the Contacts edit page to apply changes to an 
+            existing contact item. The input parameters include the item's primary key 
+            (ItemID), plus contact name, role, team and contact information. The editor's 
+            UserName is also passed in, and used to update the CreatedByUser field.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE UpdateContact
+    (
+        @ItemID   int,
+        @UserName nvarchar(100),
+        @Name     nvarchar(50),
+        @Role     nvarchar(100),
+        @Email    nvarchar(100),
+        @Contact1 nvarchar(250),
+        @Contact2 nvarchar(250)
+    )
+    AS
+
+    UPDATE
+        Contacts
+
+    SET
+        CreatedByUser = @UserName,
+        CreatedDate   = GetDate(),
+        Name          = @Name,
+        Role          = @Role,
+        Email         = @Email,
+        Contact1      = @Contact1,
+        Contact2      = @Contact2
+
+    WHERE
+        ItemID = @ItemID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Contacts:</i>
+        &nbsp;Each record in the Contacts table is a single item, as displayed by the 
+        Contacts Portal Module. Since all Contacts modules store their record in this 
+        table, each item contains a ModuleID to permit related items to be retrieved in 
+        a single query.
+        <p>
+        The primary key in this table is the ItemID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/contacts.jpg">
+    </body>
+</html>

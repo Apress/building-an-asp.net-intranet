@@ -1,0 +1,99 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> DesktopDefault
+<font color= "blue">        Inherits</font> System.Web.UI.Page
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>LeftPane <font color= "blue">As </font>System.Web.UI.HtmlControls.HtmlTableCell
+<font color= "blue">        Protected </font>ContentPane <font color= "blue">As </font>System.Web.UI.HtmlControls.HtmlTableCell
+<font color= "blue">        Protected </font>RightPane <font color= "blue">As </font>System.Web.UI.HtmlControls.HtmlTableCell
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            '</font>
+<font color= "green">            ' CODEGEN: This call is required by the ASP.NET Web Form Designer.</font>
+<font color= "green">            '</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue"></font>
+<font color= "green">            '*********************************************************************</font>
+<font color= "green">            '</font>
+<font color= "green">            ' Page_Init Event Handler</font>
+<font color= "green">            '</font>
+<font color= "green">            ' The Page_Init event handler executes at the very beginning of each page</font>
+<font color= "green">            ' request (immediately before Page_Load).</font>
+<font color= "green">            '</font>
+<font color= "green">            ' The Page_Init event handler below determines the tab index of the currently</font>
+<font color= "green">            ' requested portal view, and then calls the PopulatePortalSection utility</font>
+<font color= "green">            ' method to dynamically populate the left, center and right hand sections</font>
+<font color= "green">            ' of the portal tab.</font>
+<font color= "green">            '</font>
+<font color= "green">            '*********************************************************************</font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(HttpContext.Current.Items("PortalSettings"), PortalSettings)
+<font color= "blue"></font>
+<font color= "green">            ' Ensure that the visiting user has access to the current page</font>
+<font color= "blue"></font><font color= "blue">            If </font>PortalSecurity.IsInRoles(_portalSettings.ActiveTab.AuthorizedRoles) = False <font color= "blue">Then</font>
+<font color= "blue">                </font>Response.Redirect("~/Admin/AccessDenied.aspx")
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Dynamically inject a signin login module into the top left-hand corner</font>
+<font color= "green">            ' of the home page if the client is not yet authenticated</font>
+<font color= "blue"></font><font color= "blue">            If </font>Request.IsAuthenticated = False And _portalSettings.ActiveTab.TabIndex = 0 <font color= "blue">Then</font>
+<font color= "blue">                </font>LeftPane.Controls.Add(Page.LoadControl("~/DesktopModules/SignIn.ascx"))
+<font color= "blue">                </font>LeftPane.Visible = True
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Dynamically Populate the Left, Center and Right pane sections of the portal page</font>
+<font color= "blue"></font><font color= "blue">            If </font>_portalSettings.ActiveTab.Modules.Count > 0 <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                ' Loop through each entry in the configuration system for this tab</font>
+<font color= "blue">                Dim </font>_moduleSettings <font color= "blue">As </font>ModuleSettings
+<font color= "blue">                For Each</font> _moduleSettings In _portalSettings.ActiveTab.Modules
+<font color= "blue"></font>
+<font color= "blue">                    Dim </font>parent <font color= "blue">As </font>Control = Page.FindControl(_moduleSettings.PaneName)
+<font color= "blue"></font>
+<font color= "green">                    ' If no caching is specified, create the user control instance and dynamically</font>
+<font color= "green">                    ' inject it into the page.  Otherwise, create a cached module instance that</font>
+<font color= "green">                    ' may or may not optionally inject the module into the tree</font>
+<font color= "blue"></font><font color= "blue">                    If </font>_moduleSettings.CacheTime = 0 <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                        Dim </font>portalModule <font color= "blue">As </font>PortalModuleControl = CType(Page.LoadControl(_moduleSettings.DesktopSrc), PortalModuleControl)
+<font color= "blue"></font>
+<font color= "blue">                        </font>portalModule.PortalId = _portalSettings.PortalId
+<font color= "blue">                        </font>portalModule.ModuleConfiguration = _moduleSettings
+<font color= "blue"></font>
+<font color= "blue">                        </font>parent.Controls.Add(portalModule)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                        Dim </font>portalModule <font color= "blue">As </font>New CachedPortalModuleControl()
+<font color= "blue"></font>
+<font color= "blue">                        </font>portalModule.PortalId = _portalSettings.PortalId
+<font color= "blue">                        </font>portalModule.ModuleConfiguration = _moduleSettings
+<font color= "blue"></font>
+<font color= "blue">                        </font>parent.Controls.Add(portalModule)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">                    ' Dynamically inject separator break between portal modules</font>
+<font color= "blue">                    </font>parent.Controls.Add(New LiteralControl("<" + "br" + ">"))
+<font color= "blue">                    </font>parent.Visible = True
+<font color= "blue"></font>
+<font color= "blue">                Next</font> _moduleSettings
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

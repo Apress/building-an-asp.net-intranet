@@ -1,0 +1,262 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Page language="vb" CodeBehind="TabLayout.aspx.vb" AutoEventWireup="false" Inherits="ASPNetPortal.TabLayout" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="portal" TagName="Banner" Src="~/DesktopPortalBanner.ascx" %<font color= "blue">&gt</font>
+
+<font color= "blue">&lt</font><font color="maroon">HTML</font><font color= "blue">&gt</font>
+  <font color= "blue">&lt</font><font color="maroon">HEAD</font><font color= "blue">&gt</font>
+
+<font color= "green">&lt%--
+     The TabLayout.aspx page is used to control the layout settings of an
+     individual tab within the portal.
+--%<font color= "blue">&gt</font></font>
+        <font color= "blue">&lt</font><font color="maroon">link</font> rel="stylesheet" href='&lt%= Request.ApplicationPath & "/Portal.css" %<font color= "blue">&gt</font>' type="text/css"<font color= "blue">&gt</font>
+  <font color= "blue">&lt/</font><font color="maroon">HEAD</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">body</font> leftmargin="0" bottommargin="0" rightmargin="0" topmargin="0" marginheight="0" marginwidth="0"<font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">form</font> runat="server"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">table</font> width="100%" cellspacing="0" cellpadding="0" border="0"<font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">td</font> colspan="2"<font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color=blue>portal:Banner ShowTabs="false" runat="server" id="Banner1" /</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">table</font> width="98%" cellspacing="0" cellpadding="4"<font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+                                <font color= "blue">&lt</font><font color="maroon">td</font> width="150"<font color= "blue">&gt</font>
+                                    &nbsp;
+                                <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt</font><font color="maroon">td</font> width="*"<font color= "blue">&gt</font>
+                                    <font color= "blue">&lt</font><font color="maroon">table</font> border="0" cellpadding="2" cellspacing="1"<font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> colspan="4"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">table</font> width="100%" cellspacing="0" cellpadding="0"<font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt</font><font color="maroon">td</font> align="left" class="Head"<font color= "blue">&gt</font>
+                                                            Tab Name and Layout
+                                                        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                            <font color= "blue">&lt</font><font color="maroon">hr</font> noshade size="1"<font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> width="100" class="Normal"<font color= "blue">&gt</font>
+                                                Tab Name:
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> colspan="3"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color=blue>asp:Textbox id="tabName" width="300" cssclass="NormalTextBox" runat="server" /</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> class="Normal" nowrap<font color= "blue">&gt</font>
+                                                Authorized Roles:
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> colspan="3"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color=blue>asp:CheckBoxList id="authRoles" RepeatColumns="2" Font-Names="Verdana,Arial" Font-Size="8pt" width="300" runat="server" /</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                &nbsp;
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> colspan="3"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">hr</font> noshade size="1"<font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> class="Normal" nowrap<font color= "blue">&gt</font>
+                                                Show to mobile users?:
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> colspan="3"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color=blue>asp:Checkbox id="showMobile" Font-Names="Verdana,Arial" Font-Size="8pt" runat="server" /</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> class="Normal" nowrap<font color= "blue">&gt</font>
+                                                Mobile Tab Name:
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> colspan="3"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color=blue>asp:Textbox id="mobileTabName" width="300" cssclass="NormalTextBox" runat="server" /</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> colspan="4"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">hr</font> noshade size="1"<font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> class="Normal"<font color= "blue">&gt</font>
+                                                Add Module:
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> class="Normal"<font color= "blue">&gt</font>
+                                                Module Type
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> colspan="2"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color=blue>asp:DropDownList id="moduleType" DataValueField="ModuleDefID" DataTextField="FriendlyName" runat="server" /</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                &nbsp;
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> class="Normal"<font color= "blue">&gt</font>
+                                                Module Name:
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> colspan="2"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color=blue>asp:Textbox id="moduleTitle" EnableViewState="false" Text="New Module Name" cssclass="NormalTextBox" width="250" runat="server" /</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                &nbsp;
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> colspan="3"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color=blue>asp:LinkButton class="CommandButton" Text='<font color= "blue">&lt</font><font color="maroon">img</font> src="../images/dn.gif" border=0<font color= "blue">&gt</font> Add to "Organize Modules" Below' runat="server" id="AddModuleBtn" /</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                &nbsp;
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> colspan="3"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">hr</font> noshade size="1"<font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> class="Normal"<font color= "blue">&gt</font>
+                                                Organize Modules:
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> width="120"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">table</font> border="0" cellspacing="0" cellpadding="2" width="100%"<font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt</font><font color="maroon">td</font> class="NormalBold"<font color= "blue">&gt</font>
+                                                            &nbsp;Left Mini Pane
+                                                        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                            <font color= "blue">&lt</font><font color="maroon">table</font> border="0" cellspacing="2" cellpadding="0"<font color= "blue">&gt</font>
+                                                                <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt</font><font color="maroon">td</font> rowspan="2"<font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ListBox id="leftPane" DataSource="&lt%# leftList %<font color= "blue">&gt</font>" DataTextField="ModuleTitle" DataValueField="ModuleId" width="110" rows="7" runat="server" /</font><font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt</font><font color="maroon">td</font> valign="top" nowrap<font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/up.gif" CommandName="up" CommandArgument="leftPane" AlternateText="Move selected module up in list" runat="server" id="LeftUpBtn" /</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/rt.gif" CommandName="right" sourcepane="leftPane" targetpane="contentPane" AlternateText="Move selected module to the content pane" runat="server" id="LeftRightBtn" /</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/dn.gif" CommandName="down" CommandArgument="leftPane" AlternateText="Move selected module down in list" runat="server" id="LeftDownBtn" /</font><font color= "blue">&gt</font>
+                                                                        &nbsp;&nbsp;
+                                                                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                                <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                                <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt</font><font color="maroon">td</font> valign="bottom" nowrap<font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/edit.gif" CommandName="edit" CommandArgument="leftPane" AlternateText="Edit this item" runat="server" id="LeftEditBtn" /</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/delete.gif" CommandName="delete" CommandArgument="leftPane" AlternateText="Delete this item" runat="server" id="LeftDeleteBtn" /</font><font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                                <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                            <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> width="*"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">table</font> border="0" cellspacing="0" cellpadding="2" width="100%"<font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt</font><font color="maroon">td</font> class="NormalBold"<font color= "blue">&gt</font>
+                                                            &nbsp;Content Pane
+                                                        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt</font><font color="maroon">td</font> align="middle"<font color= "blue">&gt</font>
+                                                            <font color= "blue">&lt</font><font color="maroon">table</font> border="0" cellspacing="2" cellpadding="0"<font color= "blue">&gt</font>
+                                                                <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt</font><font color="maroon">td</font> rowspan="2"<font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ListBox id="contentPane" DataSource="&lt%# contentList %<font color= "blue">&gt</font>" DataTextField="ModuleTitle" DataValueField="ModuleId" width="170" rows="7" runat="server" /</font><font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt</font><font color="maroon">td</font> valign="top" nowrap<font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/up.gif" CommandName="up" CommandArgument="contentPane" AlternateText="Move selected module up in list" runat="server" id="ContentUpBtn" /</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/lt.gif" sourcepane="contentPane" targetpane="leftPane" AlternateText="Move selected module to the left pane" runat="server" id="ContentLeftBtn" /</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/rt.gif" sourcepane="contentPane" targetpane="rightPane" AlternateText="Move selected module to the right pane" runat="server" id="ContentRightBtn" /</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/dn.gif" CommandName="down" CommandArgument="contentPane" AlternateText="Move selected module down in list" runat="server" id="ContentDownBtn" /</font><font color= "blue">&gt</font>
+                                                                        &nbsp;&nbsp;
+                                                                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                                <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                                <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt</font><font color="maroon">td</font> valign="bottom" nowrap<font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/edit.gif" CommandName="edit" CommandArgument="contentPane" AlternateText="Edit this item" runat="server" id="ContentEditBtn" /</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/delete.gif" CommandName="delete" CommandArgument="contentPane" AlternateText="Delete this item" runat="server" id="ContentDeleteBtn" /</font><font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                                <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                            <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> width="120"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">table</font> border="0" cellspacing="0" cellpadding="2" width="100%"<font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt</font><font color="maroon">td</font> class="NormalBold"<font color= "blue">&gt</font>
+                                                            &nbsp;Right Mini Pane
+                                                        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                            <font color= "blue">&lt</font><font color="maroon">table</font> border="0" cellspacing="2" cellpadding="0"<font color= "blue">&gt</font>
+                                                                <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt</font><font color="maroon">td</font> rowspan="2"<font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ListBox id="rightPane" DataSource="&lt%# rightList %<font color= "blue">&gt</font>" DataTextField="ModuleTitle" DataValueField="ModuleId" width="110" rows="7" runat="server" /</font><font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt</font><font color="maroon">td</font> valign="top" nowrap<font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/up.gif" CommandName="up" CommandArgument="rightPane" AlternateText="Move selected module up in list" runat="server" id="RightUpBtn" /</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/lt.gif" sourcepane="rightPane" targetpane="contentPane" AlternateText="Move selected module to the left pane" runat="server" id="RightLeftBtn" /</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/dn.gif" CommandName="down" CommandArgument="rightPane" AlternateText="Move selected module down in list" runat="server" id="RightDownBtn" /</font><font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                                <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                                <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt</font><font color="maroon">td</font> valign="bottom" nowrap<font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/edit.gif" CommandName="edit" CommandArgument="rightPane" AlternateText="Edit this item" runat="server" id="RightEditBtn" /</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                                        <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/delete.gif" CommandName="delete" CommandArgument="rightPane" AlternateText="Delete this item" runat="server" id="RightDeleteBtn" /</font><font color= "blue">&gt</font>
+                                                                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                                <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                            <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> colspan="4"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">hr</font> noshade size="1"<font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> colspan="4"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color=blue>asp:LinkButton id="applyBtn" class="CommandButton" Text="Apply Changes" runat="server" /</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                    <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">form</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">body</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font><font color="maroon">HTML</font><font color= "blue">&gt</font>
+</pre>

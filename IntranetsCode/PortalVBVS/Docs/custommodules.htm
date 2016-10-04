@@ -1,0 +1,165 @@
+<html>
+    <head>
+        <title>ASP.NET Portal Documentation</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+
+        <table cellpadding="10" cellspacing="0" border="0" width="100%">
+          <tr>
+            <td colspan=2 class="HeadBg">
+                <span class="Title">IBuySpy Portal Documentation</span>
+            </td>
+          </tr>
+        </table>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal" width="98%">
+                <br><br>
+
+                <span class="Head">Creating Custom Portal Modules</span>
+                <hr noshade size="1pt">
+
+                A portal module combines some code and UI to present specific functionality to the user (for example, a threaded discussion) or render data, graphics and text, (for example, a "sales by region" report).  In addition, a portal module needs to know how to interact with the Portal Framework to participate in the rendering, editing, caching and roles-based security services it provides.<br><br>
+
+                Portal modules are implemented as standard ASP.NET User Controls.  The logic required to enable the user control to work inside the Portal Framework is encapsulated in a special base class: <b>PortalModuleControl</b>.                  To create a custom portal module, simply make a User Control that inherits from the PortalModuleControl class.<br><br>
+
+
+                <u>Hello World</u><br>
+                <image align="left" src="images/helloworld1.gif" hspace="10" vspace="10"><br>
+                For example, here's a simple "Hello World" portal module (HelloWorld.ascx).
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+                <pre>
+    &lt;%@ Control Inherits="PortalModuleControl" %&gt;
+
+    Hello World!
+                </pre>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+
+                <u>Using CSS Styles in Portal Modules</u><br>
+                <image align="left" src="images/helloworld2.gif" hspace="10" vspace="10"><br>
+                The Portal Framework includes a stylesheet called <b>Portal.css</b> that is applied to all tabs in the portal.  You can use the styles defined in Portal.css to make the appearance of your custom module consistent with the built-in modules.  The most commonly used style is "Normal", which is applied to most text rendered by modules.  Here we've updated HelloWorld.ascx to use a style.
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+                <pre>
+    &lt;%@ Control Inherits="PortalModuleControl" %&gt;
+
+    &lt;span class="Normal"&gt;Hello World!&lt;/span&gt;
+                </pre>
+
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+
+                <u>Adding a Title to Your Module</u><br>
+                <image align="left" src="images/helloworld3.gif" hspace="10" vspace="10" border="1"><br>
+                When the portal administrator adds an instance of a module to the portal, she can give it a descriptive title.  If you want your module to display it's title like the standard portal modules, add the <b>DesktopModuleTitle</b> user control to your module.  The DesktopModuleTitle user control knows how to get the module's title from the Portal Framework, and render it consistently with the rest of the portal.  <br><br>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+                <pre>
+    &lt;%@ Control Inherits="PortalModuleControl" %&gt;
+    &lt;%@ Register TagPrefix="Portal" TagName="Title" Src="~/DesktopModuleTitle.ascx" %&gt;
+
+    &lt;portal:title runat="server" /&gt;
+    &lt;span class="Normal"&gt;Hello World!&lt;/span&gt;
+                </pre>
+
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+
+                <u>Adding Support for an Edit Page</u><br>
+                <image align="left" src="images/helloworld4.gif" hspace="10" vspace="10" border="1"><br>
+                If your module has an edit page, you can also use the DesktopModuleTitle to render the edit item link next to the module's title.  <b>EditText</b> is the text to display in the link, and <b>EditUrl</b> is the path of the edit page, relative to the portal's root directory.<br><br>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+                <pre>
+    &lt;%@ Control Inherits="PortalModuleControl" %&gt;
+    &lt;%@ Register TagPrefix="Portal" TagName="Title" Src="~/DesktopModuleTitle.ascx" %&gt;
+
+    &lt;portal:title <b>EditText="Edit" EditUrl="PortalModules/HelloWorld/EditHello.aspx" </b>runat="server" /&gt;
+    &lt;span class="Normal"&gt;Hello World!&lt;/span&gt;
+                </pre>
+
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+
+                <u>Creating a Module That Uses Data</u><br>
+                <image align="left" src="images/tenmost.gif" hspace="10" vspace="10" border="1"><br>
+                Many portal modules display data from a database or XML file as a part of their rendered output.  To display data, you load and bind it just as you would for a regular ASP.NET User Control.  Here's a typical example using the Northwind SQL database.<br><br>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+            <pre>
+    &lt;%@ Control Inherits="PortalModuleControl" %&gt;
+    &lt;%@ Register TagPrefix="Portal" TagName="Title" Src="~/DesktopModuleTitle.ascx" %&gt;
+    &lt;%@ Import Namespace="System.Data" %&gt;
+    &lt;%@ Import Namespace="System.Data.SqlClient" %&gt;
+
+    &lt;script language="VB" runat="server"&gt;
+
+        Sub Page_Load(sender As Object, e As EventArgs)
+
+            SqlConnection connection = new SqlConnection("server=localhost;uid=sa;pwd=;database=northwind")
+            SqlCommand command = new SqlCommand("SELECT TOP 10 ProductName, UnitPrice FROM Products ORDER BY UnitPrice DESC", connection)
+
+            connection.Open()
+
+            grid1.DataSource = command.ExecuteReader(CommandBehavior.CloseConnection)
+            grid1.DataBind()
+
+        End Sub
+
+    &lt;/script&gt;
+
+    &lt;portal:title runat="server" /&gt;
+
+    &lt;asp:DataGrid id=grid1 Cssclass="Normal" ShowHeader="false" BorderWidth="0" runat="server"/&gt;
+                </pre>
+
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="Normal">
+                <br><br>
+
+                <span class="Head">Adding a Custom Module to the Admin Tool</span>
+                <hr noshade size="1pt">
+
+                To add a module to the portal, simply access the Portal Admin Tool. It contains GUI support
+                for dynamically loading your new module into the portal system.
+
+            </td>
+          <tr>
+       </table>
+   </body>
+</html>

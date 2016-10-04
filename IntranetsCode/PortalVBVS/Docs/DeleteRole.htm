@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "DeleteRole" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure deletes the selected role from the database. The input 
+            parameter is RoleID, the primary key for the record.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE DeleteRole
+    (
+        @RoleID int
+    )
+    AS
+
+    DELETE FROM
+        Roles
+
+    WHERE
+        RoleID = @RoleID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Roles:</i>
+        &nbsp;Each record in the Roles table defines a unique role in the selected 
+        portal. Users are added to a role via the UserRoles lookup value table.
+        <p>
+        The primary key in this table is the RoleID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/roles.jpg">
+    </body>
+</html>

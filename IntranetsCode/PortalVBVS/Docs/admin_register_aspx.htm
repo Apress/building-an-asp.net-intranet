@@ -1,0 +1,101 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Page language="vb" CodeBehind="Register.aspx.vb" AutoEventWireup="false" Inherits="ASPNetPortal.Register" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="portal" TagName="Banner" Src="~/DesktopPortalBanner.ascx" %<font color= "blue">&gt</font>
+
+<font color= "green">&lt%--
+
+   The Register.aspx page is used to enable clients to register a new unique username
+   and password with the portal system.  The page contains a single server event
+   handler -- RegisterBtn_Click -- that executes in response to the page's Register
+   Button being clicked.
+
+   The Register.aspx page uses the UsersDB class to manage the actual account creation.
+   Note that the Usernames and passwords are stored within a table in a SQL database.
+
+--%<font color= "blue">&gt</font></font>
+
+<font color= "blue">&lt</font><font color="maroon">HTML</font><font color= "blue">&gt</font>
+  <font color= "blue">&lt</font><font color="maroon">HEAD</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">link</font> rel="stylesheet" href='&lt%= Request.ApplicationPath & "/Portal.css" %<font color= "blue">&gt</font>' type="text/css"<font color= "blue">&gt</font>
+  <font color= "blue">&lt/</font><font color="maroon">HEAD</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">body</font> leftmargin="0" bottommargin="0" rightmargin="0" topmargin="0" marginheight="0" marginwidth="0"<font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">form</font> runat="server"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">table</font> width="100%" cellspacing="0" cellpadding="0"<font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">td</font> colspan="2"<font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color=blue>portal:Banner ShowTabs="false" runat="server" id="Banner1" /</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">table</font> width="98%" cellspacing="0" cellpadding="4" border="0"<font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt</font><font color="maroon">td</font> width="150"<font color= "blue">&gt</font>
+                                    &nbsp;
+                                <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt</font><font color="maroon">td</font> width="*"<font color= "blue">&gt</font>
+                                    <font color= "blue">&lt</font><font color="maroon">table</font> cellpadding="2" cellspacing="1" border="0"<font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> width="450"<font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">table</font> width="100%" cellspacing="0" cellpadding="0"<font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                            <font color= "blue">&lt</font><font color="maroon">span</font> class="Head"<font color= "blue">&gt</font>Create a New Account <font color= "blue">&lt/</font><font color="maroon">span</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                            <font color= "blue">&lt</font><font color="maroon">hr</font> noshade size="1"<font color= "blue">&gt</font>
+                                                        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+                                            <font color= "blue">&lt</font><font color="maroon">td</font> class="Normal"<font color= "blue">&gt</font>
+                                                Name:
+                                                <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color=blue>asp:TextBox size="25" id="Name" runat="server" /</font><font color= "blue">&gt</font>
+                                                &nbsp;
+                                                <font color= "blue">&lt</font><font color=blue>asp:RequiredFieldValidator ControlToValidate="Name" ErrorMessage="'Name' must not be left blank." runat="server" id="RequiredFieldValidator1" /</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">p</font><font color= "blue">&gt</font>
+                                                    Email:
+                                                    <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color=blue>asp:TextBox size="25" id="Email" runat="server" /</font><font color= "blue">&gt</font>
+                                                    &nbsp;
+                                                    <font color= "blue">&lt</font><font color=blue>asp:RegularExpressionValidator ControlToValidate="Email" ValidationExpression="[\w\.-]+(\+[\w-]*)?@([\w-]+\.)+[\w-]+" Display="Dynamic" ErrorMessage="Must use a valid email address." runat="server" id="RegularExpressionValidator1" /</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color=blue>asp:RequiredFieldValidator ControlToValidate="Email" ErrorMessage="'Email' must not be left blank." runat="server" id="RequiredFieldValidator2" /</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">p</font><font color= "blue">&gt</font>
+                                                    Password:
+                                                    <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color=blue>asp:TextBox size="25" id="Password" TextMode="Password" runat="server" /</font><font color= "blue">&gt</font>
+                                                    &nbsp;
+                                                    <font color= "blue">&lt</font><font color=blue>asp:RequiredFieldValidator ControlToValidate="Password" ErrorMessage="'Password' must not be left blank." runat="server" id="RequiredFieldValidator3" /</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">p</font><font color= "blue">&gt</font>
+                                                    Confirm Password:
+                                                    <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color=blue>asp:TextBox size="25" id="ConfirmPassword" TextMode="Password" runat="server" /</font><font color= "blue">&gt</font>
+                                                    &nbsp;
+                                                    <font color= "blue">&lt</font><font color=blue>asp:RequiredFieldValidator ControlToValidate="ConfirmPassword" Display="Dynamic" ErrorMessage="'Confirm' must not be left blank." runat="server" id="RequiredFieldValidator4" /</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color=blue>asp:CompareValidator ControlToValidate="ConfirmPassword" ControlToCompare="Password" ErrorMessage="Password fields do not match." runat="server" id="CompareValidator1" /</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">p</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color=blue>asp:LinkButton class="CommandButton" Text="Register and Sign In Now" runat="server" id="RegisterBtn" /</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt</font><font color="maroon">p</font><font color= "blue">&gt</font>
+                                                    <font color= "blue">&lt</font><font color=blue>asp:Label id="Message" CssClass="NormalRed" runat="server" /</font><font color= "blue">&gt</font>
+                                                <font color= "blue">&lt/</font><font color="maroon">p</font><font color= "blue">&gt</font>
+                                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                    <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">form</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">body</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font><font color="maroon">HTML</font><font color= "blue">&gt</font>
+</pre>

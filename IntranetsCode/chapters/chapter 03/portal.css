@@ -1,0 +1,346 @@
+/* ================================
+    CSS STYLES FOR IBUYSPY PORTAL 
+    v1.0, 01/2001
+   ================================
+*/   
+
+/* PAGE BACKGROUND */
+/* background color for the header at the top of the page  */
+.HeadBg {
+	background-color: crimson;
+}
+
+/* background color for the content part of the pages */
+Body {
+	background-color: mistyrose;
+}
+
+
+/* PAGE BANNER */
+/* NOTE: Site Title, Site Links and Tabs are rendered by MobilePortalBanner.ascx
+/* style for the text of the site title */
+.SiteTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Required for rounded tab display */
+.TabHolder {
+	border-width: 1;
+	border-color: crimson;
+}
+
+/* background/border colors for the selected tab */
+.TabBg {
+	border-color: crimson;
+	background-color: yellow;
+}
+
+/* background/border colors for the unselected tabs */
+.OtherTabsBg {
+	background-color: firebrick;
+	border-color: crimson;
+}
+
+/* text style for the selected tab */
+.SelectedTab {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    color: crimson;
+}
+
+/* text style for the unselected tabs */
+.OtherTabs {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* hyperlink styles of the unselected tabs */
+A.OtherTabs:link    {
+    text-decoration:    none;
+    color: black;
+}
+
+A.OtherTabs:visited {
+    text-decoration:    none;
+    color: black;
+}
+
+A.OtherTabs:active  {
+    text-decoration:    none;
+    color: black;
+}
+
+A.OtherTabs:hover   {
+    text-decoration:    none;
+    color: yellow;
+}
+
+/* text style for welcome message */
+.WelcomeMessage {
+	color: white;
+}
+    
+/* text style for the site links (at extreme top-right of header) */
+.SiteLink {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: bold
+}   
+
+/* hyperlink style for the site links */
+A.SiteLink:link {
+    text-decoration:    none;
+    color: black;
+}
+
+A.SiteLink:visited  {
+    text-decoration:    none;
+    color: black;
+}
+
+A.SiteLink:active   {
+    text-decoration:    none;
+    color: black;
+}
+
+A.SiteLink:hover    {
+    text-decoration:    none;
+    color: yellow;
+}
+
+/* style for separator between site links */
+.Accent {
+    color: white;
+    font-weight:    bold;
+}
+
+
+
+/* MODULE-SPECIFIC */
+/* text style for reading messages in Discussion */    
+.Message    {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: white;
+}   
+
+/* style of item titles by Announcements and events */
+.ItemTitle    {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  14px;
+    font-weight:    bold;
+    color: crimson;
+}
+
+
+
+/* GENERAL */
+/* style for module titles */
+.Head   {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  24px;
+    font-weight:    bold;
+    color: crimson;
+}
+
+/* style of item titles on edit and admin pages */
+.SubHead    {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  14px;
+    font-weight:    bold;
+    color: crimson;
+}
+
+/* module title style used instead of Head for compact rendering by QuickLinks and Signin modules */
+.SubSubHead {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  13px;
+    font-weight:    bold;
+    color: crimson;
+}
+
+/* text style used for most text rendered by modules */
+.Normal {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 13px;    
+}
+	
+/* text style used for textboxes in the admin and edit pages, for Nav compatibility */
+.NormalTextBox {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.NormalRed {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: crimson
+}
+
+.NormalBold {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold
+}
+
+/* text style for buttons and link buttons used in the portal admin pages */
+.CommandButton     {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+}
+    
+/* hyperlink style for buttons and link buttons used in the portal admin pages */
+A.CommandButton:link {
+    text-decoration:    underline;
+    color: crimson;
+}
+
+A.CommandButton:visited  {
+    text-decoration:    underline;
+    color: crimson;
+}
+
+A.CommandButton:active   {
+    text-decoration:    underline;
+    color: crimson;
+}
+
+A.CommandButton:hover    {
+    text-decoration:    underline;
+    color: salmon;
+}
+    
+
+
+
+/* GENERIC */
+H1  {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  24px;
+    font-weight:    bold;
+    color: crimson;
+}
+
+H2  {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  20px;
+    font-weight:    bold;
+    color: crimson;
+}
+
+H3  {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  16px;
+    font-weight:    bold;
+    color: crimson;
+}
+
+H4  {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  12px;
+    font-weight:    bold;
+    color: crimson;
+}
+
+H5, DT  {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  12px;
+    font-weight:    normal;
+    color: crimson;
+}
+
+H6  {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  11px;
+    font-weight:    bold;
+    color: crimson;
+}
+
+TFOOT, THEAD    {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  12px;
+    color: crimson;
+}
+
+TH  {
+    vertical-align: baseline;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  12px;
+    font-weight:    bold;
+    color: crimson;
+}
+
+A:link  {
+    text-decoration:    none;
+    color:  crimson;
+}
+
+A:visited   {
+    text-decoration:    none;
+    color:  crimson;
+}
+
+A:active    {
+    text-decoration:    none;
+    color:  crimson;
+}
+
+A:hover {
+	color: salmon;
+	text-decoration: none;
+}
+
+SMALL   {
+    font-size:  8px;
+}
+
+BIG {
+    font-size:  14px;
+}
+
+BLOCKQUOTE, PRE {
+    font-family:    Lucida Console, monospace;
+}
+
+
+UL LI   {
+    list-style-type:    square ;
+}
+
+UL LI LI    {
+    list-style-type:    disc;
+}
+
+UL LI LI LI {
+    list-style-type:    circle;
+}
+
+OL LI   {
+    list-style-type:    decimal;
+}
+
+OL OL LI    {
+    list-style-type:    lower-alpha;
+}
+
+OL OL OL LI {
+    list-style-type:    lower-roman;
+}
+
+HR {
+    color: pink;
+    height:2pt;
+    text-align:left
+}
+

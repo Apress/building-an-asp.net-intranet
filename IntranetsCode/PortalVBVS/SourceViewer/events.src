@@ -1,0 +1,5 @@
+User Control:Events.ascx|DesktopModules_Events_ascx.htm, Events.ascx.vb|DesktopModules_Events_ascx_vb.htm
+Mobile User Control:Events.ascx|MobileModules_Events_ascx.htm
+Business Component:EventsDB.vb|Components_EventsDB_vb.htm
+Stored Procedures: AddEvent|AddEvent.htm,DeleteEvent|DeleteEvent.htm,GetEvents|GetEvents.htm,GetSingleEvent|GetSingleEvent.htm,UpdateEvent|UpdateEvent.htm
+Edit Page:EditEvents.aspx|DesktopModules_EditEvents_aspx.htm, EditEvents.aspx.vb|DesktopModules_EditEvents_aspx_vb.htm

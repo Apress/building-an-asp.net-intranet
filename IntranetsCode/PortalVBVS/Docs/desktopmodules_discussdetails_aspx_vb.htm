@@ -1,0 +1,223 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> DiscussDetails
+<font color= "blue">        Inherits</font> System.Web.UI.Page
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>ReplyBtn As System.Web.UI.WebControls.LinkButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>ButtonPanel As System.Web.UI.WebControls.Panel
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>TitleField As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>BodyField As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>updateButton As System.Web.UI.WebControls.LinkButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>cancelButton As System.Web.UI.WebControls.LinkButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>EditPanel As System.Web.UI.WebControls.Panel
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>Title As System.Web.UI.WebControls.Label
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>CreatedByUser As System.Web.UI.WebControls.Label
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>CreatedDate As System.Web.UI.WebControls.Label
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>Body As System.Web.UI.WebControls.Label
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>prevItem As System.Web.UI.HtmlControls.HtmlAnchor
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>nextItem As System.Web.UI.HtmlControls.HtmlAnchor
+<font color= "blue"></font>
+<font color= "blue">        Private </font>moduleId <font color= "blue">As </font>Integer = 0
+<font color= "blue">        Private </font>itemId <font color= "blue">As </font>Integer = 0
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Load server event handler on this page is used</font>
+<font color= "green">        ' to obtain the ModuleId and ItemId of the discussion list,</font>
+<font color= "green">        ' and to then display the message contents.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+<font color= "blue"></font>
+<font color= "green">            ' Obtain moduleId and ItemId from QueryString</font>
+<font color= "blue">            </font>moduleId <font color= "blue"></font>= Int32.Parse(Request.Params("Mid"))
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (Request.Params("ItemId") Is Nothing) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                </font>itemId <font color= "blue"></font>= Int32.Parse(Request.Params("ItemId"))
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                </font>itemId <font color= "blue"></font>= 0
+<font color= "blue">                </font>EditPanel.Visible = True
+<font color= "blue">                </font>ButtonPanel.Visible = False
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Populate message contents if this is the first visit to the page</font>
+<font color= "blue"></font><font color= "blue">            If </font>Page.IsPostBack = False <font color= "blue">Then</font>
+<font color= "blue">                </font>BindData()
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>PortalSecurity.HasEditPermissions(moduleId) = False <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>itemId = 0 <font color= "blue">Then</font>
+<font color= "blue">                    </font>Response.Redirect("~/Admin/EditAccessDenied.aspx")
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue">                    </font>ReplyBtn.Visible = False
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The ReplyBtn_Click server event handler on this page is used</font>
+<font color= "green">        ' to handle the scenario where a user clicks the message's</font>
+<font color= "green">        ' "Reply" button to perform a post.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> ReplyBtn_Click(ByVal Sender As Object, ByVal e As EventArgs) Handles ReplyBtn.Click
+<font color= "blue"></font>
+<font color= "blue">            </font>EditPanel.Visible = True
+<font color= "blue">            </font>ButtonPanel.Visible = False
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The UpdateBtn_Click server event handler on this page is used</font>
+<font color= "green">        ' to handle the scenario where a user clicks the "update"</font>
+<font color= "green">        ' button after entering a response to a message post.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> UpdateBtn_Click(ByVal sender As Object, ByVal e As EventArgs) Handles updateButton.Click
+<font color= "blue"></font>
+<font color= "green">            ' Create new discussion database component</font>
+<font color= "blue">            Dim </font>discuss <font color= "blue">As </font>New DiscussionDB()
+<font color= "blue"></font>
+<font color= "green">            ' Add new message (updating the "itemId" on the page)</font>
+<font color= "blue">            </font>itemId <font color= "blue"></font>= discuss.AddMessage(moduleId, itemId, User.Identity.Name, Server.HtmlEncode(TitleField.Text), Server.HtmlEncode(BodyField.Text))
+<font color= "blue"></font>
+<font color= "green">            ' Update visibility of page elements</font>
+<font color= "blue">            </font>EditPanel.Visible = False
+<font color= "blue">            </font>ButtonPanel.Visible = True
+<font color= "blue"></font>
+<font color= "green">            ' Repopulate page contents with new message</font>
+<font color= "blue">            </font>BindData()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The CancelBtn_Click server event handler on this page is used</font>
+<font color= "green">        ' to handle the scenario where a user clicks the "cancel"</font>
+<font color= "green">        ' button to discard a message post and toggle out of</font>
+<font color= "green">        ' edit mode.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> CancelBtn_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cancelButton.Click
+<font color= "blue"></font>
+<font color= "green">            ' Update visibility of page elements</font>
+<font color= "blue">            </font>EditPanel.Visible = False
+<font color= "blue">            </font>ButtonPanel.Visible = True
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The BindData method is used to obtain details of a message</font>
+<font color= "green">        ' from the Discussion table, and update the page with</font>
+<font color= "green">        ' the message content.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Sub</font> BindData()
+<font color= "blue"></font>
+<font color= "green">            ' Obtain the selected item from the Discussion table</font>
+<font color= "blue">            Dim </font>discuss <font color= "blue">As </font>New ASPNetPortal.DiscussionDB()
+<font color= "blue">            Dim </font>dr <font color= "blue">As </font>SqlDataReader = discuss.GetSingleMessage(itemId)
+<font color= "blue"></font>
+<font color= "green">            ' Load first row from database</font>
+<font color= "blue">            </font>dr.Read()
+<font color= "blue"></font>
+<font color= "green">            ' Update labels with message contents</font>
+<font color= "blue">            </font>Title.Text = CType(dr("Title"), String)
+<font color= "blue">            </font>Body.Text = CType(dr("Body"), String)
+<font color= "blue">            </font>CreatedByUser.Text = CType(dr("CreatedByUser"), String)
+<font color= "blue">            </font>CreatedDate.Text = String.Format("{0:d}", dr("CreatedDate"))
+<font color= "blue">            </font>TitleField.Text = ReTitle(Title.Text)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>prevId <font color= "blue">As </font>Integer = 0
+<font color= "blue">            Dim </font>nextId <font color= "blue">As </font>Integer = 0
+<font color= "blue"></font>
+<font color= "green">            ' Update next and preview links</font>
+<font color= "blue">            Dim </font>id1 <font color= "blue">As </font>Object = dr("PrevMessageID")
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not id1 Is DBNull.Value <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                </font>prevId <font color= "blue"></font>= CInt(id1)
+<font color= "blue">                </font>prevItem.HRef = Request.Path & "?ItemId=" & prevId & "&mid=" & moduleId
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>id2 <font color= "blue">As </font>Object = dr("NextMessageID")
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not id2 Is DBNull.Value <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                </font>nextId <font color= "blue"></font>= CInt(id2)
+<font color= "blue">                </font>nextItem.HRef = Request.Path & "?ItemId=" & nextId & "&mid=" & moduleId
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' close the datareader</font>
+<font color= "blue">            </font>dr.Close()
+<font color= "blue"></font>
+<font color= "green">            ' Show/Hide Next/Prev Button depending on whether there is a next/prev message</font>
+<font color= "blue"></font><font color= "blue">            If </font>prevId <= 0 <font color= "blue">Then</font>
+<font color= "blue">                </font>prevItem.Visible = False
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>nextId <= 0 <font color= "blue">Then</font>
+<font color= "blue">                </font>nextItem.Visible = False
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The ReTitle helper method is used to create the subject</font>
+<font color= "green">        ' line of a response post to a message.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Function</font> ReTitle(ByVal title As String) As String
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>title.Length > 0 And title.IndexOf("Re: ", 0) = -1 <font color= "blue">Then</font>
+<font color= "blue">                </font>title <font color= "blue"></font>= "Re: " & title
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            </font>Return <font color= "blue"></font>title
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

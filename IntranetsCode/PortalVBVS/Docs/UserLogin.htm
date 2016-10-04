@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "UserLogin" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure authenticates a user against the Users table credential 
+            store. If the email/password combination is found, the user's UserName is 
+            returned.
+        </P>
+        <b>Definition:</b>
+        <pre>
+        
+    CREATE Procedure UserLogin
+    (
+        @Email    nvarchar(100),
+        @Password nvarchar(20),
+        @UserName nvarchar(100) OUTPUT
+    )
+    AS
+
+    SELECT
+        @UserName = Name
+
+    FROM
+        Users
+
+    WHERE
+        Email = @Email
+    AND
+        Password = @Password
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Users:</i>
+        &nbsp;The Users table contains the user crendential information used for 
+        forms-based authentication.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/users.jpg">
+    </body>
+</html>

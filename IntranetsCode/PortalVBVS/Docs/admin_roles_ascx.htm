@@ -1,0 +1,40 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Control Inherits="ASPNetPortal.Roles" CodeBehind="Roles.ascx.vb" language="vb" AutoEventWireup="false" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="Portal" TagName="Title" Src="~/DesktopModuleTitle.ascx"%<font color= "blue">&gt</font>
+
+<font color= "blue">&lt</font><font color=blue>portal:title runat="server" id="Title1" /</font><font color= "blue">&gt</font>
+
+<font color= "blue">&lt</font><font color="maroon">table</font> cellpadding="2" cellspacing="0" border="0"<font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font> class="Normal" width="100"<font color= "blue">&gt</font>
+            &nbsp;
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color=blue>asp:DataList id="rolesList" DataKeyField="RoleID" runat="server"</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/edit.gif" CommandName="edit" AlternateText="Edit this item" runat="server" /</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/delete.gif" CommandName="delete" AlternateText="Delete this item" runat="server" /</font><font color= "blue">&gt</font>
+                    &nbsp;&nbsp;
+                    <font color= "blue">&lt</font><font color=blue>asp:Label Text='&lt%# DataBinder.Eval(Container.DataItem, "RoleName") %<font color= "blue">&gt</font>' cssclass="Normal" runat="server" /</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">EditItemTemplate</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color=blue>asp:Textbox id="roleName" width="200" cssclass="NormalTextBox" Text='&lt%# DataBinder.Eval(Container.DataItem, "RoleName") %<font color= "blue">&gt</font>' runat="server" /</font><font color= "blue">&gt</font>
+                    &nbsp;
+                    <font color= "blue">&lt</font><font color=blue>asp:LinkButton Text="Apply" CommandName="apply" cssclass="CommandButton" runat="server" /</font><font color= "blue">&gt</font>
+                    &nbsp;
+                    <font color= "blue">&lt</font><font color=blue>asp:LinkButton Text="Change Role Members" CommandName="members" cssclass="CommandButton" runat="server" /</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">EditItemTemplate</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color=blue>asp:DataList</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+            &nbsp;
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color=blue>asp:LinkButton cssclass="CommandButton" Text="Add New Role" runat="server" id="AddRoleBtn"</font><font color= "blue">&gt</font>
+                Add New Role<font color= "blue">&lt/</font><font color=blue>asp:LinkButton</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+</pre>

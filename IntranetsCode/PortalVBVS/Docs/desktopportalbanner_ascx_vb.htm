@@ -1,0 +1,89 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public </font>MustInherit <font color= "blue"></font>Class DesktopPortalBanner
+<font color= "blue">        Inherits</font> System.Web.UI.UserControl
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>WelcomeMessage <font color= "blue">As </font>System.Web.UI.WebControls.Label
+<font color= "blue">        Protected </font>siteName <font color= "blue">As </font>System.Web.UI.WebControls.Label
+<font color= "blue">        Protected </font>tabs <font color= "blue">As </font>System.Web.UI.WebControls.DataList
+<font color= "blue"></font>
+<font color= "blue">        Public </font>tabIndex <font color= "blue">As </font>Integer
+<font color= "blue">        Public </font>ShowTabs <font color= "blue">As </font>Boolean = True
+<font color= "blue">        Protected </font>LogoffLink <font color= "blue">As </font>String = ""
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+<font color= "blue"></font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(HttpContext.Current.Items("PortalSettings"), PortalSettings)
+<font color= "blue"></font>
+<font color= "green">            ' Dynamically Populate the Portal Site Name</font>
+<font color= "blue">            </font>siteName.Text = _portalSettings.PortalName
+<font color= "blue"></font>
+<font color= "green">            ' If user logged in, customize welcome message</font>
+<font color= "blue"></font><font color= "blue">            If </font>Request.IsAuthenticated = True <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                </font>WelcomeMessage.Text = "Welcome " & Context.User.Identity.Name & "! <" & "span class=Accent" & ">|<" & "/span" & ">"
+<font color= "blue"></font>
+<font color= "green">                ' if authentication mode is Cookie, provide a logoff link</font>
+<font color= "blue"></font><font color= "blue">                If </font>Context.User.Identity.AuthenticationType = "Forms" <font color= "blue">Then</font>
+<font color= "blue">                    </font>LogoffLink <font color= "blue"></font>= "<" & "span class=""Accent"">|</span>" & ControlChars.Cr & "<" & "a href=" & Request.ApplicationPath & "/Admin/Logoff.aspx class=SiteLink> Logoff" & "<" & "/a>"
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Dynamically render portal tab strip</font>
+<font color= "blue"></font><font color= "blue">            If </font>ShowTabs = True <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                </font>tabIndex <font color= "blue"></font>= _portalSettings.ActiveTab.TabIndex
+<font color= "blue"></font>
+<font color= "green">                ' Build list of tabs to be shown to user</font>
+<font color= "blue">                Dim </font>authorizedTabs <font color= "blue">As </font>New ArrayList()
+<font color= "blue">                Dim </font>addedTabs <font color= "blue">As </font>Integer = 0
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>i <font color= "blue">As </font>Integer
+<font color= "blue">                For</font> i = 0 To _portalSettings.DesktopTabs.Count - 1
+<font color= "blue"></font>
+<font color= "blue">                    Dim </font>tab <font color= "blue">As </font>TabStripDetails = CType(_portalSettings.DesktopTabs(i), TabStripDetails)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    If </font>PortalSecurity.IsInRoles(tab.AuthorizedRoles) <font color= "blue">Then</font>
+<font color= "blue">                        </font>authorizedTabs.Add(tab)
+<font color= "blue"></font><font color= "blue">                    End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    If </font>addedTabs = tabIndex <font color= "blue">Then</font>
+<font color= "blue">                        </font>tabs.SelectedIndex = addedTabs
+<font color= "blue"></font><font color= "blue">                    End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>addedTabs <font color= "blue"></font>+= 1
+<font color= "blue"></font>
+<font color= "blue">                Next</font> i
+<font color= "blue"></font>
+<font color= "green">                ' Populate Tab List at Top of the Page with authorized tabs</font>
+<font color= "blue">                </font>tabs.DataSource = authorizedTabs
+<font color= "blue">                </font>tabs.DataBind()
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

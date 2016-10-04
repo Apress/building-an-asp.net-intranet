@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetEvents" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure returns all of the events for a specific Events module 
+            within the portal. The input parameter is the ModuleID. Only event 
+            whose expiration date is later than today are shown.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    CREATE PROCEDURE GetEvents
+    (
+        @ModuleID int
+    )
+    AS
+
+    SELECT
+        ItemID,
+        Title,
+        CreatedByUser,
+        WhereWhen,
+        CreatedDate,
+        Title,
+        ExpireDate,
+        Description
+
+    FROM
+        Events
+
+    WHERE
+        ModuleID = @ModuleID
+    AND
+        ExpireDate > GetDate()
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Events:</i>
+        &nbsp;Each record in the Events table is a single item, as displayed by the 
+        Events Portal Module. Since all Events modules store their record in this 
+        table, each item contains a ModuleID to permit related items to be retrieved in 
+        a single query.
+        <p>
+        The primary key in this table is the ItemID identity field. Note that event 
+        descriptions are limited to 2000 characters.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/events.jpg">
+    </body>
+</html>

@@ -1,0 +1,51 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Page language="vb" Inherits="ASPNetPortal.MobileDefault" CodeBehind="MobileDefault.aspx.vb" AutoEventWireup="false" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="mobile" Namespace="System.Web.UI.MobileControls" Assembly="System.Web.Mobile" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="portal" Namespace="ASPNetPortal.MobileControls" Assembly="Portal" %<font color= "blue">&gt</font>
+<font color= "green">&lt%--
+
+    The MobileDefault.aspx page is used to load and populate each Mobile Portal View.  It accomplishes
+    this by reading the layout configuration of the portal from the Portal Configuration
+    system. At the top level is a tab view, implemented using a TabbedPanel custom control.
+    Each portal view is inserted into this control, and portal modules (each implemented
+    as an ASP.NET user control) are instantiated and inserted into tabs.
+
+--%<font color= "blue">&gt</font></font>
+<font color= "blue">&lt</font>mobile:Form runat="server" Wrapping="NoWrap" Paginate="true" PagerStyle-Font-Name="Verdana" PagerStyle-ForeColor="#ffffff" PagerStyle-Font-Size="Small" id="Form1"<font color= "blue">&gt</font>
+    <font color= "blue">&lt</font>mobile:DeviceSpecific id="DeviceSpecific1" runat="server"<font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">Choice</font> BackColor="#000000" Filter="isJScript"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">HeaderTemplate</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">table</font> cellSpacing="0" cellPadding="0" width="100%" border="0"<font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color="maroon">img</font> height="45" src="data/mobilelogo.gif" width="180"<font color= "blue">&gt</font>
+                        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">table</font> height="270" cellSpacing="0" cellPadding="0" width="100%" bgColor="#ffffff" border="0"<font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">tbody</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt</font><font color="maroon">img</font> height="220" src="images/spacer.gif" width="2"<font color= "blue">&gt</font>
+                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color="maroon">td</font> vAlign="top"<font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">HeaderTemplate</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">FooterTemplate</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">img</font> height="220" src="images/spacer.gif" width="2"<font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font><font color= "blue">&lt/</font><font color="maroon">tbody</font><font color= "blue">&gt</font><font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">FooterTemplate</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">Choice</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">Choice</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">HeaderTemplate</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font>mobile:Label id="Label1" runat="server" StyleReference="title"<font color= "blue">&gt</font>
+                    IBuySpy Portal<font color= "blue">&lt/</font>mobile:Label<font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">HeaderTemplate</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">Choice</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font>mobile:DeviceSpecific<font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color=blue>portal:TabbedPanel id="TabView" runat="server" ActiveTabTextColor="#ffffff" ActiveTabColor="#000000" TabTextColor="#000000" TabColor="#bbbb9a"</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color=blue>portal:TabbedPanel</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font>mobile:Form<font color= "blue">&gt</font>
+</pre>

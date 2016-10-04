@@ -1,0 +1,57 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public </font>MustInherit <font color= "blue"></font>Class HtmlModule
+<font color= "blue">        Inherits</font> ASPNetPortal.PortalModuleControl
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>t1 As System.Web.UI.HtmlControls.HtmlTable
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>HtmlHolder As System.Web.UI.HtmlControls.HtmlTableCell
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Load event handler on this User Control is</font>
+<font color= "green">        ' used to render a block of HTML or text to the page.  </font>
+<font color= "green">        ' The text/HTML to render is stored in the HtmlText </font>
+<font color= "green">        ' database table.  This method uses the ASPNetPortal.HtmlTextDB()</font>
+<font color= "green">        ' data component to encapsulate all data functionality.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+<font color= "blue"></font>
+<font color= "green">            ' Obtain the selected item from the HtmlText table</font>
+<font color= "blue">            </font>Dim <font color= "blue"></font>[text] As New ASPNetPortal.HtmlTextDB()
+<font color= "blue">            Dim </font>dr <font color= "blue">As </font>SqlDataReader = [text].GetHtmlText(ModuleId)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>dr.Read() <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                ' Dynamically add the file content into the page</font>
+<font color= "blue">                Dim </font>content <font color= "blue">As </font>String = Server.HtmlDecode(CType(dr("DesktopHtml"), String))
+<font color= "blue">                </font>HtmlHolder.Controls.Add(New LiteralControl(content))
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Close the datareader</font>
+<font color= "blue">            </font>dr.Close()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

@@ -1,0 +1,58 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Control Inherits="ASPNetPortal.Tabs" CodeBehind="Tabs.ascx.vb" language="vb" AutoEventWireup="false" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="Portal" TagName="Title" Src="~/DesktopModuleTitle.ascx"%<font color= "blue">&gt</font>
+
+<font color= "blue">&lt</font><font color=blue>portal:title runat="server" id=Title1 /</font><font color= "blue">&gt</font>
+
+<font color= "blue">&lt</font><font color="maroon">table</font> cellpadding=2 cellspacing=0 border=0<font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font> colspan=2<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color=blue>asp:LinkButton id="addBtn" cssclass="CommandButton" Text="Add New Tab" runat="server" /</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font> width=100<font color= "blue">&gt</font>
+            &nbsp;
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font> width=50 class="Normal"<font color= "blue">&gt</font>
+            Tabs:
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">table</font> cellpadding=0 cellspacing=0 border=0<font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color=blue>asp:ListBox id="tabList" width=200 DataSource="&lt%# portalTabs %<font color= "blue">&gt</font>" DataTextField="TabName" DataValueField="TabId" rows=5 runat="server" /</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                        &nbsp;
+                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                    <font color= "blue">&lt</font><font color=blue>asp:ImageButton id="upBtn" ImageUrl="~/images/up.gif" CommandName="up" AlternateText="Move selected tab up in list" runat="server" /</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                    <font color= "blue">&lt</font><font color=blue>asp:ImageButton id="downBtn" ImageUrl="~/images/dn.gif" CommandName="down" AlternateText="Move selected tab down in list" runat="server" /</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                    <font color= "blue">&lt</font><font color=blue>asp:ImageButton id="editBtn" ImageUrl="~/images/edit.gif" AlternateText="Edit selected tab's properties" runat="server" /</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                    <font color= "blue">&lt</font><font color=blue>asp:ImageButton id="deleteBtn" ImageUrl="~/images/delete.gif" AlternateText="Delete selected tab" runat="server" /</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+</pre>

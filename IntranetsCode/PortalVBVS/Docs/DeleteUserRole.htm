@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "DeleteUserRole" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure deletes a user from the specified security role. Roles 
+            are defined on a per-portal basis in the Roles table.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE DeleteUserRole
+    (
+        @UserID int,
+        @RoleID int
+    )
+    AS
+
+    DELETE FROM
+        UserRoles
+
+    WHERE
+        UserID=@UserID
+        AND
+        RoleID=@RoleID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>UserRoles:</i>
+        &nbsp;The UserRoles table provides a many-to-many connection between portal 
+        security roles (defined in the Roles table) and users (defined in the Users 
+        table). Using the UserRoles table, each user may belong to multiple roles and 
+        and each role may have multiple users as members.
+        <p>
+        The UserRoles table has no primary key.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/userroles.jpg">
+    </body>
+</html>

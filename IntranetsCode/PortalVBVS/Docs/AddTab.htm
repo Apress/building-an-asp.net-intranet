@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "AddTab" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure adds a new tab to the database for the specific portal. 
+            The input parameters include PortalID and TabName. The output parameter is the 
+            TabID of the new database record.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE AddTab
+    (
+        @PortalID   int,
+        @TabName    nvarchar(50),
+        @TabOrder   int,
+        @AuthorizedRoles nvarchar (256),
+        @MobileTabName nvarchar(50),
+        @TabID      int OUTPUT
+    )
+    AS
+
+    INSERT INTO Tabs
+    (
+        PortalID,
+        TabName,
+        TabOrder,
+        ShowMobile,
+        MobileTabName,
+        AuthorizedRoles
+    )
+
+    VALUES
+    (
+        @PortalID,
+        @TabName,
+        @TabOrder,
+        0, /* false */
+        @MobileTabName,
+        @AuthorizedRoles
+    )
+
+    SELECT
+        @TabID = @@Identity
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Tabs:</i>
+        &nbsp;Each record in the Tabs table defines the name and access permissions for 
+        a tab in the selected portal. The primary key in this table is the TabID 
+        identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/tabs.jpg">
+        </p>
+    </body>
+</html>

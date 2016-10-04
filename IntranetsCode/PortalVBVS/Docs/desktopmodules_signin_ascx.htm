@@ -1,0 +1,45 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Control language="vb" Inherits="ASPNetPortal.Signin" CodeBehind="Signin.ascx.vb" AutoEventWireup="false" %<font color= "blue">&gt</font>
+<font color= "green">&lt%--
+
+   The SignIn User Control enables clients to authenticate themselves using
+   the ASP.NET Forms based authentication system.
+
+   When a client enters their username/password within the appropriate
+   textboxes and clicks the "Login" button, the LoginBtn_Click event
+   handler executes on the server and attempts to validate their
+   credentials against a SQL database.
+
+   If the password check succeeds, then the LoginBtn_Click event handler
+   sets the customers username in an encrypted cookieID and redirects
+   back to the portal home page.
+
+   If the password check fails, then an appropriate error message
+   is displayed.
+
+--%<font color= "blue">&gt</font></font>
+
+<font color= "blue">&lt</font><font color="maroon">hr</font> noshade size="1" width="98%"<font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color="maroon">span</font> class="SubSubHead" style="HEIGHT:20px"<font color= "blue">&gt</font>Account Login<font color= "blue">&lt/</font><font color="maroon">span</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color="maroon">span</font> class="Normal"<font color= "blue">&gt</font>Email:<font color= "blue">&lt/</font><font color="maroon">span</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color=blue>asp:TextBox id="email" columns="9" width="130" cssclass="NormalTextBox" runat="server" /</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color="maroon">span</font> class="Normal"<font color= "blue">&gt</font>Password:<font color= "blue">&lt/</font><font color="maroon">span</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color=blue>asp:TextBox id="password" columns="9" width="130" textmode="password" cssclass="NormalTextBox" runat="server" /</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color=blue>asp:checkbox id="RememberCheckbox" class="Normal" Text="Remember Login" runat="server" /</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color="maroon">table</font> width="100%" cellspacing="0" cellpadding="4" border="0"<font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color=blue>asp:ImageButton id="SigninBtn" ImageUrl="~/images/signin.gif" runat="server" /</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">a</font> href="Admin/Register.aspx"<font color= "blue">&gt</font><font color= "blue">&lt</font><font color="maroon">img</font> src="images/register.gif" border="0"<font color= "blue">&gt</font><font color= "blue">&lt/</font><font color="maroon">a</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color=blue>asp:label id="Message" class="NormalRed" runat="server" /</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+</pre>

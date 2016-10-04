@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "AddMessage" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure adds a new message to a discussion for a specific 
+            Discussion module in the portal. The input parameters include message Title, 
+            Body, and name of the user adding the thread.
+        </P>
+        <p>
+            The DisplayOrder field is calculated by concatenating a 23-character 
+            representation of the current date to the DisplayOrder for this item's parent.
+        </p>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE AddMessage
+    (
+        @ItemID int OUTPUT,
+        @Title nvarchar(100),
+        @Body nvarchar(3000),
+        @ParentID int,
+        @UserName nvarchar(100),
+        @ModuleID int
+    )   
+    AS 
+
+    /* Find DisplayOrder of parent item */
+    DECLARE @ParentDisplayOrder as nvarchar(750)
+
+    SET @ParentDisplayOrder = ""
+
+    SELECT 
+        @ParentDisplayOrder = DisplayOrder
+    FROM 
+        Discussion 
+    WHERE 
+        ItemID = @ParentID
+
+    INSERT INTO Discussion
+    (
+        Title,
+        Body,
+        DisplayOrder,
+        CreatedDate, 
+        CreatedByUser,
+        ModuleID
+    )
+
+    VALUES
+    (
+        @Title,
+        @Body,
+        @ParentDisplayOrder + CONVERT( nvarchar(24), GetDate(), 21 ),
+        GetDate(),
+        @UserName,
+        @ModuleID
+    )
+
+    SELECT 
+        @ItemID = @@Identity
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Discussion:</i>
+        &nbsp;Each record in the Discussion table is a message in a threaded 
+        discussion, as displayed by the Discussion Portal Module. Since all Discussion 
+        modules store their record in this table, each item contains a ModuleID to 
+        permit related items to be retrieved in a single query.
+        <p>
+        An especially interesting feature of the Discussion table is the DisplayOrder 
+        field, which is used to create the threaded display of messages in the 
+        discussion. This field is calculated by concatenating a 23-character string 
+        representation of the current date and time to the DisplayOrder for this item's 
+        parent. In this way, messages can be displayed in the correct order via a 
+        simple ascending sort. This approach has an inherent limitation based upon the 
+        size of the DisplayOrder field. In this case it's 750 characters, meaning that 
+        messages nested more than 32 levels deep will not display in the correct order.
+        <p>
+        The primary key in this table is the ItemID identity field. Note that message 
+        bodies are limited to 3000 characters.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/discussion.jpg">
+    </body>
+</html>

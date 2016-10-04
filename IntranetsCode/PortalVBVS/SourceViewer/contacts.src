@@ -1,0 +1,5 @@
+User Control:Contacts.ascx|DesktopModules_Contacts_ascx.htm,Contacts.ascx.vb|DesktopModules_Contacts_ascx_vb.htm
+Mobile User Control:Contacts.ascx|MobileModules_Contacts_ascx.htm
+Business Component:ContactsDB.vb|Components_ContactsDB_vb.htm
+Stored Procedures: AddContact|AddContact.htm,DeleteContact|DeleteContact.htm,GetContacts|GetContacts.htm,GetSingleContact|GetSingleContact.htm,UpdateContact|UpdateContact.htm
+Edit Page:EditContacts.aspx|DesktopModules_EditContacts_aspx.htm,EditContacts.aspx.vb|DesktopModules_EditContacts_aspx_vb.htm

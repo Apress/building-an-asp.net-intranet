@@ -1,0 +1,191 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Imports</font> System
+<font color= "blue">Imports</font> System.Configuration
+<font color= "blue">Imports</font> System.Data
+<font color= "blue">Imports</font> System.Data.SqlClient
+<font color= "blue">Imports</font> System.Web
+<font color= "blue">Imports</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' DiscussionDB Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' Class that encapsulates all data logic necessary to add/query/delete</font>
+<font color= "green">    ' discussions within the Portal database.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> DiscussionDB
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' GetTopLevelMessages Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns details for all of the messages in the discussion specified by ModuleID.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="GetTopLevelMessages.htm" style="color:green">GetTopLevelMessages Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> GetTopLevelMessages(ByVal moduleId As Integer) As SqlDataReader
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("GetTopLevelMessages", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterModuleId <font color= "blue">As </font>New SqlParameter("@ModuleId", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterModuleId.Value = moduleId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterModuleId)
+<font color= "blue"></font>
+<font color= "green">            ' Execute the command</font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            Dim </font>result <font color= "blue">As </font>SqlDataReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Return the datareader </font>
+<font color= "blue">            </font>Return <font color= "blue"></font>result
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function </font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' GetThreadMessages Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns details for all of the messages the thread, as identified by the Parent id string.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="GetThreadMessages.htm" style="color:green">GetThreadMessages Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> GetThreadMessages(ByVal parent As String) As SqlDataReader
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("GetThreadMessages", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterParent <font color= "blue">As </font>New SqlParameter("@Parent", SqlDbType.NVarChar, 750)
+<font color= "blue">            </font>parameterParent.Value = parent
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterParent)
+<font color= "blue"></font>
+<font color= "green">            ' Execute the command</font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            Dim </font>result <font color= "blue">As </font>SqlDataReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Return the datareader </font>
+<font color= "blue">            </font>Return <font color= "blue"></font>result
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' GetSingleMessage Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The GetSingleMessage method returns the details for the message</font>
+<font color= "green">        ' specified by the itemId parameter.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="GetSingleMessage.htm" style="color:green">GetSingleMessage Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> GetSingleMessage(ByVal itemId As Integer) As SqlDataReader
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("GetSingleMessage", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemId <font color= "blue">As </font>New SqlParameter("@ItemId", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemId.Value = itemId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemId)
+<font color= "blue"></font>
+<font color= "green">            ' Execute the command</font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            Dim </font>result <font color= "blue">As </font>SqlDataReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Return the datareader </font>
+<font color= "blue">            </font>Return <font color= "blue"></font>result
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' AddMessage Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The AddMessage method adds a new message within the</font>
+<font color= "green">        ' Discussions database table, and returns ItemID value as a result.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="AddMessage.htm" style="color:green">AddMessage Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> AddMessage(ByVal moduleId As Integer, ByVal parentId As Integer, ByVal userName As String, ByVal title As String, ByVal body As String) As Integer
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>userName.Length < 1 <font color= "blue">Then</font>
+<font color= "blue">                </font>userName <font color= "blue"></font>= "unknown"
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("AddMessage", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemID <font color= "blue">As </font>New SqlParameter("@ItemID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemID.Direction = ParameterDirection.Output
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemID)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterTitle <font color= "blue">As </font>New SqlParameter("@Title", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterTitle.Value = title
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterTitle)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterBody <font color= "blue">As </font>New SqlParameter("@Body", SqlDbType.NVarChar, 3000)
+<font color= "blue">            </font>parameterBody.Value = body
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterBody)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterParentID <font color= "blue">As </font>New SqlParameter("@ParentID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterParentID.Value = parentId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterParentID)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterUserName <font color= "blue">As </font>New SqlParameter("@UserName", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterUserName.Value = userName
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterUserName)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterModuleID <font color= "blue">As </font>New SqlParameter("@ModuleID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterModuleID.Value = moduleId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterModuleID)
+<font color= "blue"></font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            </font>myCommand.ExecuteNonQuery()
+<font color= "blue">            </font>myConnection.Close()
+<font color= "blue"></font>
+<font color= "blue">            </font>Return <font color= "blue"></font>CInt(parameterItemID.Value)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

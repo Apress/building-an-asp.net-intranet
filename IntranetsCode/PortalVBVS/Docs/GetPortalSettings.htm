@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetPortalSettings" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure returns all of the site-level settings for the portal, as 
+            well as layout and security settings for the specified tab. This data is 
+            returned as 3 separate result sets plus 8 OUTPUT parameters, and is used to 
+            populate the PortalSettings class returned configuration system.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE GetPortalSettings
+    (
+        @PortalAlias           nvarchar(50),
+        @TabID                 int,
+        @PortalID              int OUTPUT,
+        @PortalName            nvarchar(128) OUTPUT,
+        @AlwaysShowEditButton  bit OUTPUT,
+        @TabName               nvarchar (50)  OUTPUT,
+        @TabOrder              int OUTPUT,
+        @MobileTabName         nvarchar (50)  OUTPUT,
+        @AuthRoles             nvarchar (256) OUTPUT,
+        @ShowMobile            bit OUTPUT
+    )
+    AS
+
+    
+    /* ---First, get Out Params--- */
+    IF @TabID = 0 
+        SELECT TOP 1
+            @PortalID      = Portals.PortalID,
+            @PortalName    = Portals.PortalName,
+            @AlwaysShowEditButton = Portals.AlwaysShowEditButton,
+            @TabID         = Tabs.TabID,
+            @TabOrder      = Tabs.TabOrder,
+            @TabName       = Tabs.TabName,
+            @MobileTabName = Tabs.MobileTabName,
+            @AuthRoles     = Tabs.AuthorizedRoles,
+            @ShowMobile    = Tabs.ShowMobile
+
+        FROM
+            Tabs
+        INNER JOIN
+            Portals ON Tabs.PortalID = Portals.PortalID
+            
+        WHERE
+            PortalAlias=@PortalAlias
+            
+        ORDER BY
+            TabOrder
+
+    ELSE 
+        SELECT
+            @PortalID      = Portals.PortalID,
+            @PortalName    = Portals.PortalName,
+            @AlwaysShowEditButton = Portals.AlwaysShowEditButton,
+            @TabName       = Tabs.TabName,
+            @TabOrder      = Tabs.TabOrder,
+            @MobileTabName = Tabs.MobileTabName,
+            @AuthRoles     = Tabs.AuthorizedRoles,
+            @ShowMobile    = Tabs.ShowMobile
+
+        FROM
+            Tabs
+        INNER JOIN
+            Portals ON Tabs.PortalID = Portals.PortalID
+            
+        WHERE
+            TabID=@TabID
+
+    
+    /* ---Next, get Tabs list--- */
+    SELECT  
+        TabName,
+        AuthorizedRoles,
+        TabID,
+        TabOrder
+        
+    FROM    
+        Tabs
+        
+    WHERE   
+        PortalID = @PortalID
+        
+    ORDER BY
+        TabOrder
+
+    
+    /* ---Then, get Mobile Tabs list--- */
+    SELECT  
+        MobileTabName,
+        AuthorizedRoles,
+        TabID,
+        ShowMobile
+        
+    FROM    
+        Tabs
+        
+    WHERE   
+        PortalID = @PortalID
+    AND
+        ShowMobile = 1
+        
+    ORDER BY
+        TabOrder
+
+    
+    /* ---Last, get the DataTable of module info--- */
+    SELECT  
+        *
+        
+    FROM
+        Modules
+    INNER JOIN
+        ModuleDefinitions ON Modules.ModuleDefID = ModuleDefinitions.ModuleDefID
+        
+    WHERE   
+        TabID = @TabID
+        
+    ORDER BY
+        ModuleOrder
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Portals:</i>
+        &nbsp;The portals table holds site-level settings.&nbsp; The primary key in 
+        this table is the PortalID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/portals.jpg">
+        </p>
+        <i>Tabs:</i> &nbsp;Each record in the Tabs table defines the name and access 
+        permissions for a tab in the selected portal. The primary key in this table is 
+        the TabID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/tabs.jpg">
+        </p>
+        <i>Modules:</i> &nbsp;Each record in the Modules table represents a single 
+        module instance on a specific tab in the selected portal. The definition for 
+        the module type is pulled via the ModuleDefID field from the ModuleDefinitions 
+        table. The data for the module is stored in a database table for the selected 
+        module type, and indexed by ModuleID.
+        <p>
+        The primary key in this table is the ModuleID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/modules.jpg">
+        </p>
+        <i>ModuleDefinitions:</i> &nbsp;Each record in the ModuleDefinitions table 
+        defines a different type of modules that may be used in the selected portal. 
+        Individual modules reference this definition via the ModuleDefID, the primary 
+        key for this table. All modules must define a Desktop module version; 
+        optionally they may also define a Mobile version.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/moduledefinitions.jpg">
+        </p>
+    </body>
+</html>

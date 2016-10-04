@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetSingleModuleDefinition" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+        This stored procedure returns a single module type definition from the 
+        database. The input parameter is ModuleDefID, the primary key for the record. 
+        The return values include the type's friendly name as well as paths for the 
+        desktop and mobile versions of the module.
+        <p>
+            This stored procedure is used by the edit page for module type definitions.
+        </p>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE GetSingleModuleDefinition
+    (
+        @ModuleDefID int
+    )
+    AS
+
+    SELECT
+        FriendlyName,
+        DesktopSrc,
+        MobileSrc
+
+    FROM
+        ModuleDefinitions
+
+    WHERE
+        ModuleDefID = @ModuleDefID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>ModuleDefinitions:</i>
+        &nbsp;Each record in the ModuleDefinitions table defines a different type of 
+        modules that may be used in the selected portal. Individual modules reference 
+        this definition via the ModuleDefID, the primary key for this table. All 
+        modules must define a Desktop module version; optionally they may also define a 
+        Mobile version.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/moduledefinitions.jpg">
+        </p>
+    </body>
+</html>

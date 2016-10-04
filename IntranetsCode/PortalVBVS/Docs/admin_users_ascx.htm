@@ -1,0 +1,31 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Control Inherits="ASPNetPortal.Users" CodeBehind="Users.ascx.vb" language="vb" AutoEventWireup="false" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="Portal" TagName="Title" Src="~/DesktopModuleTitle.ascx"%<font color= "blue">&gt</font>
+
+<font color= "blue">&lt</font><font color=blue>portal:title runat="server" id="Title1" /</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color="maroon">table</font> cellpadding="2" cellspacing="0" border="0"<font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font> width="100"<font color= "blue">&gt</font>
+            &nbsp;
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font> class="Normal"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color=blue>asp:Literal id="Message" runat="server" /</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font><font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+            &nbsp;
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font> class="Normal"<font color= "blue">&gt</font>
+            Registered Users:&nbsp;
+            <font color= "blue">&lt</font><font color=blue>asp:DropDownList id="allUsers" DataTextField="Email" DataValueField="UserID" runat="server" /</font><font color= "blue">&gt</font>
+            &nbsp;
+            <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/edit.gif" CommandName="edit" AlternateText="Edit this user" runat="server" ID="EditBtn" /</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color=blue>asp:ImageButton ImageUrl="~/images/delete.gif" AlternateText="Delete this user" runat="server" ID="DeleteBtn" /</font><font color= "blue">&gt</font>
+            &nbsp;
+            <font color= "blue">&lt</font><font color=blue>asp:LinkButton id="addNew" cssclass="CommandButton" CommandName="Add" Text="Add New User" runat="server" /</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+</pre>

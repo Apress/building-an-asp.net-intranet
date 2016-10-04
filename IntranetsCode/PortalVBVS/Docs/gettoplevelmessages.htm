@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetTopLevelMessages" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure returns the first message in each thread for a specific 
+            Discussion module within the portal. The input parameters are ModuleID and 
+            PortalID.
+        </P>
+        <P>
+        The calculated field "ChildCount" holds the total number of replies to the top 
+        level message. If this number is greater than one, the Discussion module 
+        renders the message as an expandable node.
+        <P>
+            <b>Definition:</b>
+            <pre>
+    
+    CREATE PROCEDURE GetTopLevelMessages
+    (
+        @ModuleID int
+    )
+    AS
+
+    SELECT
+        ItemID,
+        DisplayOrder,
+        LEFT(DisplayOrder, 23) AS Parent,    
+        (SELECT COUNT(*) -1  FROM Discussion Disc2 WHERE LEFT(Disc2.DisplayOrder,LEN(RTRIM(Disc.DisplayOrder))) = Disc.DisplayOrder) AS ChildCount,
+        Title,  
+        CreatedByUser,
+        CreatedDate
+
+    FROM 
+        Discussion Disc
+
+    WHERE 
+        ModuleID=@ModuleID
+    AND
+        (LEN( DisplayOrder ) / 23 ) = 1
+
+    ORDER BY
+        DisplayOrder
+        </pre>
+            <b>Database Tables Used: </b>
+        <P>
+            <i>Discussion:</i>
+        &nbsp;Each record in the Discussion table is a message in a threaded 
+        discussion, as displayed by the Discussion Portal Module. Since all Discussion 
+        modules store their record in this table, each item contains a ModuleID to 
+        permit related items to be retrieved in a single query.
+        <p>
+        An especially interesting feature of the Discussion table is the DisplayOrder 
+        field, which is used to create the threaded display of messages in the 
+        discussion. This field is calculated by concatenating a 23-character string 
+        representation of the current date and time to the DisplayOrder for this item's 
+        parent. In this way, messages can be displayed in the correct order via a 
+        simple ascending sort. This approach has an inherent limitation based upon the 
+        size of the DisplayOrder field. In this case it's 750 characters, meaning that 
+        messages nested more than 32 levels deep will not display in the correct order.
+        <p>
+        The primary key in this table is the ItemID identity field. Note that message 
+        bodies are limited to 3000 characters.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/discussion.jpg">
+    </body>
+</html>

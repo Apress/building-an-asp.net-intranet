@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "AddRole" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure adds a new role to the database for the specific portal. 
+            The input parameters include PortalID and RoleName. The output parameter is the 
+            RoleID of the new database record.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE AddRole
+    (
+	    @PortalID    int,
+	    @RoleName    nvarchar(50),
+	    @RoleID      int OUTPUT
+    )
+    AS
+
+    INSERT INTO Roles
+    (
+        PortalID,
+        RoleName
+    )
+
+    VALUES
+    (
+        @PortalID,
+        @RoleName
+    )
+
+    SELECT
+        @RoleID = @@Identity
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Roles:</i>
+        &nbsp;Each record in the Roles table defines a unique role in the selected 
+        portal. Users are added to a role via the UserRoles lookup value table.
+        <p>
+        The primary key in this table is the RoleID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/roles.jpg">
+        </p>
+    </body>
+</html>

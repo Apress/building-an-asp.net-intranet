@@ -1,0 +1,4 @@
+User Control:QuickLinks.ascx|DesktopModules_QuickLinks_ascx.htm, QuickLinks.ascx.vb|DesktopModules_QuickLinks_ascx_vb.htm
+Business Component:LinksDB.vb|Components_LinksDB_vb.htm
+Stored Procedures: AddLink|AddLink.htm,DeleteLink|DeleteLink.htm,GetLinks|GetLinks.htm,GetSingleLink|GetSingleLink.htm,UpdateLink|UpdateLink.htm
+Edit Page:EditLinks.aspx|DesktopModules_EditLinks_aspx.htm, EditLinks.aspx.vb|DesktopModules_EditLinks_aspx_vb.htm

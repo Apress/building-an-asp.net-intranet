@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "UpdateAnnouncement" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure is used by the Announcements edit page to apply changes 
+            to an existing announcement item. The input parameters include the item's 
+            primary key (ItemID), plus title, expiration date and description. The editor's 
+            UserName is also passed in, and used to update the CreatedByUser field.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE UpdateAnnouncement
+    (
+        @ItemID         int,
+        @UserName       nvarchar(100),
+        @Title          nvarchar(150),
+        @MoreLink       nvarchar(150),
+        @MobileMoreLink nvarchar(150),
+        @ExpireDate     datetime,
+        @Description    nvarchar(2000)
+    )
+    AS
+
+    UPDATE
+        Announcements
+
+    SET
+        CreatedByUser   = @UserName,
+        CreatedDate     = GetDate(),
+        Title           = @Title,
+        MoreLink        = @MoreLink,
+        MobileMoreLink  = @MobileMoreLink,
+        ExpireDate      = @ExpireDate,
+        Description     = @Description
+
+    WHERE
+        ItemID = @ItemID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Announcements:</i>
+        &nbsp;Each record in the Announcements table is a single item, as displayed by 
+        the Announcements Portal Module. Since all Announcement modules store their 
+        record in this table, each item contains a ModuleID to permit related items to 
+        be retrieved in a single query.
+        <p>
+        The primary key in this table is the ItemID identity field. Note that 
+        announcement descriptions are limited to 2000 characters.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/announcements.jpg">
+    </body>
+</html>

@@ -1,0 +1,108 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> EditXml
+<font color= "blue">        Inherits</font> System.Web.UI.Page
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>XmlDataSrc As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>XslTransformSrc As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>updateButton As System.Web.UI.WebControls.LinkButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>cancelButton As System.Web.UI.WebControls.LinkButton
+<font color= "blue"></font>
+<font color= "blue">        Private </font>moduleId <font color= "blue">As </font>Integer = 0
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "green">        '****************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Load event on this Page is used to obtain the ModuleId</font>
+<font color= "green">        ' xml module to edit.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' It then uses the ASP.NET configuration system to populate the page's</font>
+<font color= "green">        ' edit controls with the xml details.</font>
+<font color= "green">        '</font>
+<font color= "green">        '****************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+<font color= "blue"></font>
+<font color= "green">            ' Determine ModuleId of Announcements Portal Module</font>
+<font color= "blue">            </font>moduleId <font color= "blue"></font>= Int32.Parse(Request.Params("Mid"))
+<font color= "blue"></font>
+<font color= "green">            ' Verify that the current user has access to edit this module</font>
+<font color= "blue"></font><font color= "blue">            If </font>PortalSecurity.HasEditPermissions(moduleId) = False <font color= "blue">Then</font>
+<font color= "blue">                </font>Response.Redirect("~/Admin/EditAccessDenied.aspx")
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Page.IsPostBack = False <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>moduleId > 0 <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                    ' Get settings from the database</font>
+<font color= "blue">                    Dim </font>settings <font color= "blue">As </font>Hashtable = PortalSettings.GetModuleSettings(moduleId)
+<font color= "blue"></font>
+<font color= "blue">                    </font>XmlDataSrc.Text = CType(settings("xmlsrc"), String)
+<font color= "blue">                    </font>XslTransformSrc.Text = CType(settings("xslsrc"), String)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">                ' Store URL Referrer to return to portal</font>
+<font color= "blue">                </font>ViewState("UrlReferrer") = Request.UrlReferrer.ToString()
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '****************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The UpdateBtn_Click event handler on this Page is used to save</font>
+<font color= "green">        ' the settings to the configuration file.</font>
+<font color= "green">        '</font>
+<font color= "green">        '****************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> UpdateBtn_Click(ByVal sender As Object, ByVal e As EventArgs) Handles updateButton.Click
+<font color= "blue"></font>
+<font color= "green">            ' Update settings in the database</font>
+<font color= "blue">            Dim </font>admin <font color= "blue">As </font>New AdminDB()
+<font color= "blue"></font>
+<font color= "blue">            </font>admin.UpdateModuleSetting(moduleId, "xmlsrc", XmlDataSrc.Text)
+<font color= "blue">            </font>admin.UpdateModuleSetting(moduleId, "xslsrc", XslTransformSrc.Text)
+<font color= "blue"></font>
+<font color= "green">            ' Redirect back to the portal home page</font>
+<font color= "blue">            </font>Response.Redirect(CType(ViewState("UrlReferrer"), String))
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '****************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The CancelBtn_Click event handler on this Page is used to cancel</font>
+<font color= "green">        ' out of the page, and return the user back to the portal home</font>
+<font color= "green">        ' page.</font>
+<font color= "green">        '</font>
+<font color= "green">        '****************************************************************</font>
+<font color= "blue">        Private Sub</font> CancelBtn_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cancelButton.Click
+<font color= "blue"></font>
+<font color= "green">            ' Redirect back to the portal home page</font>
+<font color= "blue">            </font>Response.Redirect(CType(ViewState("UrlReferrer"), String))
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

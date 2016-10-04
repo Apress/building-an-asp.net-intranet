@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "AddUserRole" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure adds a user into the specified security role. Roles are 
+            defined on a per-portal basis in the Roles table.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE Procedure AddUserRole
+    (
+        @UserID int,
+        @RoleID int
+    )
+    AS
+
+    SELECT 
+        *
+    FROM
+        UserRoles
+
+    WHERE
+        UserID=@UserID
+        AND
+        RoleID=@RoleID
+
+    /* only insert if the record doesn't yet exist */
+    IF @@Rowcount < 1
+
+        INSERT INTO UserRoles
+        (
+            UserID,
+            RoleID
+        )
+
+        VALUES
+        (
+            @UserID,
+            @RoleID
+        )
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>UserRoles:</i>
+        &nbsp;The UserRoles table provides a many-to-many connection between portal 
+        security roles (defined in the Roles table) and users (defined in the Users 
+        table). Using the UserRoles table, each user may belong to multiple roles and 
+        and each role may have multiple users as members.
+        <p>
+        The UserRoles table has no primary key.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/userroles.jpg">
+        </p>
+    </body>
+</html>

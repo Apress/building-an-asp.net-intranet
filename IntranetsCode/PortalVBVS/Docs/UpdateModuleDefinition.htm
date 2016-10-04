@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "UpdateModuleDefinition" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure is used by the
+            ModuleDefinitions administration&nbsp;page to set the properties of a specific module 
+            type. The input parameters include the item's primary key (ModuleDefID), plus friendly 
+            name, and source paths for the desktop and mobile versions of the 
+            module.
+        </P>
+        <b>Definition:</b>
+        <pre>
+
+    CREATE PROCEDURE UpdateModuleDefinition
+    (
+        @ModuleDefID   int,
+        @FriendlyName  nvarchar(128),
+        @DesktopSrc    nvarchar(256),
+        @MobileSrc     nvarchar(256)
+    )
+    AS
+
+    UPDATE
+        ModuleDefinitions
+
+    SET
+        FriendlyName = @FriendlyName,
+        DesktopSrc   = @DesktopSrc,
+        MobileSrc    = @MobileSrc
+
+    WHERE
+        ModuleDefID = @ModuleDefID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>ModuleDefinitions:</i>
+        &nbsp;Each record in the ModuleDefinitions table defines a different type of 
+        modules that may be used in the selected portal. Individual modules reference 
+        this definition via the ModuleDefID, the primary key for this table. All 
+        modules must define a Desktop module version; optionally they may also define a 
+        Mobile version.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/moduledefinitions.jpg">
+        </p>
+    </body>
+</html>

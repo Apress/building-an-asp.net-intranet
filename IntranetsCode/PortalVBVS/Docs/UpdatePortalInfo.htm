@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "UpdatePortalInfo" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure is used by the Site Settings administration&nbsp;page to 
+            set the portal's display name, and whether the edit button should alway be 
+            shown for all modules in the portal.
+        </P>
+        <b>Definition:</b>
+        <pre>
+
+    CREATE PROCEDURE UpdatePortalInfo
+    (
+        @PortalID           int,
+        @PortalName         nvarchar(50),
+        @AlwaysShowEditButton bit 
+    )
+    AS
+
+    UPDATE
+        Portals
+
+    SET
+        PortalName = @PortalName,
+        AlwaysShowEditButton = @AlwaysShowEditButton
+
+    WHERE
+        PortalID = @PortalID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Portals:</i>
+        &nbsp;The portals table holds site-level settings.&nbsp; The primary key in 
+        this table is the PortalID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/portals.jpg">
+        </p>
+    </body>
+</html>

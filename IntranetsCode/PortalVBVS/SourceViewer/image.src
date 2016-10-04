@@ -1,0 +1,4 @@
+User Control:ImageModule.ascx|DesktopModules_ImageModule_ascx.htm, ImageModule.ascx.vb|DesktopModules_ImageModule_ascx_vb.htm 
+Business Component:AdminDB.vb|Components_AdminDB_vb.htm
+Stored Procedures: GetModuleSettings|GetModuleSettings.htm,UpdateModuleSetting|UpdateModuleSetting.htm
+Edit Page:EditImage.aspx|DesktopModules_EditImage_aspx.htm, EditImage.aspx.vb|DesktopModules_EditImage_aspx_vb.htm

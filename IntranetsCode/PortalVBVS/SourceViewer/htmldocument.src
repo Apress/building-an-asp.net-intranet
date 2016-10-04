@@ -1,0 +1,5 @@
+User Control:HtmlModule.ascx|DesktopModules_HtmlModule_ascx.htm, HtmlModule.ascx.vb|DesktopModules_HtmlModule_ascx_vb.htm
+Mobile User Control:Text.ascx|MobileModules_Text_ascx.htm
+Business Component:HtmlTextDB.vb|Components_HtmlTextDB_vb.htm
+Stored Procedures:GetHtmlText|GetHtmlText.htm,UpdateHtmlText|UpdateHtmlText.htm
+Edit Page:EditHtml.aspx|DesktopModules_EditHtml_aspx.htm, EditHtml.aspx.vb|DesktopModules_EditHtml_aspx_vb.htm

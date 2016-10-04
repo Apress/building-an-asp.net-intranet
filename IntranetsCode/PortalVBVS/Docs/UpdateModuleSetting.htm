@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "UpdateModuleSetting" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure is used by the edit pages for various modules to add or 
+            update the settings they require.&nbsp; For example, the Image module uses this 
+            procedure to store it's Height and Width settings. The input parameters include 
+            the item's primary key (ModuleID), plus the name and value for the setting.
+        </P>
+        <b>Definition:</b>
+        <pre>
+
+    CREATE PROCEDURE UpdateModuleSetting
+    (
+        @ModuleID      int,
+        @SettingName   nvarchar(50),
+        @SettingValue  nvarchar(256)
+    )
+    AS
+
+    IF NOT EXISTS (
+        SELECT 
+            * 
+        FROM 
+            ModuleSettings 
+        WHERE 
+            ModuleID = @ModuleID
+        AND
+            SettingName = @SettingName
+    )
+    INSERT INTO ModuleSettings (
+        ModuleID,
+        SettingName,
+        SettingValue
+    ) 
+    VALUES (
+        @ModuleID,
+        @SettingName,
+        @SettingValue
+    )
+    ELSE
+    UPDATE
+        ModuleSettings
+
+    SET
+        SettingValue = @SettingValue
+
+    WHERE
+        ModuleID = @ModuleID
+      AND
+        SettingName = @SettingName
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>ModuleSettings:</i>
+        &nbsp;Each record in the ModuleSettings table contains a name/value pair that 
+        represents a setting used by a module within the portal.&nbsp; Each setting 
+        item contains a ModuleID to permit all settings to be retrieved in a single 
+        query.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/modulesettings.jpg">
+        </p>
+    </body>
+</html>

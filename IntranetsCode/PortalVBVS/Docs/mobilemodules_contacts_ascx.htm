@@ -1,0 +1,222 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Control Language="VB" Inherits="ASPNetPortal.MobilePortalModuleControl" Debug="true" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="mobile" Namespace="System.Web.UI.MobileControls" Assembly="System.Web.Mobile" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="portal" TagName="Title" Src="~/MobileModuleTitle.ascx" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="portal" Namespace="ASPNetPortal.MobileControls" Assembly="Portal" %<font color= "blue">&gt</font>
+&lt%@ Import Namespace="System.Data" %<font color= "blue">&gt</font>
+
+<font color= "green">&lt%--
+
+    The Contacts Mobile User Control renders Contacts modules in the
+    mobile portal. 
+
+    The control consists of two pieces: a summary panel that is rendered when
+    portal view shows a summarized view of all modules, and a multi-part panel 
+    that renders the module details.
+
+--%<font color= "blue">&gt</font></font>
+
+<font color= "blue">&lt</font><font color="maroon">script</font> runat="server"<font color= "blue">&gt</font>
+<font color= "blue"></font>
+<font color= "blue">    Private </font>ds As DataSet = Nothing
+<font color= "blue">    Private </font>currentIndex As Integer = 0
+<font color= "blue"></font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' Page_Load Event Handler</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' The Page_Load event handler on this User Control is used to</font>
+<font color= "blue">   </font><font color= "green"> ' obtain a DataSet of contact information from the Contacts</font>
+<font color= "blue">   </font><font color= "green"> ' database, and then databind the results to the module contents.</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    </font>Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' Obtain announcement information from Contacts table</font>
+<font color= "blue">        </font>Dim ct As New ASPNetPortal.ContactsDB()
+<font color= "blue">        </font>ds = ct.GetContacts(ModuleId)
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' DataBind User Control</font>
+<font color= "blue">        </font>DataBind()
+<font color= "blue"></font>
+<font color= "blue">    </font>End Sub
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' SummaryView_OnClick Event Handler</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' The SummaryView_OnClick event handler is called when the user</font>
+<font color= "blue">   </font><font color= "green"> ' clicks on the link in the summary view. It shows the list of</font>
+<font color= "blue">   </font><font color= "green"> ' contacts.</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    </font>Sub SummaryView_OnClick(ByVal sender As Object, ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' Switch the visible pane of the multi-panel view to show</font>
+<font color= "blue">       </font><font color= "green"> ' the list of contacts.</font>
+<font color= "blue">        </font>MainView.ActivePane = ContactsList
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' Make the parent tab switch to details mode, showing this module.</font>
+<font color= "blue">        </font>Tab.ShowDetails(Me)
+<font color= "blue"></font>
+<font color= "blue">    </font>End Sub
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' ContactsList_OnItemCommand Event Handler</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' The ContactsList_OnItemCommand event handler is called when the user</font>
+<font color= "blue">   </font><font color= "green"> ' clicks on a contact in the contact list. It shows the details of the</font>
+<font color= "blue">   </font><font color= "green"> ' contact.</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    </font>Sub ContactsList_OnItemCommand(ByVal sender As Object, ByVal e As ListCommandEventArgs)
+<font color= "blue"></font>
+<font color= "blue">        </font>currentIndex = e.ListItem.Index
+<font color= "blue">        </font>ContactDetails.DataBind()
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' Switch the visible pane of the multi-panel view to show</font>
+<font color= "blue">       </font><font color= "green"> ' contact details.</font>
+<font color= "blue">        </font>MainView.ActivePane = ContactDetails
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' rebind the details panel</font>
+<font color= "blue">        </font>ContactDetails.DataBind()
+<font color= "blue"></font>
+<font color= "blue">    </font>End Sub
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' DetailsView_OnClick Event Handler</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' The DetailsView_OnClick event handler is called when the user</font>
+<font color= "blue">   </font><font color= "green"> ' clicks on a link in the contact details view to return to the</font>
+<font color= "blue">   </font><font color= "green"> ' list of contacts.</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    </font>Sub DetailsView_OnClick(ByVal sender As Object, ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue">        </font>ContactsList.DataBind()
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' Switch the visible pane of the multi-panel view to show</font>
+<font color= "blue">       </font><font color= "green"> ' the list of contacts.</font>
+<font color= "blue">        </font>MainView.ActivePane = ContactsList
+<font color= "blue"></font>
+<font color= "blue">    </font>End Sub
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' GetPhoneNumber Method</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' The GetPhoneNumber method extracts a phone number from a contact</font>
+<font color= "blue">   </font><font color= "green"> ' entry, if possible, using a regular expression search.</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************'</font>
+<font color= "blue"></font>
+<font color= "blue">    Private </font>Function GetPhoneNumber(ByVal s As String) As String
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        If </font>Not (s Is String.Empty) Then<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">           </font><font color= "green"> ' Look for a phone number.</font>
+<font color= "blue">            </font>Dim phoneMatch As Match = Regex.Match(s, "\+?(\d\(\)\.-)+")
+<font color= "blue"></font><font color= "blue">            If </font>phoneMatch.Success Then<font color= "blue"></font>
+<font color= "blue">                </font>s = phoneMatch.ToString()
+<font color= "blue"></font><font color= "blue">            Else</font><font color= "blue"></font>
+<font color= "blue">                </font>s = String.Empty
+<font color= "blue">            </font>End If
+<font color= "blue"></font>
+<font color= "blue">        </font>End If
+<font color= "blue"></font>
+<font color= "blue">        Return</font> s
+<font color= "blue"></font>
+<font color= "blue">    </font>End Function
+<font color= "blue">     </font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' FormatChildField Method</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' The FormatChildField method returns the selected field as a string,</font>
+<font color= "blue">   </font><font color= "green"> ' if the row is not empty.  If empty, it returns String.Empty.</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    </font>Function FormatChildField (fieldName As String) As String
+<font color= "blue">    </font>
+<font color= "blue"></font><font color= "blue">        If </font>ds.Tables(0).Rows.Count > 0 Then <font color= "blue"></font>
+<font color= "blue">            return</font> ds.Tables(0).Rows(currentIndex)(fieldName).ToString()
+<font color= "blue"></font><font color= "blue">        Else</font><font color= "blue"></font>
+<font color= "blue">            return</font> String.Empty
+<font color= "blue">        </font>End If
+<font color= "blue">            </font>
+<font color= "blue">    </font>End Function            
+<font color= "blue">   </font>
+<font color= "blue">&lt/</font><font color="maroon">script</font><font color= "blue">&gt</font>
+
+<font color= "blue">&lt</font>mobile:Panel runat="server" id="summary"<font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">DeviceSpecific</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">Choice</font> Filter="isJScript"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">ContentTemplate</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color=blue>portal:Title runat="server" /</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">font</font> face="Verdana" size="-2"<font color= "blue">&gt</font>Click <font color= "blue">&lt</font><font color="maroon">a</font> runat="server" OnServerClick="SummaryView_OnClick"<font color= "blue">&gt</font>
+                        here<font color= "blue">&lt/</font><font color="maroon">a</font><font color= "blue">&gt</font> to access the directory of contacts. <font color= "blue">&lt/</font><font color="maroon">font</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">ContentTemplate</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">Choice</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">DeviceSpecific</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font>mobile:Panel<font color= "blue">&gt</font>
+
+<font color= "blue">&lt</font><font color=blue>portal:MultiPanel runat="server" id="MainView" Font-Name="Verdana" Font-Size="Small"</font><font color= "blue">&gt</font>
+
+    <font color= "blue">&lt</font><font color=blue>portal:ChildPanel id="ContactsList" runat="server"</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>portal:Title runat="server" /</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font>mobile:List runat="server" OnItemCommand="ContactsList_OnItemCommand" DataTextField="Name" DataSource="&lt%# ds %<font color= "blue">&gt</font>"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">DeviceSpecific</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">Choice</font> Filter="isJScript"<font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">HeaderTemplate</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">table</font> width="95%" border="0" cellspacing="0" cellpadding="0"<font color= "blue">&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">HeaderTemplate</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt</font><font color="maroon">font</font> face="Verdana" size="-2"<font color= "blue">&gt</font><font color= "blue">&lt</font><font color="maroon">a</font> href='&lt%# "mailto:" & DataBinder.Eval(CType(Container,MobileListItem).DataItem, "Email") %<font color= "blue">&gt</font>'<font color= "blue">&gt</font>
+                                        &lt%# DataBinder.Eval(CType(Container,MobileListItem).DataItem, "Name") %<font color= "blue">&gt</font>
+                                    <font color= "blue">&lt/</font><font color="maroon">a</font><font color= "blue">&gt</font><font color= "blue">&lt/</font><font color="maroon">font</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color="maroon">td</font> align="right"<font color= "blue">&gt</font>
+                                <font color= "blue">&lt</font><font color="maroon">font</font> face="Verdana" size="-2"<font color= "blue">&gt</font>
+                                    <font color= "blue">&lt</font><font color=blue>asp:LinkButton runat="server" Text="more" /</font><font color= "blue">&gt</font>
+                                <font color= "blue">&lt/</font><font color="maroon">font</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color="maroon">FooterTemplate</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">FooterTemplate</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">Choice</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">DeviceSpecific</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font>mobile:List<font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color=blue>portal:ChildPanel</font><font color= "blue">&gt</font>
+    
+    <font color= "blue">&lt</font><font color=blue>portal:ChildPanel id="ContactDetails" runat="server"</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>portal:Title runat="server" Text='&lt%# FormatChildField("Name") %<font color= "blue">&gt</font>' /</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">b</font><font color= "blue">&gt</font>Role: <font color= "blue">&lt/</font><font color="maroon">b</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font>mobile:Label runat="server" Text='&lt%# FormatChildField("Role") %<font color= "blue">&gt</font>' <font color= "blue">/&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">b</font><font color= "blue">&gt</font>Email: <font color= "blue">&lt/</font><font color="maroon">b</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font>mobile:Link runat="server" NavigateUrl='&lt%# "mailto:" & FormatChildField("Email") %<font color= "blue">&gt</font>' Text='&lt%# FormatChildField("Email") %<font color= "blue">&gt</font>' <font color= "blue">/&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">b</font><font color= "blue">&gt</font>Contacts: <font color= "blue">&lt/</font><font color="maroon">b</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font>mobile:PhoneCall runat="server" Visible='&lt%# Not FormatChildField("Contact1") Is String.Empty %<font color= "blue">&gt</font>' PhoneNumber='&lt%# GetPhoneNumber(FormatChildField("Contact1")) %<font color= "blue">&gt</font>' Text='&lt%# FormatChildField("Contact1") %<font color= "blue">&gt</font>' AlternateFormat="{0}" <font color= "blue">/&gt</font>
+        <font color= "blue">&lt</font>mobile:PhoneCall runat="server" Visible='&lt%# Not FormatChildField("Contact2") Is String.Empty %<font color= "blue">&gt</font>' PhoneNumber='&lt%# GetPhoneNumber(FormatChildField("Contact2")) %<font color= "blue">&gt</font>' Text='&lt%# FormatChildField("Contact2") %<font color= "blue">&gt</font>' AlternateFormat="{0}" <font color= "blue">/&gt</font>
+        <font color= "blue">&lt</font><font color=blue>portal:LinkCommand runat="server" OnClick="DetailsView_OnClick" Text="back to list" /</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color=blue>portal:ChildPanel</font><font color= "blue">&gt</font>
+    
+<font color= "blue">&lt/</font><font color=blue>portal:MultiPanel</font><font color= "blue">&gt</font>
+</pre>

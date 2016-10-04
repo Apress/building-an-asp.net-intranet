@@ -1,0 +1,235 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Imports</font> System
+<font color= "blue">Imports</font> System.Configuration
+<font color= "blue">Imports</font> System.Data
+<font color= "blue">Imports</font> System.Data.SqlClient
+<font color= "blue">Imports</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' DocumentDB Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' Class that encapsulates all data logic necessary to add/query/delete</font>
+<font color= "green">    ' documents within the Portal database.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> DocumentDB
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' GetDocuments Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The GetDocuments method returns a SqlDataReader containing all of the</font>
+<font color= "green">        ' documents for a specific portal module from the documents</font>
+<font color= "green">        ' database.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="GetDocuments.htm" style="color:green">GetDocuments Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> GetDocuments(ByVal moduleId As Integer) As SqlDataReader
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("GetDocuments", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterModuleId <font color= "blue">As </font>New SqlParameter("@ModuleId", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterModuleId.Value = moduleId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterModuleId)
+<font color= "blue"></font>
+<font color= "green">            ' Execute the command</font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            Dim </font>result <font color= "blue">As </font>SqlDataReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Return the datareader </font>
+<font color= "blue">            </font>Return <font color= "blue"></font>result
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' GetSingleDocument Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The GetSingleDocument method returns a SqlDataReader containing details</font>
+<font color= "green">        ' about a specific document from the Documents database table.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="GetSingleDocument.htm" style="color:green">GetSingleDocument Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> GetSingleDocument(ByVal itemId As Integer) As SqlDataReader
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("GetSingleDocument", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemId <font color= "blue">As </font>New SqlParameter("@ItemId", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemId.Value = itemId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemId)
+<font color= "blue"></font>
+<font color= "green">            ' Execute the command</font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            Dim </font>result <font color= "blue">As </font>SqlDataReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Return the datareader </font>
+<font color= "blue">            </font>Return <font color= "blue"></font>result
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' GetDocumentContent Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The GetDocumentContent method returns the contents of the specified</font>
+<font color= "green">        ' document from the Documents database table.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="GetDocumentContent.htm" style="color:green">GetDocumentContent</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> GetDocumentContent(ByVal itemId As Integer) As SqlDataReader
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("GetDocumentContent", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemId <font color= "blue">As </font>New SqlParameter("@ItemId", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemId.Value = itemId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemId)
+<font color= "blue"></font>
+<font color= "green">            ' Execute the command</font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            Dim </font>result <font color= "blue">As </font>SqlDataReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Return the datareader </font>
+<font color= "blue">            </font>Return <font color= "blue"></font>result
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' DeleteDocument Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The DeleteDocument method deletes the specified document from</font>
+<font color= "green">        ' the Documents database table.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="DeleteDocument.htm" style="color:green">DeleteDocument Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Sub</font> DeleteDocument(ByVal itemID As Integer)
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("DeleteDocument", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemID <font color= "blue">As </font>New SqlParameter("@ItemID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemID.Value = itemID
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemID)
+<font color= "blue"></font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            </font>myCommand.ExecuteNonQuery()
+<font color= "blue">            </font>myConnection.Close()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' UpdateDocument Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The UpdateDocument method updates the specified document within</font>
+<font color= "green">        ' the Documents database table.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="UpdateDocument.htm" style="color:green">UpdateDocument Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Sub</font> UpdateDocument(ByVal moduleId As Integer, ByVal itemId As Integer, ByVal userName As String, ByVal name As String, ByVal url As String, ByVal category As String, ByVal content() As Byte, ByVal size As Integer, ByVal contentType As String)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>userName.Length < 1 <font color= "blue">Then</font>
+<font color= "blue">                </font>userName <font color= "blue"></font>= "unknown"
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("UpdateDocument", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemID <font color= "blue">As </font>New SqlParameter("@ItemID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemID.Value = itemId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemID)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterModuleID <font color= "blue">As </font>New SqlParameter("@ModuleID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterModuleID.Value = moduleId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterModuleID)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterUserName <font color= "blue">As </font>New SqlParameter("@UserName", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterUserName.Value = userName
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterUserName)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterName <font color= "blue">As </font>New SqlParameter("@FileFriendlyName", SqlDbType.NVarChar, 150)
+<font color= "blue">            </font>parameterName.Value = name
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterName)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterFileUrl <font color= "blue">As </font>New SqlParameter("@FileNameUrl", SqlDbType.NVarChar, 250)
+<font color= "blue">            </font>parameterFileUrl.Value = url
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterFileUrl)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterCategory <font color= "blue">As </font>New SqlParameter("@Category", SqlDbType.NVarChar, 50)
+<font color= "blue">            </font>parameterCategory.Value = category
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterCategory)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterContent <font color= "blue">As </font>New SqlParameter("@Content", SqlDbType.Image)
+<font color= "blue">            </font>parameterContent.Value = content
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterContent)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterContentType <font color= "blue">As </font>New SqlParameter("@ContentType", SqlDbType.NVarChar, 50)
+<font color= "blue">            </font>parameterContentType.Value = contentType
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterContentType)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterContentSize <font color= "blue">As </font>New SqlParameter("@ContentSize", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterContentSize.Value = size
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterContentSize)
+<font color= "blue"></font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            </font>myCommand.ExecuteNonQuery()
+<font color= "blue">            </font>myConnection.Close()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

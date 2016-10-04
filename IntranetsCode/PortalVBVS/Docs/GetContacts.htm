@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetContacts" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure returns all of the contacts for a specific Contact module 
+            within the portal. The input parameters is the ModuleID.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE GetContacts
+    (
+        @ModuleID int
+    )
+    AS
+
+    SELECT
+        ItemID,
+        CreatedDate,
+        CreatedByUser,
+        Name,
+        Role,
+        Email,
+        Contact1,
+        Contact2
+
+    FROM
+        Contacts
+
+    WHERE
+        ModuleID = @ModuleID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Contacts:</i>
+        &nbsp;Each record in the Contacts table is a single item, as displayed by the 
+        Contacts Portal Module. Since all Contacts modules store their record in this 
+        table, each item contains a ModuleID to permit related items to be retrieved in 
+        a single query.
+        <p>
+        The primary key in this table is the ItemID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/contacts.jpg">
+    </body>
+</html>

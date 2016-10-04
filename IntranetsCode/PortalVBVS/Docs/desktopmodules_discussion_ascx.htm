@@ -1,0 +1,33 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Control language="vb" Inherits="ASPNetPortal.Discussion" CodeBehind="Discussion.ascx.vb" AutoEventWireup="false" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="Portal" TagName="Title" Src="~/DesktopModuleTitle.ascx"%<font color= "blue">&gt</font>
+
+
+<font color= "blue">&lt</font><font color=blue>portal:title id=Title1 runat="server" EditTarget="_new" EditUrl="~/DesktopModules/DiscussDetails.aspx" EditText="Add New Thread"</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font><font color=blue>portal:title</font><font color= "blue">&gt</font>
+<font color= "green">&lt%-- discussion list --%<font color= "blue">&gt</font></font>
+<font color= "blue">&lt</font><font color=blue>asp:DataList id="TopLevelList" width="98%" ItemStyle-Cssclass="Normal" DataKeyField="Parent" runat="server"</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>asp:ImageButton id="btnSelect" ImageUrl='&lt%# NodeImage(Cint(DataBinder.Eval(Container.DataItem, "ChildCount"))) %<font color= "blue">&gt</font>' CommandName="select" runat="server" /</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>asp:hyperlink Text='&lt%# DataBinder.Eval(Container.DataItem, "Title") %<font color= "blue">&gt</font>' NavigateUrl='&lt%# FormatUrl(CInt(DataBinder.Eval(Container.DataItem, "ItemID"))) %<font color= "blue">&gt</font>' Target="_new" runat="server" /</font><font color= "blue">&gt</font>, from
+        &lt%# DataBinder.Eval(Container.DataItem,"CreatedByUser") %<font color= "blue">&gt</font>, posted
+        &lt%# DataBinder.Eval(Container.DataItem,"CreatedDate", "{0:g}") %<font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">SelectedItemTemplate</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>asp:ImageButton id="btnCollapse" ImageUrl="~/images/minus.gif" runat="server" CommandName="collapse" /</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>asp:hyperlink Text='&lt%# DataBinder.Eval(Container.DataItem, "Title") %<font color= "blue">&gt</font>' NavigateUrl='&lt%# FormatUrl(CInt(DataBinder.Eval(Container.DataItem, "ItemID"))) %<font color= "blue">&gt</font>' Target="_new" runat="server" /</font><font color= "blue">&gt</font>, from
+        &lt%# DataBinder.Eval(Container.DataItem,"CreatedByUser") %<font color= "blue">&gt</font>, posted
+        &lt%# DataBinder.Eval(Container.DataItem,"CreatedDate", "{0:g}") %<font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>asp:DataList id="DetailList" ItemStyle-Cssclass="Normal" datasource="&lt%# GetThreadMessages() %<font color= "blue">&gt</font>" runat="server"</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+                &lt%# DataBinder.Eval(Container.DataItem, "Indent") %<font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">img</font> src="&lt%=Request.ApplicationPath%<font color= "blue">&gt</font>/images/1x1.gif" height="15"<font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color=blue>asp:hyperlink Text='&lt%# DataBinder.Eval(Container.DataItem, "Title") %<font color= "blue">&gt</font>' NavigateUrl='&lt%# FormatUrl(CInt(DataBinder.Eval(Container.DataItem, "ItemID"))) %<font color= "blue">&gt</font>' Target="_new" runat="server" /</font><font color= "blue">&gt</font>, from
+                &lt%# DataBinder.Eval(Container.DataItem,"CreatedByUser") %<font color= "blue">&gt</font>, posted
+                &lt%# DataBinder.Eval(Container.DataItem,"CreatedDate", "{0:g}") %<font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color=blue>asp:DataList</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">SelectedItemTemplate</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font><font color=blue>asp:DataList</font><font color= "blue">&gt</font>
+
+</pre>

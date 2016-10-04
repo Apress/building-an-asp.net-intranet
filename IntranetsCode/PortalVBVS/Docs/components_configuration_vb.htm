@@ -1,0 +1,287 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Imports</font> System
+<font color= "blue">Imports</font> System.Configuration
+<font color= "blue">Imports</font> System.Web
+<font color= "blue">Imports</font> System.Data
+<font color= "blue">Imports</font> System.Data.SqlClient
+<font color= "blue">Imports</font> System.Collections
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' TabStripDetails Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' Class that encapsulates the just the tabstrip details -- TabName, TabId and TabOrder </font>
+<font color= "green">    ' -- for a specific Tab in the Portal</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> TabStripDetails
+<font color= "blue"></font>
+<font color= "blue">        Public </font>TabId <font color= "blue">As </font>Integer
+<font color= "blue">        Public </font>TabName <font color= "blue">As </font>String
+<font color= "blue">        Public </font>TabOrder <font color= "blue">As </font>Integer
+<font color= "blue">        Public </font>AuthorizedRoles <font color= "blue">As </font>String
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' TabSettings Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' Class that encapsulates the detailed settings for a specific Tab </font>
+<font color= "green">    ' in the Portal</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> TabSettings
+<font color= "blue"></font>
+<font color= "blue">        Public </font>TabIndex <font color= "blue">As </font>Integer
+<font color= "blue">        Public </font>TabId <font color= "blue">As </font>Integer
+<font color= "blue">        Public </font>TabName <font color= "blue">As </font>String
+<font color= "blue">        Public </font>TabOrder <font color= "blue">As </font>Integer
+<font color= "blue">        Public </font>MobileTabName <font color= "blue">As </font>String
+<font color= "blue">        Public </font>AuthorizedRoles <font color= "blue">As </font>String
+<font color= "blue">        Public </font>ShowMobile <font color= "blue">As </font>Boolean
+<font color= "blue">        Public </font>Modules <font color= "blue">As </font>New ArrayList()
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' ModuleSettings Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' Class that encapsulates the detailed settings for a specific Tab </font>
+<font color= "green">    ' in the Portal</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> ModuleSettings
+<font color= "blue"></font>
+<font color= "blue">        Public </font>ModuleId <font color= "blue">As </font>Integer
+<font color= "blue">        Public </font>ModuleDefId <font color= "blue">As </font>Integer
+<font color= "blue">        Public </font>TabId <font color= "blue">As </font>Integer
+<font color= "blue">        Public </font>CacheTime <font color= "blue">As </font>Integer
+<font color= "blue">        Public </font>ModuleOrder <font color= "blue">As </font>Integer
+<font color= "blue">        Public </font>PaneName <font color= "blue">As </font>String
+<font color= "blue">        Public </font>ModuleTitle <font color= "blue">As </font>String
+<font color= "blue">        Public </font>AuthorizedEditRoles <font color= "blue">As </font>String
+<font color= "blue">        Public </font>ShowMobile <font color= "blue">As </font>Boolean
+<font color= "blue">        Public </font>DesktopSrc <font color= "blue">As </font>String
+<font color= "blue">        Public </font>MobileSrc <font color= "blue">As </font>String
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' PortalSettings Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' This class encapsulates all of the settings for the Portal, as well</font>
+<font color= "green">    ' as the configuration settings required to execute the current tab</font>
+<font color= "green">    ' view within the portal.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> PortalSettings
+<font color= "blue"></font>
+<font color= "blue">        Public </font>PortalId <font color= "blue">As </font>Integer
+<font color= "blue">        Public </font>PortalName <font color= "blue">As </font>String
+<font color= "blue">        Public </font>AlwaysShowEditButton <font color= "blue">As </font>Boolean
+<font color= "blue">        Public </font>DesktopTabs <font color= "blue">As </font>New ArrayList()
+<font color= "blue">        Public </font>MobileTabs <font color= "blue">As </font>New ArrayList()
+<font color= "blue">        Public </font>ActiveTab <font color= "blue">As </font>New TabSettings()
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PortalSettings Constructor</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The PortalSettings Constructor encapsulates all of the logic</font>
+<font color= "green">        ' necessary to obtain configuration settings necessary to render</font>
+<font color= "green">        ' a Portal Tab view for a given request.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' These Portal Settings are stored within a SQL database, and are</font>
+<font color= "green">        ' fetched below by calling the "GetPortalSettings" stored procedure.</font>
+<font color= "green">        ' This stored procedure returns values as SPROC output parameters,</font>
+<font color= "green">        ' and using three result sets.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Sub</font> New(ByVal tabIndex As Integer, ByVal tabId As Integer)
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("GetPortalSettings", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterPortalAlias <font color= "blue">As </font>New SqlParameter("@PortalAlias", SqlDbType.NVarChar, 50)
+<font color= "blue">            </font>parameterPortalAlias.Value = "p_default"
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterPortalAlias)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterTabId <font color= "blue">As </font>New SqlParameter("@TabId", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterTabId.Value = tabId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterTabId)
+<font color= "blue"></font>
+<font color= "green">            ' Add out parameters to Sproc</font>
+<font color= "blue">            Dim </font>parameterPortalID <font color= "blue">As </font>New SqlParameter("@PortalID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterPortalID.Direction = ParameterDirection.Output
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterPortalID)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterPortalName <font color= "blue">As </font>New SqlParameter("@PortalName", SqlDbType.NVarChar, 128)
+<font color= "blue">            </font>parameterPortalName.Direction = ParameterDirection.Output
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterPortalName)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterEditButton <font color= "blue">As </font>New SqlParameter("@AlwaysShowEditButton", SqlDbType.Bit, 1)
+<font color= "blue">            </font>parameterEditButton.Direction = ParameterDirection.Output
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterEditButton)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterTabName <font color= "blue">As </font>New SqlParameter("@TabName", SqlDbType.NVarChar, 50)
+<font color= "blue">            </font>parameterTabName.Direction = ParameterDirection.Output
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterTabName)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterTabOrder <font color= "blue">As </font>New SqlParameter("@TabOrder", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterTabOrder.Direction = ParameterDirection.Output
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterTabOrder)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterMobileTabName <font color= "blue">As </font>New SqlParameter("@MobileTabName", SqlDbType.NVarChar, 50)
+<font color= "blue">            </font>parameterMobileTabName.Direction = ParameterDirection.Output
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterMobileTabName)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterAuthRoles <font color= "blue">As </font>New SqlParameter("@AuthRoles", SqlDbType.NVarChar, 256)
+<font color= "blue">            </font>parameterAuthRoles.Direction = ParameterDirection.Output
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterAuthRoles)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterShowMobile <font color= "blue">As </font>New SqlParameter("@ShowMobile", SqlDbType.Bit, 1)
+<font color= "blue">            </font>parameterShowMobile.Direction = ParameterDirection.Output
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterShowMobile)
+<font color= "blue"></font>
+<font color= "green">            ' Open the database connection and execute the command</font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            Dim </font>result <font color= "blue">As </font>SqlDataReader = myCommand.ExecuteReader()
+<font color= "blue"></font>
+<font color= "green">            ' Read the first resultset -- Desktop Tab Information</font>
+<font color= "blue">            While</font> result.Read()
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>tabDetails <font color= "blue">As </font>New TabStripDetails()
+<font color= "blue">                </font>tabDetails.TabId = CInt(result("TabId"))
+<font color= "blue">                </font>tabDetails.TabName = CStr(result("TabName"))
+<font color= "blue">                </font>tabDetails.TabOrder = CInt(result("TabOrder"))
+<font color= "blue">                </font>tabDetails.AuthorizedRoles = CStr(result("AuthorizedRoles"))
+<font color= "blue"></font>
+<font color= "blue">                </font>Me.DesktopTabs.Add(tabDetails)
+<font color= "blue"></font>
+<font color= "blue">            </font>End <font color= "blue"></font>While
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Me.ActiveTab.TabId = 0 <font color= "blue">Then</font>
+<font color= "blue">                </font>Me.ActiveTab.TabId = CType(Me.DesktopTabs(0), TabStripDetails).TabId
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Read the second result --  Mobile Tab Information</font>
+<font color= "blue">            </font>result.NextResult()
+<font color= "blue"></font>
+<font color= "blue">            While</font> result.Read()
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>tabDetails <font color= "blue">As </font>New TabStripDetails()
+<font color= "blue">                </font>tabDetails.TabId = CInt(result("TabId"))
+<font color= "blue">                </font>tabDetails.TabName = CStr(result("MobileTabName"))
+<font color= "blue">                </font>tabDetails.AuthorizedRoles = CStr(result("AuthorizedRoles"))
+<font color= "blue"></font>
+<font color= "blue">                </font>Me.MobileTabs.Add(tabDetails)
+<font color= "blue"></font>
+<font color= "blue">            </font>End <font color= "blue"></font>While
+<font color= "blue"></font>
+<font color= "green">            ' Read the third result --  Module Tab Information</font>
+<font color= "blue">            </font>result.NextResult()
+<font color= "blue"></font>
+<font color= "blue">            While</font> result.Read()
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>m <font color= "blue">As </font>New ModuleSettings()
+<font color= "blue">                </font>m.ModuleId = CInt(result("ModuleID"))
+<font color= "blue">                </font>m.ModuleDefId = CInt(result("ModuleDefID"))
+<font color= "blue">                </font>m.TabId = CInt(result("TabID"))
+<font color= "blue">                </font>m.PaneName = CStr(result("PaneName"))
+<font color= "blue">                </font>m.ModuleTitle = CStr(result("ModuleTitle"))
+<font color= "blue">                </font>m.AuthorizedEditRoles = CStr(result("AuthorizedEditRoles"))
+<font color= "blue">                </font>m.CacheTime = CInt(result("CacheTime"))
+<font color= "blue">                </font>m.ModuleOrder = CInt(result("ModuleOrder"))
+<font color= "blue">                </font>m.ShowMobile = CBool(result("ShowMobile"))
+<font color= "blue">                </font>m.DesktopSrc = CStr(result("DesktopSrc"))
+<font color= "blue">                </font>m.MobileSrc = CStr(result("MobileSrc"))
+<font color= "blue"></font>
+<font color= "blue">                </font>Me.ActiveTab.Modules.Add(m)
+<font color= "blue"></font>
+<font color= "blue">            </font>End <font color= "blue"></font>While
+<font color= "blue"></font>
+<font color= "green">            ' Now read Portal out params </font>
+<font color= "blue">            </font>result.NextResult()
+<font color= "blue"></font>
+<font color= "blue">            </font>Me.PortalId = CInt(parameterPortalID.Value)
+<font color= "blue">            </font>Me.PortalName = CStr(parameterPortalName.Value)
+<font color= "blue">            </font>Me.AlwaysShowEditButton = CBool(parameterEditButton.Value)
+<font color= "blue">            </font>Me.ActiveTab.TabIndex = tabIndex
+<font color= "blue">            </font>Me.ActiveTab.TabId = tabId
+<font color= "blue">            </font>Me.ActiveTab.TabOrder = CInt(parameterTabOrder.Value)
+<font color= "blue">            </font>Me.ActiveTab.MobileTabName = CStr(parameterMobileTabName.Value)
+<font color= "blue">            </font>Me.ActiveTab.AuthorizedRoles = CStr(parameterAuthRoles.Value)
+<font color= "blue">            </font>Me.ActiveTab.TabName = CStr(parameterTabName.Value)
+<font color= "blue">            </font>Me.ActiveTab.ShowMobile = CBool(parameterShowMobile.Value)
+<font color= "blue"></font>
+<font color= "blue">            </font>myConnection.Close()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' GetModuleSettings Static Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The PortalSettings.GetModuleSettings Method returns a hashtable of</font>
+<font color= "green">        ' custom module specific settings from the database.  This method is</font>
+<font color= "green">        ' used by some user control modules (Xml, Image, etc) to access misc</font>
+<font color= "green">        ' settings.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Shared Function</font> GetModuleSettings(ByVal moduleId As Integer) As Hashtable
+<font color= "blue"></font>
+<font color= "green">            ' Get Settings for this module from the database</font>
+<font color= "blue">            Dim </font>_settings <font color= "blue">As </font>New Hashtable()
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("GetModuleSettings", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterModuleId <font color= "blue">As </font>New SqlParameter("@ModuleID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterModuleId.Value = moduleId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterModuleId)
+<font color= "blue"></font>
+<font color= "green">            ' Execute the command</font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            Dim </font>dr <font color= "blue">As </font>SqlDataReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+<font color= "blue"></font>
+<font color= "blue">            While</font> dr.Read()
+<font color= "blue"></font>
+<font color= "blue">                </font>_settings(dr.GetString(0)) = dr.GetString(1)
+<font color= "blue">            </font>End <font color= "blue"></font>While
+<font color= "blue"></font>
+<font color= "blue">            </font>dr.Close()
+<font color= "blue"></font>
+<font color= "blue">            </font>Return <font color= "blue"></font>_settings
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

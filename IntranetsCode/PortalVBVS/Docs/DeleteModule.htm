@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "DeleteModule" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure deletes the selected module instance from a portal tab, 
+            and from the database. The input parameter is ModuleID, the primary key for the 
+            record.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE DeleteModule
+    (
+        @ModuleID       int
+    )
+    AS
+
+    DELETE FROM 
+        Modules 
+    WHERE 
+        ModuleID = @ModuleID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Modules:</i>
+        &nbsp;Each record in the Modules table represents a single module instance on a 
+        specific tab in the selected portal. The definition for the module type is 
+        pulled via the ModuleDefID field from the ModuleDefinitions table. The data for 
+        the module is stored in a database table for the selected module type, and 
+        indexed by ModuleID.
+        <p>
+        The primary key in this table is the ModuleID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/modules.jpg">
+    </body>
+</html>

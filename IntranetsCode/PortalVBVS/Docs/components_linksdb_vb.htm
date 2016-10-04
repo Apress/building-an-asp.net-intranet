@@ -1,0 +1,258 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Imports</font> System
+<font color= "blue">Imports</font> System.Configuration
+<font color= "blue">Imports</font> System.Data
+<font color= "blue">Imports</font> System.Data.SqlClient
+<font color= "blue">Imports</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue">   </font>
+<font color= "green">   '*********************************************************************</font>
+<font color= "green">   '</font>
+<font color= "green">   ' LinkDB Class</font>
+<font color= "green">   '</font>
+<font color= "green">   ' Class that encapsulates all data logic necessary to add/query/delete</font>
+<font color= "green">   ' links within the Portal database.</font>
+<font color= "green">   '</font>
+<font color= "green">   '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> LinkDB
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' GetLinks Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The GetLinks method returns a SqlDataReader containing all of the</font>
+<font color= "green">        ' links for a specific portal module from the announcements</font>
+<font color= "green">        ' database.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="GetLinks.htm" style="color:green">GetLinks Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> GetLinks(ByVal moduleId As Integer) As SqlDataReader
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("GetLinks", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterModuleId <font color= "blue">As </font>New SqlParameter("@ModuleId", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterModuleId.Value = moduleId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterModuleId)
+<font color= "blue"></font>
+<font color= "green">            ' Execute the command</font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            Dim </font>result <font color= "blue">As </font>SqlDataReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Return the datareader </font>
+<font color= "blue">            </font>Return <font color= "blue"></font>result
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' GetSingleLink Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The GetSingleLink method returns a SqlDataReader containing details</font>
+<font color= "green">        ' about a specific link from the Links database table.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="GetSingleLink.htm" style="color:green">GetSingleLink Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> GetSingleLink(ByVal itemId As Integer) As SqlDataReader
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("GetSingleLink", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemId <font color= "blue">As </font>New SqlParameter("@ItemId", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemId.Value = itemId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemId)
+<font color= "blue"></font>
+<font color= "green">            ' Execute the command</font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            Dim </font>result <font color= "blue">As </font>SqlDataReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Return the datareader </font>
+<font color= "blue">            </font>Return <font color= "blue"></font>result
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' DeleteLink Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The DeleteLink method deletes a specified link from</font>
+<font color= "green">        ' the Links database table.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="DeleteLink.htm" style="color:green">DeleteLink Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Sub</font> DeleteLink(ByVal itemID As Integer)
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("DeleteLink", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemID <font color= "blue">As </font>New SqlParameter("@ItemID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemID.Value = itemID
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemID)
+<font color= "blue"></font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            </font>myCommand.ExecuteNonQuery()
+<font color= "blue">            </font>myConnection.Close()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' AddLink Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The AddLink method adds a new link within the</font>
+<font color= "green">        ' links database table, and returns ItemID value as a result.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="AddLink.htm" style="color:green">AddLink Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> AddLink(ByVal moduleId As Integer, ByVal itemId As Integer, ByVal userName As String, ByVal title As String, ByVal url As String, ByVal mobileUrl As String, ByVal viewOrder As Integer, ByVal description As String) As Integer
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>userName.Length < 1 <font color= "blue">Then</font>
+<font color= "blue">                </font>userName <font color= "blue"></font>= "unknown"
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("AddLink", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemID <font color= "blue">As </font>New SqlParameter("@ItemID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemID.Direction = ParameterDirection.Output
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemID)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterModuleID <font color= "blue">As </font>New SqlParameter("@ModuleID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterModuleID.Value = moduleId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterModuleID)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterUserName <font color= "blue">As </font>New SqlParameter("@UserName", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterUserName.Value = userName
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterUserName)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterTitle <font color= "blue">As </font>New SqlParameter("@Title", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterTitle.Value = title
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterTitle)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterDescription <font color= "blue">As </font>New SqlParameter("@Description", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterDescription.Value = description
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterDescription)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterUrl <font color= "blue">As </font>New SqlParameter("@Url", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterUrl.Value = url
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterUrl)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterMobileUrl <font color= "blue">As </font>New SqlParameter("@MobileUrl", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterMobileUrl.Value = mobileUrl
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterMobileUrl)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterViewOrder <font color= "blue">As </font>New SqlParameter("@ViewOrder", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterViewOrder.Value = viewOrder
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterViewOrder)
+<font color= "blue"></font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            </font>myCommand.ExecuteNonQuery()
+<font color= "blue">            </font>myConnection.Close()
+<font color= "blue"></font>
+<font color= "blue">            </font>Return <font color= "blue"></font>CInt(parameterItemID.Value)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' UpdateLink Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The UpdateLink method updates a specified link within</font>
+<font color= "green">        ' the Links database table.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="UpdateLink.htm" style="color:green">UpdateLink Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Sub</font> UpdateLink(ByVal moduleId As Integer, ByVal itemId As Integer, ByVal userName As String, ByVal title As String, ByVal url As String, ByVal mobileUrl As String, ByVal viewOrder As Integer, ByVal description As String)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>userName.Length < 1 <font color= "blue">Then</font>
+<font color= "blue">                </font>userName <font color= "blue"></font>= "unknown"
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("UpdateLink", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemID <font color= "blue">As </font>New SqlParameter("@ItemID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemID.Value = itemId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemID)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterUserName <font color= "blue">As </font>New SqlParameter("@UserName", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterUserName.Value = userName
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterUserName)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterTitle <font color= "blue">As </font>New SqlParameter("@Title", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterTitle.Value = title
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterTitle)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterDescription <font color= "blue">As </font>New SqlParameter("@Description", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterDescription.Value = description
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterDescription)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterUrl <font color= "blue">As </font>New SqlParameter("@Url", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterUrl.Value = url
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterUrl)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterMobileUrl <font color= "blue">As </font>New SqlParameter("@MobileUrl", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterMobileUrl.Value = mobileUrl
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterMobileUrl)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterViewOrder <font color= "blue">As </font>New SqlParameter("@ViewOrder", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterViewOrder.Value = viewOrder
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterViewOrder)
+<font color= "blue"></font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            </font>myCommand.ExecuteNonQuery()
+<font color= "blue">            </font>myConnection.Close()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

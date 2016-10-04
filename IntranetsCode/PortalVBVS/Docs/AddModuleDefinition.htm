@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "AddModuleDefinition" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure adds a new module type definition to the database. This 
+            definition can then be used to add the module to tabs within the portal. The 
+            input parameters include the module type's FriendlyName, the path for the 
+            desktop module (DesktopSrc), and the path for the mobile module (if any). The 
+            output parameter is the ModuleDefId of the new database record.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE AddModuleDefinition
+    (
+	    @PortalID     int,
+	    @FriendlyName nvarchar(128),
+	    @DesktopSrc   nvarchar(256),
+	    @MobileSrc    nvarchar(256),
+	    @ModuleDefID  int OUTPUT
+    )
+    AS
+
+    INSERT INTO ModuleDefinitions
+    (
+        PortalID,
+        FriendlyName,
+        DesktopSrc,
+        MobileSrc
+    )
+
+    VALUES
+    (
+        @PortalID,
+        @FriendlyName,
+        @DesktopSrc,
+        @MobileSrc
+    )
+
+    SELECT
+        @ModuleDefID = @@Identity
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>ModuleDefinitions:</i>
+        &nbsp;Each record in the ModuleDefinitions table defines a different type of 
+        modules that may be used in the selected portal. Individual modules reference 
+        this definition via the ModuleDefID, the primary key for this table. All 
+        modules must define a Desktop module version; optionally they may also define a 
+        Mobile version.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/moduledefinitions.jpg">
+        </p>
+    </body>
+</html>

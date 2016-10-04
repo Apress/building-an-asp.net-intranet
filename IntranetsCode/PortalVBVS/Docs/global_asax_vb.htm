@@ -1,0 +1,135 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Imports</font> System.Security
+<font color= "blue">Imports</font> System.Security.Principal
+<font color= "blue">Imports</font> System.Web.Security
+<font color= "blue"></font>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">   Public Class</font> Global
+<font color= "blue">      Inherits</font> System.Web.HttpApplication
+<font color= "blue">      </font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Application_BeginRequest Event</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Application_BeginRequest method is an ASP.NET event that executes </font>
+<font color= "green">        ' on each web request into the portal application.  The below method</font>
+<font color= "green">        ' obtains the current tabIndex and TabId from the querystring of the </font>
+<font color= "green">        ' request -- and then obtains the configuration necessary to process</font>
+<font color= "green">        ' and render the request.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' This portal configuration is stored within the application's "Context"</font>
+<font color= "green">        ' object -- which is available to all pages, controls and components</font>
+<font color= "green">        ' during the processing of a single request.</font>
+<font color= "green">        ' </font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Sub</font> Application_BeginRequest(ByVal sender As Object, ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>tabIndex <font color= "blue">As </font>Integer = 0
+<font color= "blue">            Dim </font>tabId <font color= "blue">As </font>Integer = 0
+<font color= "blue"></font>
+<font color= "green">            ' Get TabIndex from querystring</font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (Request.Params("tabindex") Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                </font>tabIndex <font color= "blue"></font>= CInt(Request.Params("tabindex"))
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Get TabID from querystring</font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (Request.Params("tabid") Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                </font>tabId <font color= "blue"></font>= CInt(Request.Params("tabid"))
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            </font>Context.Items.Add("PortalSettings", New PortalSettings(tabIndex, tabId))
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Application_AuthenticateRequest Event</font>
+<font color= "green">        '</font>
+<font color= "green">        ' If the client is authenticated with the application, then determine</font>
+<font color= "green">        ' which security roles he/she belongs to and replace the "User" intrinsic</font>
+<font color= "green">        ' with a custom IPrincipal security object that permits "User.IsInRole"</font>
+<font color= "green">        ' role checks within the application</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Roles are cached in the browser in an in-memory encrypted cookie.  If the</font>
+<font color= "green">        ' cookie doesn't exist yet for this session, create it.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Sub</font> Application_AuthenticateRequest(ByVal sender As Object, ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Request.IsAuthenticated = True <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                </font>Dim <font color= "blue"></font>roles() As String
+<font color= "blue"></font>
+<font color= "green">                ' Create the roles cookie if it doesn't exist yet for this session.</font>
+<font color= "blue"></font><font color= "blue">                If </font>Request.Cookies("portalroles") Is Nothing <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                    ' Get roles from UserRoles table, and add to cookie</font>
+<font color= "blue">                    Dim </font>_user <font color= "blue">As </font>New UsersDB()
+<font color= "blue">                    </font>roles <font color= "blue"></font>= _user.GetRoles(User.Identity.Name)
+<font color= "blue"></font>
+<font color= "green">                    ' Create a string to persist the roles</font>
+<font color= "blue">                    Dim </font>roleStr <font color= "blue">As </font>String = ""
+<font color= "blue">                    Dim </font>role <font color= "blue">As </font>String
+<font color= "blue"></font>
+<font color= "blue">                    For Each</font> role In roles
+<font color= "blue"></font>
+<font color= "blue">                        </font>roleStr <font color= "blue"></font>+= role
+<font color= "blue">                        </font>roleStr <font color= "blue"></font>+= ";"
+<font color= "blue"></font>
+<font color= "blue">                    Next</font> role
+<font color= "blue"></font>
+<font color= "green">                    ' Create a cookie authentication ticket.</font>
+<font color= "green">                    '   version</font>
+<font color= "green">                    '   user name</font>
+<font color= "green">                    '   issue time</font>
+<font color= "green">                    '   expires every hour</font>
+<font color= "green">                    '   don't persist cookie</font>
+<font color= "green">                    '   roles</font>
+<font color= "blue">                    Dim </font>ticket <font color= "blue">As </font>New FormsAuthenticationTicket(1, _
+<font color= "blue">                        </font>Context.User.Identity.Name, _
+<font color= "blue">                        </font>DateTime.Now, _
+<font color= "blue">                        </font>DateTime.Now.AddHours(1), _
+<font color= "blue">                        </font>False, _
+<font color= "blue">                        </font>roleStr)
+<font color= "blue"></font>
+<font color= "green">                    ' Encrypt the ticket</font>
+<font color= "blue">                    Dim </font>cookieStr <font color= "blue">As </font>String = FormsAuthentication.Encrypt(ticket)
+<font color= "blue"></font>
+<font color= "green">                    ' Send the cookie to the client</font>
+<font color= "blue">                    </font>Response.Cookies("portalroles").Value = cookieStr
+<font color= "blue">                    </font>Response.Cookies("portalroles").Path = "/"
+<font color= "blue">                    </font>Response.Cookies("portalroles").Expires = DateTime.Now.AddMinutes(1)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">                    ' Get roles from roles cookie</font>
+<font color= "blue">                    Dim </font>ticket <font color= "blue">As </font>FormsAuthenticationTicket = FormsAuthentication.Decrypt(Context.Request.Cookies("portalroles").Value)
+<font color= "blue"></font>
+<font color= "green">                    'convert the string representation of the role data into a string array</font>
+<font color= "blue">                    Dim </font>userRoles <font color= "blue">As </font>New ArrayList()
+<font color= "blue"></font>
+<font color= "blue">                    Dim </font>role <font color= "blue">As </font>String
+<font color= "blue"></font>
+<font color= "blue">                    For Each</font> role In ticket.UserData.Split(New Char() {";"c})
+<font color= "blue">                        </font>userRoles.Add(role)
+<font color= "blue">                    Next</font> role
+<font color= "blue"></font>
+<font color= "blue">                    </font>roles <font color= "blue"></font>= CType(userRoles.ToArray(GetType(String)), String())
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">                ' Add our own custom principal to the request containing the roles in the auth ticket</font>
+<font color= "blue">                </font>Context.User = New GenericPrincipal(Context.User.Identity, roles)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace </font><font color= "blue"></font>
+</pre>

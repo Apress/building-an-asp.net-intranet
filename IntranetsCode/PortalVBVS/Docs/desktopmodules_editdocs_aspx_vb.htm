@@ -1,0 +1,197 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Imports</font> System.IO
+<font color= "blue"></font>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> EditDocs
+<font color= "blue">        Inherits</font> System.Web.UI.Page
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>NameField As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>RequiredFieldValidator1 As System.Web.UI.WebControls.RequiredFieldValidator
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>CategoryField As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>PathField As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>Upload As System.Web.UI.WebControls.CheckBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>updateButton As System.Web.UI.WebControls.LinkButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>cancelButton As System.Web.UI.WebControls.LinkButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>deleteButton As System.Web.UI.WebControls.LinkButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>CreatedBy As System.Web.UI.WebControls.Label
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>CreatedDate As System.Web.UI.WebControls.Label
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>FileUpload As System.Web.UI.HtmlControls.HtmlInputFile
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>storeInDatabase As System.Web.UI.WebControls.CheckBox
+<font color= "blue"></font>
+<font color= "blue">        Private </font>itemId <font color= "blue">As </font>Integer = 0
+<font color= "blue">        Private </font>moduleId <font color= "blue">As </font>Integer = 0
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "green">        '****************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Load event on this Page is used to obtain the ModuleId</font>
+<font color= "green">        ' and ItemId of the document to edit.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' It then uses the ASPNetPortal.DocumentDB() data component</font>
+<font color= "green">        ' to populate the page's edit controls with the document details.</font>
+<font color= "green">        '</font>
+<font color= "green">        '****************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+<font color= "blue"></font>
+<font color= "green">            ' Determine ModuleId of Announcements Portal Module</font>
+<font color= "blue">            </font>moduleId <font color= "blue"></font>= Int32.Parse(Request.Params("Mid"))
+<font color= "blue"></font>
+<font color= "green">            ' Verify that the current user has access to edit this module</font>
+<font color= "blue"></font><font color= "blue">            If </font>PortalSecurity.HasEditPermissions(moduleId) = False <font color= "blue">Then</font>
+<font color= "blue">                </font>Response.Redirect("~/Admin/EditAccessDenied.aspx")
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Determine ItemId of Document to Update</font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (Request.Params("ItemId") Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                </font>itemId <font color= "blue"></font>= Int32.Parse(Request.Params("ItemId"))
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' If the page is being requested the first time, determine if an</font>
+<font color= "green">            ' document itemId value is specified, and if so populate page</font>
+<font color= "green">            ' contents with the document details</font>
+<font color= "blue"></font><font color= "blue">            If </font>Page.IsPostBack = False <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>itemId <> 0 <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                    ' Obtain a single row of document information</font>
+<font color= "blue">                    Dim </font>documents <font color= "blue">As </font>New ASPNetPortal.DocumentDB()
+<font color= "blue">                    Dim </font>dr <font color= "blue">As </font>SqlDataReader = documents.GetSingleDocument(itemId)
+<font color= "blue"></font>
+<font color= "green">                    ' Load first row into Datareader</font>
+<font color= "blue">                    </font>dr.Read()
+<font color= "blue"></font>
+<font color= "blue">                    </font>NameField.Text = CStr(dr("FileFriendlyName"))
+<font color= "blue">                    </font>PathField.Text = CStr(dr("FileNameUrl"))
+<font color= "blue">                    </font>CategoryField.Text = CStr(dr("Category"))
+<font color= "blue">                    </font>CreatedBy.Text = CStr(dr("CreatedByUser"))
+<font color= "blue">                    </font>CreatedDate.Text = CType(dr("CreatedDate"), DateTime).ToShortDateString()
+<font color= "blue"></font>
+<font color= "blue">                    </font>dr.Close()
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">                ' Store URL Referrer to return to portal</font>
+<font color= "blue">                </font>ViewState("UrlReferrer") = Request.UrlReferrer.ToString()
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '****************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The UpdateBtn_Click event handler on this Page is used to either</font>
+<font color= "green">        ' create or update an document.  It  uses the ASPNetPortal.DocumentDB()</font>
+<font color= "green">        ' data component to encapsulate all data functionality.</font>
+<font color= "green">        '</font>
+<font color= "green">        '****************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> UpdateBtn_Click(ByVal sender As Object, ByVal e As EventArgs) Handles updateButton.Click
+<font color= "blue"></font>
+<font color= "green">            ' Only Update if Input Data is Valid</font>
+<font color= "blue"></font><font color= "blue">            If </font>Page.IsValid = True <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                ' Create an instance of the Document DB component</font>
+<font color= "blue">                Dim </font>documents <font color= "blue">As </font>New ASPNetPortal.DocumentDB()
+<font color= "blue"></font>
+<font color= "green">                ' Determine whether a file was uploaded</font>
+<font color= "blue"></font><font color= "blue">                If </font>storeInDatabase.Checked = True And Not (FileUpload.PostedFile Is Nothing) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                    ' for web farm support</font>
+<font color= "blue">                    Dim </font>length <font color= "blue">As </font>Integer = CInt(FileUpload.PostedFile.InputStream.Length)
+<font color= "blue">                    Dim </font>contentType <font color= "blue">As </font>String = FileUpload.PostedFile.ContentType
+<font color= "blue">                    </font>Dim <font color= "blue"></font>content(length) As Byte
+<font color= "blue"></font>
+<font color= "blue">                    </font>FileUpload.PostedFile.InputStream.Read(content, 0, length)
+<font color= "blue"></font>
+<font color= "green">                    ' Update the document within the Documents table</font>
+<font color= "blue">                    </font>documents.UpdateDocument(moduleId, itemId, Context.User.Identity.Name, NameField.Text, PathField.Text, CategoryField.Text, content, length, contentType)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    If </font>Upload.Checked = True And Not (FileUpload.PostedFile Is Nothing) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                        ' Calculate virtualPath of the newly uploaded file</font>
+<font color= "blue">                        Dim </font>virtualPath <font color= "blue">As </font>String = "~/uploads/" + Path.GetFileName(FileUpload.PostedFile.FileName)
+<font color= "blue"></font>
+<font color= "green">                        ' Calculate physical path of the newly uploaded file</font>
+<font color= "blue">                        Dim </font>phyiscalPath <font color= "blue">As </font>String = Server.MapPath(virtualPath)
+<font color= "blue"></font>
+<font color= "green">                        ' Save file to uploads directory</font>
+<font color= "blue">                        </font>FileUpload.PostedFile.SaveAs(phyiscalPath)
+<font color= "blue"></font>
+<font color= "green">                        ' Update PathFile with uploaded virtual file location</font>
+<font color= "blue">                        </font>PathField.Text = virtualPath
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>documents.UpdateDocument(moduleId, itemId, Context.User.Identity.Name, NameField.Text, PathField.Text, CategoryField.Text, New Byte(0) {}, 0, "")
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">                ' Redirect back to the portal home page</font>
+<font color= "blue">                </font>Response.Redirect(CType(ViewState("UrlReferrer"), String))
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '****************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The DeleteBtn_Click event handler on this Page is used to delete an</font>
+<font color= "green">        ' a document.  It  uses the ASPNetPortal.DocumentsDB()</font>
+<font color= "green">        ' data component to encapsulate all data functionality.</font>
+<font color= "green">        '</font>
+<font color= "green">        '****************************************************************</font>
+<font color= "blue">        Private Sub</font> DeleteBtn_Click(ByVal sender As Object, ByVal e As EventArgs) Handles deleteButton.Click
+<font color= "blue"></font>
+<font color= "green">            ' Only attempt to delete the item if it is an existing item</font>
+<font color= "green">            ' (new items will have "ItemId" of 0)</font>
+<font color= "blue"></font><font color= "blue">            If </font>itemId <> 0 <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>documents <font color= "blue">As </font>New ASPNetPortal.DocumentDB()
+<font color= "blue">                </font>documents.DeleteDocument(itemId)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Redirect back to the portal home page</font>
+<font color= "blue">            </font>Response.Redirect(CType(ViewState("UrlReferrer"), String))
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '****************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The CancelBtn_Click event handler on this Page is used to cancel</font>
+<font color= "green">        ' out of the page, and return the user back to the portal home</font>
+<font color= "green">        ' page.</font>
+<font color= "green">        '</font>
+<font color= "green">        '****************************************************************</font>
+<font color= "blue">        Private Sub</font> CancelBtn_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cancelButton.Click
+<font color= "blue"></font>
+<font color= "green">            ' Redirect back to the portal home page</font>
+<font color= "blue">            </font>Response.Redirect(CType(ViewState("UrlReferrer"), String))
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

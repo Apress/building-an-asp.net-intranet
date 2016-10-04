@@ -1,0 +1,3 @@
+Page Source:ManageUsers.aspx|Admin_ManageUsers_aspx.htm, ManageUsers.aspx.vb|Admin_ManageUsers_aspx_vb.htm
+Business Component:AdminDB.vb|Components_AdminDB_vb.htm
+Stored Procedures:AddUserRole|AddUserRole.htm,DeleteUserRole|DeleteUserRole.htm,GetPortalRoles|GetPortalRoles.htm, GetRolesByUser|GetRolesByUser.htm, AddUser|AddUser.htm, UpdateUser|UpdateUser.htm

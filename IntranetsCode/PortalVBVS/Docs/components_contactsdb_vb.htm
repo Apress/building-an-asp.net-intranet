@@ -1,0 +1,262 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Imports</font> System
+<font color= "blue">Imports</font> System.Configuration
+<font color= "blue">Imports</font> System.Data
+<font color= "blue">Imports</font> System.Data.SqlClient
+<font color= "blue">Imports</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' ContactDB Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' Class that encapsulates all data logic necessary to add/query/delete</font>
+<font color= "green">    ' contacts within the Portal database.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> ContactsDB
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' GetContacts Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The GetContacts method returns a DataSet containing all of the</font>
+<font color= "green">        ' contacts for a specific portal module from the contacts</font>
+<font color= "green">        ' database.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' NOTE: A DataSet is returned from this method to allow this method to support</font>
+<font color= "green">        ' both desktop and mobile Web UI.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="GetContacts.htm" style="color:green">GetContacts Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> GetContacts(ByVal moduleId As Integer) As DataSet
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlDataAdapter("GetContacts", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.SelectCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterModuleId <font color= "blue">As </font>New SqlParameter("@ModuleId", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterModuleId.Value = moduleId
+<font color= "blue">            </font>myCommand.SelectCommand.Parameters.Add(parameterModuleId)
+<font color= "blue"></font>
+<font color= "green">            ' Create and Fill the DataSet</font>
+<font color= "blue">            Dim </font>myDataSet <font color= "blue">As </font>New DataSet()
+<font color= "blue">            </font>myCommand.Fill(myDataSet)
+<font color= "blue"></font>
+<font color= "green">            ' Return the DataSet</font>
+<font color= "blue">            </font>Return <font color= "blue"></font>myDataSet
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' GetSingleContact Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The GetSingleContact method returns a SqlDataReader containing details</font>
+<font color= "green">        ' about a specific contact from the Contacts database table.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="GetSingleContact.htm" style="color:green">GetSingleContact Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> GetSingleContact(ByVal itemId As Integer) As SqlDataReader
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("GetSingleContact", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemId <font color= "blue">As </font>New SqlParameter("@ItemId", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemId.Value = itemId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemId)
+<font color= "blue"></font>
+<font color= "green">            ' Execute the command</font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            Dim </font>result <font color= "blue">As </font>SqlDataReader = myCommand.ExecuteReader(CommandBehavior.CloseConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Return the datareader </font>
+<font color= "blue">            </font>Return <font color= "blue"></font>result
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' DeleteContact Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The DeleteContact method deletes the specified contact from</font>
+<font color= "green">        ' the Contacts database table.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="DeleteContact.htm" style="color:green">DeleteContact Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Sub</font> DeleteContact(ByVal itemID As Integer)
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("DeleteContact", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemID <font color= "blue">As </font>New SqlParameter("@ItemID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemID.Value = itemID
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemID)
+<font color= "blue"></font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            </font>myCommand.ExecuteNonQuery()
+<font color= "blue">            </font>myConnection.Close()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' AddContact Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The AddContact method adds a new contact to the Contacts</font>
+<font color= "green">        ' database table, and returns the ItemId value as a result.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="AddContact.htm" style="color:green">AddContact Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> AddContact(ByVal moduleId As Integer, ByVal itemId As Integer, ByVal userName As String, ByVal name As String, ByVal role As String, ByVal email As String, ByVal contact1 As String, ByVal contact2 As String) As Integer
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>userName.Length < 1 <font color= "blue">Then</font>
+<font color= "blue">                </font>userName <font color= "blue"></font>= "unknown"
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("AddContact", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemID <font color= "blue">As </font>New SqlParameter("@ItemID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemID.Direction = ParameterDirection.Output
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemID)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterModuleID <font color= "blue">As </font>New SqlParameter("@ModuleID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterModuleID.Value = moduleId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterModuleID)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterUserName <font color= "blue">As </font>New SqlParameter("@UserName", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterUserName.Value = userName
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterUserName)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterName <font color= "blue">As </font>New SqlParameter("@Name", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterName.Value = name
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterName)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterRole <font color= "blue">As </font>New SqlParameter("@Role", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterRole.Value = role
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterRole)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterEmail <font color= "blue">As </font>New SqlParameter("@Email", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterEmail.Value = email
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterEmail)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterContact1 <font color= "blue">As </font>New SqlParameter("@Contact1", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterContact1.Value = contact1
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterContact1)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterContact2 <font color= "blue">As </font>New SqlParameter("@Contact2", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterContact2.Value = contact2
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterContact2)
+<font color= "blue"></font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            </font>myCommand.ExecuteNonQuery()
+<font color= "blue">            </font>myConnection.Close()
+<font color= "blue"></font>
+<font color= "blue">            </font>Return <font color= "blue"></font>CInt(parameterItemID.Value)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' UpdateContact Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The UpdateContact method updates the specified contact within</font>
+<font color= "green">        ' the Contacts database table.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Other relevant sources:</font>
+<font color= "green">        '     + <a href="UpdateContact.htm" style="color:green">UpdateContact Stored Procedure</a></font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Sub</font> UpdateContact(ByVal moduleId As Integer, ByVal itemId As Integer, ByVal userName As String, ByVal name As String, ByVal role As String, ByVal email As String, ByVal contact1 As String, ByVal contact2 As String)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>userName.Length < 1 <font color= "blue">Then</font>
+<font color= "blue">                </font>userName <font color= "blue"></font>= "unknown"
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Create Instance of Connection and Command Object</font>
+<font color= "blue">            Dim </font>myConnection <font color= "blue">As </font>New SqlConnection(ConfigurationSettings.AppSettings("connectionString"))
+<font color= "blue">            Dim </font>myCommand <font color= "blue">As </font>New SqlCommand("UpdateContact", myConnection)
+<font color= "blue"></font>
+<font color= "green">            ' Mark the Command as a SPROC</font>
+<font color= "blue">            </font>myCommand.CommandType = CommandType.StoredProcedure
+<font color= "blue"></font>
+<font color= "green">            ' Add Parameters to SPROC</font>
+<font color= "blue">            Dim </font>parameterItemID <font color= "blue">As </font>New SqlParameter("@ItemID", SqlDbType.Int, 4)
+<font color= "blue">            </font>parameterItemID.Value = itemId
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterItemID)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterUserName <font color= "blue">As </font>New SqlParameter("@UserName", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterUserName.Value = userName
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterUserName)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterName <font color= "blue">As </font>New SqlParameter("@Name", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterName.Value = name
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterName)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterRole <font color= "blue">As </font>New SqlParameter("@Role", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterRole.Value = role
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterRole)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterEmail <font color= "blue">As </font>New SqlParameter("@Email", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterEmail.Value = email
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterEmail)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterContact1 <font color= "blue">As </font>New SqlParameter("@Contact1", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterContact1.Value = contact1
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterContact1)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>parameterContact2 <font color= "blue">As </font>New SqlParameter("@Contact2", SqlDbType.NVarChar, 100)
+<font color= "blue">            </font>parameterContact2.Value = contact2
+<font color= "blue">            </font>myCommand.Parameters.Add(parameterContact2)
+<font color= "blue"></font>
+<font color= "blue">            </font>myConnection.Open()
+<font color= "blue">            </font>myCommand.ExecuteNonQuery()
+<font color= "blue">            </font>myConnection.Close()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

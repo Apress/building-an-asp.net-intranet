@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetSingleMessage" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure returns a single message item from the database. The 
+            input parameter is ItemID, the primary key for the record. The return values 
+            include the message details, as well as information about the users that 
+            created and last edited this item. GetSingleMessage executes two stored 
+            procedures: GetNextMessageId and GetPrevMessageId. The results for these 
+            procedures are returned with the message information.
+        </P>
+        <p>
+            This stored procedure is used by the edit page for Discussion.
+        </p>
+        <b>Definition:</b>
+        <pre>
+
+    CREATE Procedure GetSingleMessage
+    (
+        @ItemID int
+    )
+    AS
+
+    DECLARE @nextMessageID int
+    EXECUTE GetNextMessageID @ItemID, @nextMessageID OUTPUT
+    DECLARE @prevMessageID int
+    EXECUTE GetPrevMessageID @ItemID, @prevMessageID OUTPUT
+
+    SELECT
+        ItemID,
+        Title,
+        CreatedByUser,
+        CreatedDate,
+        Body,
+        DisplayOrder,
+        NextMessageID = @nextMessageID,
+        PrevMessageID = @prevMessageID
+
+    FROM
+        Discussion
+
+    WHERE
+        ItemID = @ItemID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Discussion:</i>
+        &nbsp;Each record in the Discussion table is a message in a threaded 
+        discussion, as displayed by the Discussion Portal Module. Since all Discussion 
+        modules store their record in this table, each item contains a ModuleID to 
+        permit related items to be retrieved in a single query.
+        <p>
+        An especially interesting feature of the Discussion table is the DisplayOrder 
+        field, which is used to create the threaded display of messages in the 
+        discussion. This field is calculated by concatenating a 23-character string 
+        representation of the current date and time to the DisplayOrder for this item's 
+        parent. In this way, messages can be displayed in the correct order via a 
+        simple ascending sort. This approach has an inherent limitation based upon the 
+        size of the DisplayOrder field. In this case it's 750 characters, meaning that 
+        messages nested more than 32 levels deep will not display in the correct order.
+        <p>
+        The primary key in this table is the ItemID identity field. Note that message 
+        bodies are limited to 3000 characters.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"><img src="../docs/images/discussion.jpg">
+        </p>
+    </body>
+</html>

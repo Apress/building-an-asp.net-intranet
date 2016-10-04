@@ -1,0 +1,178 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Control language="VB" Inherits="ASPNetPortal.MobilePortalModuleControl" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="mobile" Namespace="System.Web.UI.MobileControls" Assembly="System.Web.Mobile" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="portal" TagName="Title" Src="~/MobileModuleTitle.ascx" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="portal" Namespace="ASPNetPortal.MobileControls" Assembly="Portal" %<font color= "blue">&gt</font>
+&lt%@ Import Namespace="System.Data" %<font color= "blue">&gt</font>
+<font color= "green">&lt%--
+
+    The Announcements Mobile User Control renders announcement modules in the
+    portal for mobile devices. 
+
+    The control consists of two pieces: a summary panel that is rendered when
+    portal view shows a summarized view of all modules, and a multi-part panel 
+    that renders the module details.
+
+--%<font color= "blue">&gt</font></font>
+<font color= "blue">&lt</font><font color="maroon">script</font> runat="server"<font color= "blue">&gt</font>
+<font color= "blue"></font>
+<font color= "blue">    Private </font>ds As DataSet = Nothing
+<font color= "blue">    Private </font>currentIndex As Integer = 0
+<font color= "blue"></font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' Page_Load Event Handler</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' The Page_Load event handler on this User Control is used to</font>
+<font color= "blue">   </font><font color= "green"> ' obtain a DataSet of announcement information from the Announcements</font>
+<font color= "blue">   </font><font color= "green"> ' table, and then databind the results to the module contents.  It uses </font>
+<font color= "blue">   </font><font color= "green"> ' the ASPNetPortal.AnnouncementsDB() data component </font>
+<font color= "blue">   </font><font color= "green"> ' to encapsulate all data functionality.</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    </font>Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' Obtain announcement information from Announcements table</font>
+<font color= "blue">        </font>Dim announcements As New ASPNetPortal.AnnouncementsDB()
+<font color= "blue">        </font>ds = announcements.GetAnnouncements(ModuleId)
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' DataBind the User Control</font>
+<font color= "blue">        </font>DataBind()
+<font color= "blue"></font>
+<font color= "blue">    </font>End Sub
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' SummaryView_OnItemCommand Event Handler</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' The SummaryView_OnItemCommand event handler is called when the user</font>
+<font color= "blue">   </font><font color= "green"> ' clicks on a "More" link in the summary view. It calls the</font>
+<font color= "blue">   </font><font color= "green"> ' ShowAnnouncementDetails utility method to show details of the</font>
+<font color= "blue">   </font><font color= "green"> ' announcement.</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    </font>Sub SummaryView_OnItemCommand(ByVal sender As Object, ByVal e As RepeaterCommandEventArgs)
+<font color= "blue"></font>
+<font color= "blue">        </font>ShowAnnouncementDetails(e.Item.ItemIndex)
+<font color= "blue"></font>
+<font color= "blue">    </font>End Sub
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' AnnouncementsList_OnItemCommand Event Handler</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' The AnnouncementsList_OnItemCommand event handler is called when the user</font>
+<font color= "blue">   </font><font color= "green"> ' clicks on an item in the list of announcements. It calls the</font>
+<font color= "blue">   </font><font color= "green"> ' ShowAnnouncementDetails utility method to show details of the</font>
+<font color= "blue">   </font><font color= "green"> ' announcement.</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    </font>Sub AnnouncementsList_OnItemCommand(ByVal sender As Object, ByVal e As ListCommandEventArgs)
+<font color= "blue"></font>
+<font color= "blue">        </font>ShowAnnouncementDetails(e.ListItem.Index)
+<font color= "blue"></font>
+<font color= "blue">    </font>End Sub
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' DetailsView_OnClick Event Handler</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' The DetailsView_OnClick event handler is called when the user </font>
+<font color= "blue">   </font><font color= "green"> ' clicks in the details view to return to the summary view.</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    </font>Sub DetailsView_OnClick(ByVal sender As Object, ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' Make the parent tab show module summaries again.</font>
+<font color= "blue">        </font>Tab.SummaryView = True
+<font color= "blue"></font>
+<font color= "blue">    </font>End Sub
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' ShowAnnouncementDetails Method</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' The ShowAnnouncementDetails method sets the active pane of</font>
+<font color= "blue">   </font><font color= "green"> ' the module to the details view, and shows the details of the</font>
+<font color= "blue">   </font><font color= "green"> ' given item.</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************'</font>
+<font color= "blue"></font>
+<font color= "blue">    </font>Sub ShowAnnouncementDetails(ByVal itemIndex As Integer)
+<font color= "blue"></font>
+<font color= "blue">        </font>currentIndex = itemIndex
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' Switch the visible pane of the multi-panel view to show</font>
+<font color= "blue">       </font><font color= "green"> ' announcement details</font>
+<font color= "blue">        </font>MainView.ActivePane = AnnouncementDetails
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' Rebind the details panel</font>
+<font color= "blue">        </font>AnnouncementDetails.DataBind()
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' Make the parent tab switch to details mode, showing this module</font>
+<font color= "blue">        </font>Tab.ShowDetails(Me)
+<font color= "blue"></font>
+<font color= "blue">    </font>End Sub
+<font color= "blue">    </font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' FormatChildField Method</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' The FormatChildField method returns the selected field as a string,</font>
+<font color= "blue">   </font><font color= "green"> ' if the row is not empty.  If empty, it returns String.Empty.</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    </font>Function FormatChildField (fieldName As String) As String
+<font color= "blue">    </font>
+<font color= "blue"></font><font color= "blue">        If </font>ds.Tables(0).Rows.Count > 0 Then <font color= "blue"></font>
+<font color= "blue">            return</font> ds.Tables(0).Rows(currentIndex)(fieldName).ToString()
+<font color= "blue"></font><font color= "blue">        Else</font><font color= "blue"></font>
+<font color= "blue">            return</font> String.Empty
+<font color= "blue">        </font>End If
+<font color= "blue">            </font>
+<font color= "blue">    </font>End Function            
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">&lt/</font><font color="maroon">script</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font>mobile:Panel id="summary" runat="server"<font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">DeviceSpecific</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">Choice</font> Filter="isJScript"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">ContentTemplate</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color=blue>portal:Title runat="server" /</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">font</font> face="Verdana" size="-2"<font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color=blue>asp:Repeater id="announcementList" DataSource="&lt%# ds %<font color= "blue">&gt</font>" OnItemCommand="SummaryView_OnItemCommand" runat="server"</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color=blue>asp:LinkButton runat="server"</font><font color= "blue">&gt</font>
+                                &lt%# DataBinder.Eval(Container.DataItem, "Title") %<font color= "blue">&gt</font>
+                            <font color= "blue">&lt/</font><font color=blue>asp:LinkButton</font><font color= "blue">&gt</font>
+                            <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                        <font color= "blue">&lt/</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+                    <font color= "blue">&lt/</font><font color=blue>asp:Repeater</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">font</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">ContentTemplate</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">Choice</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">DeviceSpecific</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font>mobile:Panel<font color= "blue">&gt</font>
+<font color= "blue">&lt</font><font color=blue>portal:MultiPanel id="MainView" Font-Name="Verdana" Font-Size="Small" runat="server"</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color=blue>portal:ChildPanel id="AnnouncementsList" runat="server"</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>portal:Title runat="server" /</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font>mobile:List runat="server" DataTextField="Title" DataSource="&lt%# ds %<font color= "blue">&gt</font>" OnItemCommand="AnnouncementsList_OnItemCommand" <font color= "blue">/&gt</font>
+    <font color= "blue">&lt/</font><font color=blue>portal:ChildPanel</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color=blue>portal:ChildPanel id="AnnouncementDetails" runat="server"</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>portal:Title runat="server" Text='&lt%# FormatChildField("Title") %<font color= "blue">&gt</font>' /</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font>mobile:TextView runat="server" Text='&lt%# FormatChildField("Description") %<font color= "blue">&gt</font>' <font color= "blue">/&gt</font>
+        <font color= "blue">&lt</font>mobile:Link runat="server" NavigateUrl='&lt%# FormatChildField("MobileMoreLink") %<font color= "blue">&gt</font>' Visible='&lt%# FormatChildField("MobileMoreLink") <font color= "blue">&lt</font><font color= "blue">&gt</font> String.Empty %<font color= "blue">&gt</font>' Text="read more" <font color= "blue">/&gt</font>
+        <font color= "blue">&lt</font><font color=blue>portal:LinkCommand runat="server" OnClick="DetailsView_OnClick" Text="back" /</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color=blue>portal:ChildPanel</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font><font color=blue>portal:MultiPanel</font><font color= "blue">&gt</font>
+</pre>

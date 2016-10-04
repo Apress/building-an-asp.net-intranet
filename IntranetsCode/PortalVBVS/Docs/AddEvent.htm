@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "AddEvent" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure adds a new event to the database for a specific module in 
+            the portal. The input parameters include title, location, expiration date and 
+            description for the event, and the output parameter is the ItemId of the new 
+            database record.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE AddEvent
+    (
+        @ModuleID    int,
+        @UserName    nvarchar(100),
+        @Title       nvarchar(100),
+        @ExpireDate  DateTime,
+        @Description nvarchar(2000),
+        @WhereWhen   nvarchar(100),
+        @ItemID      int OUTPUT
+    )
+    AS
+
+    INSERT INTO Events
+    (
+        ModuleID,
+        CreatedByUser,
+        Title,
+        CreatedDate,
+        ExpireDate,
+        Description,
+        WhereWhen
+    )
+
+    VALUES
+    (
+        @ModuleID,
+        @UserName,
+        @Title,
+        GetDate(),
+        @ExpireDate,
+        @Description,
+        @WhereWhen
+    )
+
+    SELECT
+        @ItemID = @@Identity
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Events:</i>
+        &nbsp;Each record in the Events table is a single item, as displayed by the 
+        Events Portal Module. Since all Events modules store their record in this 
+        table, each item contains a ModuleID to permit related items to be retrieved in 
+        a single query.
+        <p>
+        The primary key in this table is the ItemID identity field. Note that event 
+        descriptions are limited to 2000 characters.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/events.jpg">
+    </body>
+</html>

@@ -1,0 +1,439 @@
+<html>
+    <head>
+        <title>ASP.NET Portal Documentation</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" marginheight="0" marginwidth="0">
+        <table cellpadding="10" cellspacing="0" border="0">
+            <tr>
+                <td colspan="2" class="HeadBg">
+                    <span class="Title">IBuySpy Portal Documentation</span>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="10">
+                    &nbsp;
+                </td>
+                <td class="Normal" width="98%">
+                    <br>
+                    <br>
+                    <span class="Head">Introduction</span>
+                    <hr noshade size="1">
+                    The IBuySpy Portal Solution Starter Kit demonstrates how you can use ASP.NET
+                    and the .NET Framework to build either an intranet or Internet portal
+                    application. &nbsp; It also demonstrates a host of developer "best practices"
+                    to follow when building ASP.NET applications. &nbsp; Please review the code
+                    below to see how the application was architected and built.
+                    <p>
+                        All code contained in the IBuySpy Portal download package is free for use in
+                        your own applications. Some images are copyrighted, however; please see <a href="#about">
+                            below</a> .
+                    </p>
+                </td>
+            </tr>
+            <tr valign="top">
+                <td class="Normal">
+                    <span class="Head">Portal Modules</span>
+                    <hr noshade size="1">
+                    Portal modules let you organize, display and maintain data. The IBuySpy Portal
+                    sample provides 10 "out of the box" modules you can use. &nbsp; All 10 portal
+                    modules provide "desktop browser" rendering support -- meaning they can be used
+                    to target all standard html based browsers (Internet Explorer, Netscape, Opera,
+                    etc). &nbsp; 4 of the portal modules also provide "mobile device" rendering
+                    support -- meaning they can be used to target small mobile devices that support
+                    either HTML, WML/WAP, or CHTML rendering markup.
+                    <br>
+                    <br>
+                    Each portal module UI element is implemented as an ASP.NET User Control that
+                    displays the module's data/content within a portal page. A portal module
+                    targeting mobile devices is implemented using the standard mobile controls that
+                    ship as part of the Microsoft Mobile Internet Toolkit for ASP.NET (these server
+                    controls are typically denoted with the "mobile:" tag prefix). Optionally, each
+                    portal module may also include an Edit Page to let users interactively update
+                    the data, business components to interface to the data source, and stored
+                    procedures to fetch/update the data.
+                    <br>
+                    <br>
+                    Click on the links below to view the files that implement the standard "out of
+                    the box" modules. Note that the portal framework is not limited to supporting
+                    only the built-in modules. It is easy for developers to develop and integrate
+                    their own custom modules into the portal as well. &nbsp; <a href="CustomModules.htm">
+                        Click here</a> to discover how.
+                    <br>
+                    <br>
+                    <table>
+                        <tr valign="top">
+                            <td width="200" class="Normal">
+                                <span class="SubHead">Announcements</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=announcements.src&amp;file=DesktopModules/Announcements.ascx&amp;rows=5">
+                                            User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=announcements.src&amp;file=MobileModules/Announcements.ascx&amp;rows=5">
+                                            Mobile User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=announcements.src&amp;file=Components/AnnouncementsDB.vb&amp;rows=5">
+                                            Business Component</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=announcements.src&amp;file=DesktopModules/EditAnnouncements.aspx&amp;rows=5">
+                                            Edit Page</a></li>
+                                </ul>
+                                <span class="SubHead">Contacts</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Contacts.src&amp;file=DesktopModules/Contacts.ascx&amp;rows=5">
+                                            User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Contacts.src&amp;file=MobileModules/Contacts.ascx&amp;rows=5">
+                                            Mobile User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Contacts.src&amp;file=Components/ContactsDB.vb&amp;rows=5">
+                                            Business Component</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Contacts.src&amp;file=DesktopModules/EditContacts.aspx&amp;rows=5">
+                                            Edit Page</a></li>
+                                </ul>
+                                <span class="SubHead">Discussion</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Discussion.src&amp;file=DesktopModules/Discussion.ascx">
+                                            User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Discussion.src&amp;file=Components/DiscussionDB.vb">
+                                            Business Component</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Discussion.src&amp;file=DesktopModules/DiscussDetails.aspx">
+                                            Edit Page</a></li>
+                                </ul>
+                            </td>
+                            <td width="200" class="Normal">
+                                <span class="SubHead">Documents</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=documents.src&amp;file=DesktopModules/Document.ascx&amp;rows=5">
+                                            User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Documents.src&amp;file=Components/DocumentDB.vb&amp;rows=5">
+                                            Business Component</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Documents.src&amp;file=DesktopModules/EditDocs.aspx&amp;rows=5">
+                                            Edit Page</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Documents.src&amp;file=DesktopModules/ViewDocument.aspx&amp;rows=5">
+                                            Document Viewer</a></li>
+                                </ul>
+                                <span class="SubHead">Events</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Events.src&amp;file=DesktopModules/Events.ascx&amp;rows=5">
+                                            User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Events.src&amp;file=MobileModules/Events.ascx&amp;rows=5">
+                                            Mobile User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Events.src&amp;file=Components/EventsDB.vb&amp;rows=5">
+                                            Business Component</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Events.src&amp;file=DesktopModules/EditEvents.aspx&amp;rows=5">
+                                            Edit Page</a></li>
+                                </ul>
+                                <span class="SubHead">Html Module</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=htmldocument.src&amp;file=DesktopModules/HtmlModule.ascx&amp;rows=5">
+                                            User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=htmldocument.src&amp;file=MobileModules/Text.ascx&amp;rows=5">
+                                            Mobile User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=htmldocument.src&amp;file=Components/HtmlTextDB.vb&amp;rows=5">
+                                            Business Component</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=htmldocument.src&amp;file=DesktopModules/EditHtml.aspx&amp;rows=5">
+                                            Edit Page</a></li>
+                                </ul>
+                            </td>
+                            <td width="200" class="Normal">
+                                <span class="SubHead">Image</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Image.src&amp;file=DesktopModules/ImageModule.ascx&amp;rows=4">
+                                            User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Image.src&amp;file=DesktopModules/EditImage.aspx&amp;rows=4">
+                                            Edit Page</a></li>
+                                </ul>
+                                <span class="SubHead">Links</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Links.src&amp;file=DesktopModules/Links.ascx">
+                                            User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Links.src&amp;file=Components/LinksDB.vb">
+                                            Business Component</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Links.src&amp;file=DesktopModules/EditLinks.aspx">
+                                            Edit Page</a></li>
+                                </ul>
+                                <span class="SubHead">QuickLinks</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Quicklinks.src&amp;file=DesktopModules/Quicklinks.ascx">
+                                            User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Quicklinks.src&amp;file=Components/LinksDB.vb">
+                                            Business Component</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=Quicklinks.src&amp;file=DesktopModules/EditLinks.aspx">
+                                            Edit Page</a></li>
+                                </ul>
+                            </td>
+                            <td width="200" class="Normal">
+                                <%--<span class="SubHead">WebPart Module</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=webpart.src&file=DesktopModules/WebPart.ascx&rows=3">
+                                            User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=webpart.src&file=Components/WebPartParser.vb&rows=3">
+                                            Business Component</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=webpart.src&file=DesktopModules/EditWebPart.aspx&rows=3">
+                                            Edit Page</a>
+                                </ul>--%>
+                                <span class="SubHead">Xml/Xsl Module</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=xmlxsl.src&amp;file=DesktopModules/xmlModule.ascx&amp;rows=4">
+                                            User Control</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=xmlxsl.src&amp;file=DesktopModules/EditXml.aspx&amp;rows=4">
+                                            Edit Page</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            <tr>
+                <td class="Normal">
+                    <br>
+                    <span class="Head">Portal Framework</span>
+                    <hr noshade size="1">
+                    All configuration for the portal is stored within a SQL Server database --
+                    enabling web administrators to easily deploy an instance of the portal accross
+                    multiple front-end web servers (each pulling the appropriate configuration data
+                    out of the same portal configuration database).
+                    <BR>
+                    <BR>
+                    The Portal Framework code listed below uses this configuration data to control
+                    the portal's content layout (ie: what portal tabs are displayed -- and what
+                    portal modules live on each tab) and security settings (ie: user roles, access
+                    permissions, etc).
+                    <BR>
+                    <BR>
+                    Configuration is loaded on each request from within the Portal Application's
+                    Global.asax file using the Configuration business component. &nbsp; It is then
+                    used from within either the Portal's DesktopDefault.aspx page (if the accessing
+                    browser is an HTML desktop device -- IE, Netscape, Opera, etc) or within the
+                    Portal's MobileDefault.aspx (if the accessing computer is a mobile device) to
+                    correctly render a tab view of the portal.
+                </td>
+            <tr>
+            <tr>
+                <td class="Normal">
+                    The portal framework logic is encapsulated within 3 pages, 3 user controls, 3
+                    class files, 2 stored procedures, the global.asax file and an XML configuration
+                    file. Click on the links below to view the files that make up the portal
+                    framework:
+                    <br>
+                    <br>
+                    <table>
+                        <tr valign="top">
+                            <td width="200" class="Normal">
+                                <span class="SubHead">Global.asax</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=globalasax.src&amp;file=Global.asax&amp;rows=2">
+                                            Global.asax</a></li>
+                                </ul>
+                                <span class="SubHead">Pages</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=default.src&amp;file=Default.aspx&amp;rows=1">
+                                            Default.aspx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=desktopdefault.src&amp;file=DesktopDefault.aspx&amp;rows=3">
+                                            DesktopDefault.aspx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=mobiledefault.src&amp;file=MobileDefault.aspx&amp;rows=3">
+                                            MobileDefault.aspx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=register.src&amp;file=Admin/Register.aspx&amp;rows=3">
+                                            Register.aspx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=logoff.src&amp;file=Admin/Logoff.aspx&amp;rows=1">
+                                            Logoff.aspx</a></li>
+                                </ul>
+                            </td>
+                            <td width="200" class="Normal">
+                                <span class="SubHead">User Controls</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=desktopdefault.src&amp;file=DesktopPortalBanner.ascx&amp;font=12&amp;rows=3">
+                                            DesktopPortalBanner.ascx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=desktopdefault.src&amp;file=DesktopModuleTitle.ascx&amp;rows=3">
+                                            DesktopModuleTitle.ascx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=mobiledefault.src&amp;file=MobileModuleTitle.ascx&amp;rows=3">
+                                            MobileModuleTitle.ascx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=SignIn.src&amp;file=DesktopModules/SignIn.ascx&amp;rows=3">
+                                            SignIn.ascx</a></li>
+                                </ul>
+                                <span class="SubHead">Classes</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=configuration.src&amp;file=Components/Configuration.vb&amp;rows=1">
+                                            Configuration.vb</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=security.src&amp;file=Components/Security.vb&amp;rows=1">
+                                            Security.vb</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=desktopcontrols.src&amp;file=Components/DesktopControls.vb&amp;rows=1">
+                                            DesktopControls.vb</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=mobilecontrols.src&amp;file=Components/MobileControls.vb&amp;rows=1">
+                                            MobileControls.vb</a></li>
+                                </ul>
+                            </td>
+                            <td width="200" class="Normal">
+                                <span class="SubHead">Stored Procedures</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=useradd.src&amp;file=AddUser&amp;rows=1">
+                                            AddUser</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=userlogin.src&amp;file=UserLogin&amp;rows=1">
+                                            UserLogin</a></li>
+                                </ul>
+                                <span class="SubHead">Application Configuration File</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=webconfig.src&amp;file=Web.Config&amp;rows=1">
+                                            Web.Config</a></li>
+                                </ul>
+                            <td>
+                            <td width="200" class="Normal">
+                                <span class="SubHead">Portal Stylesheet</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=portalcss.src&amp;file=Portal.css&amp;rows=1">
+                                            Portal.css</a></li>
+                                </ul>
+                            <td>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="Normal">
+                    <span class="Head">Portal Admin Tool</span>
+                    <hr noshade size="1">
+                    The IBuySpy Portal provides an online Admin tool that permits users in the
+                    "Admins" role to manage the content, layout and security of the portal. For
+                    information about how to use the Admin tool, see the "About the Portal" tab.
+                    <br>
+                    <br>
+                    The Portal Admin Tool updates this portal configuration using an AdminDB
+                    component (referenced below):
+                    <br>
+                    <br>
+                    <table>
+                        <tr>
+                            <td class="Normal" width="220" valign="top">
+                                <span class="SubHead">User Controls on Admin Tab</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=admin.src&amp;file=Admin/SiteSettings.ascx&amp;font=12&amp;rows=3">
+                                            SiteSettings.ascx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=admin.src&amp;file=Admin/Tabs.ascx&amp;font=12&amp;rows=3">
+                                            Tabs.ascx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=admin.src&amp;file=Admin/Roles.ascx&amp;font=12&amp;rows=3">
+                                            Roles.ascx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=admin.src&amp;file=Admin/users.ascx&amp;font=12&amp;rows=3">
+                                            Users.ascx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=admin.src&amp;file=Admin/ModuleDefs.ascx&amp;font=12&amp;rows=3">
+                                            ModuleDefs.ascx</a>
+                                </ul>
+                            </td>
+                            <td class="Normal" width="200" valign="top">
+                                <span class="SubHead">Admin Pages</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=securityroles.src&amp;file=Admin/SecurityRoles.aspx&amp;rows=3">
+                                            SecurityRoles.aspx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=tablayout.src&amp;file=Admin/TabLayout.aspx&amp;rows=3">
+                                            TabLayout.aspx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=modulesettings.src&amp;file=Admin/ModuleSettings.aspx&amp;rows=3">
+                                            ModuleSettings.aspx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=ModuleDefinitions.src&amp;file=Admin/ModuleDefinitions.aspx&amp;rows=3">
+                                            ModuleDefinitions.aspx</a>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=ManageUsers.src&amp;file=Admin/ManageUsers.aspx&amp;rows=3">
+                                            ManageUsers.aspx</a>
+                                </ul>
+                            </td>
+                            <td class="Normal" width="200" valign="top">
+                                <span class="SubHead">Business Components</span>
+                                <ul>
+                                    <li>
+                                        <a href="../sourceviewer/srcview.aspx?path=admindb.src&amp;file=Components/AdminDb.vb&amp;rows=1">
+                                            AdminDB.vb</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            <tr>
+            <tr>
+                <td class="Normal" width="98%">
+                    <a name="about">
+                        <br>
+                        <br>
+                        <span class="Head">About the IBuySpy Portal</span>
+                        <hr noshade size="1">
+                        All code contained in the IBuySpy Portal download package is free for use in
+                        your own applications. Images in the "images" subdirectory are an integral part
+                        of the portal or built-in portal modules, and are also free for your use.
+                        <br>
+                        <br>
+                        The IBuySpy Portal Solution Starter Kit is intended only as a supplement to
+                        Microsoft Development Tools, the Microsoft .NET Framework SDK and/or on-line
+                        documentation. See these other materials for detailed information regarding
+                        Microsoft code samples.
+                        <br>
+                        <br>
+                        THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+                        EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+                        WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+                        <br>
+                        <br>
+                        The IBuySpy Portal was developed by Microsoft Corporation in partnership with
+                        Vertigo Software, Inc. Copyright (c) 2001 Microsoft Corporation. Portions
+                        Copyright by PhotoDisc, Inc. IBuySpy is a service mark of Vertigo Software,
+                        Inc.</a>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

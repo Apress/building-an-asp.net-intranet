@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "AddAnnouncement" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure adds a new announcement to the database for a specific 
+            module in the portal. The input parameters include Title, Expiration Date and 
+            Description for the announcement, and the output parameter is the ItemId of the 
+            new database record.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE AddAnnouncement
+    (
+        @ModuleID       int,
+        @UserName       nvarchar(100),
+        @Title          nvarchar(150),
+        @MoreLink       nvarchar(150),
+        @MobileMoreLink nvarchar(150),
+        @ExpireDate     DateTime,
+        @Description    nvarchar(2000),
+        @ItemID         int OUTPUT
+    )
+    AS
+
+    INSERT INTO Announcements
+    (
+        ModuleID,
+        CreatedByUser,
+        CreatedDate,
+        Title,
+        MoreLink,
+        MobileMoreLink,
+        ExpireDate,
+        Description
+    )
+
+    VALUES
+    (
+        @ModuleID,
+        @UserName,
+        GetDate(),
+        @Title,
+        @MoreLink,
+        @MobileMoreLink,
+        @ExpireDate,
+        @Description
+    )
+
+    SELECT
+        @ItemID = @@Identity
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Announcements:</i>
+        &nbsp;Each record in the Announcements table is a single item, as displayed by 
+        the Announcements Portal Module. Since all Announcement modules store their 
+        record in this table, each item contains a ModuleID to permit related items to 
+        be retrieved in a single query.
+        <p>
+        The primary key in this table is the ItemID identity field. Note that 
+        announcement descriptions are limited to 2000 characters.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/announcements.jpg">
+    </body>
+</html>

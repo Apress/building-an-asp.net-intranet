@@ -1,0 +1,515 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> TabLayout
+<font color= "blue">        Inherits</font> System.Web.UI.Page
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>tabName As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>authRoles As System.Web.UI.WebControls.CheckBoxList
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>showMobile As System.Web.UI.WebControls.CheckBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>mobileTabName As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>moduleType As System.Web.UI.WebControls.DropDownList
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>moduleTitle As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>leftPane As System.Web.UI.WebControls.ListBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>contentPane As System.Web.UI.WebControls.ListBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>rightPane As System.Web.UI.WebControls.ListBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>applyBtn As System.Web.UI.WebControls.LinkButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>AddModuleBtn As System.Web.UI.WebControls.LinkButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>LeftUpBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>LeftRightBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>LeftDownBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>LeftEditBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>LeftDeleteBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>ContentUpBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>ContentLeftBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>ContentRightBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>ContentDownBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>ContentEditBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>ContentDeleteBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>RightUpBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>RightLeftBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>RightDownBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>RightEditBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>RightDeleteBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue"></font>
+<font color= "blue">        Private </font>tabId <font color= "blue">As </font>Integer = 0
+<font color= "blue">        Protected </font>leftList <font color= "blue">As </font>ArrayList
+<font color= "blue">        Protected </font>contentList <font color= "blue">As </font>ArrayList
+<font color= "blue">        Protected </font>rightList <font color= "blue">As </font>ArrayList
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Load server event handler on this page is used</font>
+<font color= "green">        ' to populate a tab's layout settings on the page</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Load server event handler on this page is used</font>
+<font color= "green">        ' to populate a tab's layout settings on the page</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+<font color= "blue"></font>
+<font color= "green">            ' Verify that the current user has access to access this page</font>
+<font color= "blue"></font><font color= "blue">            If </font>PortalSecurity.IsInRoles("Admins") = False <font color= "blue">Then</font>
+<font color= "blue">                </font>Response.Redirect("~/Admin/EditAccessDenied.aspx")
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Determine Tab to Edit</font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (Request.Params("tabid") Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                </font>tabId <font color= "blue"></font>= Int32.Parse(Request.Params("tabid"))
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' If first visit to the page, update all entries</font>
+<font color= "blue"></font><font color= "blue">            If </font>Page.IsPostBack = False <font color= "blue">Then</font>
+<font color= "blue">                </font>BindData()
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The AddModuleToPane_Click server event handler on this page is used</font>
+<font color= "green">        ' to add a new portal module into the tab</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> AddModuleToPane_Click(ByVal sender As Object, ByVal e As EventArgs) Handles AddModuleBtn.Click
+<font color= "blue"></font>
+<font color= "green">            ' All new modules go to the end of the contentpane</font>
+<font color= "blue">            Dim </font>m <font color= "blue">As </font>New ModuleItem()
+<font color= "blue">            </font>m.ModuleTitle = moduleTitle.Text
+<font color= "blue">            </font>m.ModuleDefId = Int32.Parse(moduleType.SelectedItem.Value)
+<font color= "blue">            </font>m.ModuleOrder = 999
+<font color= "blue"></font>
+<font color= "green">            ' save to database</font>
+<font color= "blue">            Dim </font>admin <font color= "blue">As </font>New AdminDB()
+<font color= "blue">            </font>m.ModuleId = admin.AddModule(tabId, m.ModuleOrder, "ContentPane", m.ModuleTitle, m.ModuleDefId, 0, "Admins", False)
+<font color= "blue"></font>
+<font color= "green">            ' Obtain portalId from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(Context.Items("PortalSettings"), PortalSettings)
+<font color= "blue"></font>
+<font color= "green">            ' reload the _portalSettings from the database</font>
+<font color= "blue">            </font>HttpContext.Current.Items("PortalSettings") = New PortalSettings(_portalSettings.PortalId, tabId)
+<font color= "blue"></font>
+<font color= "green">            ' reorder the modules in the content pane</font>
+<font color= "blue">            Dim </font>modules <font color= "blue">As </font>ArrayList = GetModules("ContentPane")
+<font color= "blue">            </font>OrderModules(modules)
+<font color= "blue"></font>
+<font color= "green">            ' resave the order</font>
+<font color= "blue">            Dim </font>item <font color= "blue">As </font>ModuleItem
+<font color= "blue">            For Each</font> item In modules
+<font color= "blue">                </font>admin.UpdateModuleOrder(item.ModuleId, item.ModuleOrder, "ContentPane")
+<font color= "blue">            Next</font> item
+<font color= "blue"></font>
+<font color= "green">            ' Redirect to the same page to pick up changes</font>
+<font color= "blue">            </font>Response.Redirect(Request.RawUrl)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The UpDown_Click server event handler on this page is</font>
+<font color= "green">        ' used to move a portal module up or down on a tab's layout pane</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> UpDown_Click(ByVal sender As Object, ByVal e As ImageClickEventArgs) Handles LeftDownBtn.Click, LeftUpBtn.Click, ContentDownBtn.Click, ContentUpBtn.Click, RightDownBtn.Click, RightUpBtn.Click
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>cmd <font color= "blue">As </font>String = CType(sender, ImageButton).CommandName
+<font color= "blue">            Dim </font>pane <font color= "blue">As </font>String = CType(sender, ImageButton).CommandArgument
+<font color= "blue">            Dim </font>_listbox <font color= "blue">As </font>ListBox = CType(Page.FindControl(pane), ListBox)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>modules <font color= "blue">As </font>ArrayList = GetModules(pane)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>_listbox.SelectedIndex <> -1 <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>delta <font color= "blue">As </font>Integer
+<font color= "blue">                Dim </font>selection <font color= "blue">As </font>Integer = -1
+<font color= "blue"></font>
+<font color= "green">                ' Determine the delta to apply in the order number for the module</font>
+<font color= "green">                ' within the list.  +3 moves down one item; -3 moves up one item</font>
+<font color= "blue"></font><font color= "blue">                If </font>cmd = "down" <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>delta <font color= "blue"></font>= 3
+<font color= "blue"></font><font color= "blue">                    If </font>_listbox.SelectedIndex < _listbox.Items.Count - 1 <font color= "blue">Then</font>
+<font color= "blue">                        </font>selection <font color= "blue"></font>= _listbox.SelectedIndex + 1
+<font color= "blue"></font><font color= "blue">                    End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>delta <font color= "blue"></font>= -3
+<font color= "blue"></font><font color= "blue">                    If </font>_listbox.SelectedIndex > 0 <font color= "blue">Then</font>
+<font color= "blue">                        </font>selection <font color= "blue"></font>= _listbox.SelectedIndex - 1
+<font color= "blue"></font><font color= "blue">                    End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>m <font color= "blue">As </font>ModuleItem
+<font color= "blue">                </font>m <font color= "blue"></font>= CType(modules(_listbox.SelectedIndex), ModuleItem)
+<font color= "blue">                </font>m.ModuleOrder += delta
+<font color= "blue"></font>
+<font color= "green">                ' reorder the modules in the content pane</font>
+<font color= "blue">                </font>OrderModules(modules)
+<font color= "blue"></font>
+<font color= "green">                ' resave the order</font>
+<font color= "blue">                Dim </font>admin <font color= "blue">As </font>New AdminDB()
+<font color= "blue">                Dim </font>item <font color= "blue">As </font>ModuleItem
+<font color= "blue">                For Each</font> item In modules
+<font color= "blue">                    </font>admin.UpdateModuleOrder(item.ModuleId, item.ModuleOrder, pane)
+<font color= "blue">                Next</font> item
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Redirect to the same page to pick up changes</font>
+<font color= "blue">            </font>Response.Redirect(Request.RawUrl)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The RightLeft_Click server event handler on this page is</font>
+<font color= "green">        ' used to move a portal module between layout panes on</font>
+<font color= "green">        ' the tab page</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> RightLeft_Click(ByVal sender As Object, ByVal e As ImageClickEventArgs) Handles LeftRightBtn.Click, ContentLeftBtn.Click, ContentRightBtn.Click, RightLeftBtn.click
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>sourcePane <font color= "blue">As </font>String = CType(sender, ImageButton).Attributes("sourcepane")
+<font color= "blue">            Dim </font>targetPane <font color= "blue">As </font>String = CType(sender, ImageButton).Attributes("targetpane")
+<font color= "blue">            Dim </font>sourceBox <font color= "blue">As </font>ListBox = CType(Page.FindControl(sourcePane), ListBox)
+<font color= "blue">            Dim </font>targetBox <font color= "blue">As </font>ListBox = CType(Page.FindControl(targetPane), ListBox)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>sourceBox.SelectedIndex <> -1 <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                ' get source arraylist</font>
+<font color= "blue">                Dim </font>sourceList <font color= "blue">As </font>ArrayList = GetModules(sourcePane)
+<font color= "blue"></font>
+<font color= "green">                ' get a reference to the module to move</font>
+<font color= "green">                ' and assign a high order number to send it to the end of the target list</font>
+<font color= "blue">                Dim </font>m <font color= "blue">As </font>ModuleItem = CType(sourceList(sourceBox.SelectedIndex), ModuleItem)
+<font color= "blue"></font>
+<font color= "green">                ' add it to the database</font>
+<font color= "blue">                Dim </font>admin <font color= "blue">As </font>New AdminDB()
+<font color= "blue">                </font>admin.UpdateModuleOrder(m.ModuleId, 998, targetPane)
+<font color= "blue"></font>
+<font color= "green">                ' delete it from the source list</font>
+<font color= "blue">                </font>sourceList.RemoveAt(sourceBox.SelectedIndex)
+<font color= "blue"></font>
+<font color= "green">                ' Obtain portalId from Current Context</font>
+<font color= "blue">                Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(Context.Items("PortalSettings"), PortalSettings)
+<font color= "blue"></font>
+<font color= "green">                ' reload the _portalSettings from the database</font>
+<font color= "blue">                </font>HttpContext.Current.Items("PortalSettings") = New PortalSettings(_portalSettings.PortalId, tabId)
+<font color= "blue"></font>
+<font color= "green">                ' reorder the modules in the source pane</font>
+<font color= "blue">                </font>sourceList <font color= "blue"></font>= GetModules(sourcePane)
+<font color= "blue">                </font>OrderModules(sourceList)
+<font color= "blue"></font>
+<font color= "green">                ' resave the order</font>
+<font color= "blue">                Dim </font>item <font color= "blue">As </font>ModuleItem
+<font color= "blue">                For Each</font> item In sourceList
+<font color= "blue">                    </font>admin.UpdateModuleOrder(item.ModuleId, item.ModuleOrder, sourcePane)
+<font color= "blue">                Next</font> item
+<font color= "blue"></font>
+<font color= "green">                ' reorder the modules in the target pane</font>
+<font color= "blue">                Dim </font>targetList <font color= "blue">As </font>ArrayList = GetModules(targetPane)
+<font color= "blue">                </font>OrderModules(targetList)
+<font color= "blue"></font>
+<font color= "green">                ' resave the order</font>
+<font color= "blue">                For Each</font> item In targetList
+<font color= "blue">                    </font>admin.UpdateModuleOrder(item.ModuleId, item.ModuleOrder, targetPane)
+<font color= "blue">                Next</font> item
+<font color= "blue"></font>
+<font color= "green">                ' Redirect to the same page to pick up changes</font>
+<font color= "blue">                </font>Response.Redirect(Request.RawUrl)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Apply_Click server event handler on this page is</font>
+<font color= "green">        ' used to save the current tab settings to the database and</font>
+<font color= "green">        ' then redirect back to the main admin page.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Apply_Click(ByVal Sender As Object, ByVal e As EventArgs) Handles applyBtn.Click
+<font color= "blue"></font>
+<font color= "green">            ' Save changes then navigate back to admin.</font>
+<font color= "blue">            Dim </font>lb <font color= "blue">As </font>LinkButton = CType(Sender, LinkButton)
+<font color= "blue">            Dim </font>id <font color= "blue">As </font>String = CType(lb.ID, String)
+<font color= "blue"></font>
+<font color= "blue">            </font>SaveTabData()
+<font color= "blue"></font>
+<font color= "green">            ' redirect back to the admin page</font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(Context.Items("PortalSettings"), PortalSettings)
+<font color= "blue">            Dim </font>adminIndex <font color= "blue">As </font>Integer = _portalSettings.DesktopTabs.Count - 1
+<font color= "blue"></font>
+<font color= "blue">            </font>Response.Redirect(("~/DesktopDefault.aspx?tabindex=" & adminIndex.ToString() & "&tabid=" & CType(_portalSettings.DesktopTabs(adminIndex), TabStripDetails).TabId))
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The TabSettings_Change server event handler on this page is</font>
+<font color= "green">        ' invoked any time the tab name or access security settings</font>
+<font color= "green">        ' change.  The event handler in turn calls the "SaveTabData"</font>
+<font color= "green">        ' helper method to ensure that these changes are persisted</font>
+<font color= "green">        ' to the portal configuration file.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> TabSettings_Change(ByVal sender As Object, ByVal e As EventArgs) Handles authRoles.SelectedIndexChanged, tabName.TextChanged, showMobile.CheckedChanged, mobileTabName.TextChanged
+<font color= "blue"></font>
+<font color= "green">            ' Ensure that settings are saved</font>
+<font color= "blue">            </font>SaveTabData()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The SaveTabData helper method is used to persist the</font>
+<font color= "green">        ' current tab settings to the database.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Sub</font> SaveTabData()
+<font color= "blue"></font>
+<font color= "green">            ' Construct Authorized User Roles String</font>
+<font color= "blue">            Dim </font>authorizedRoles <font color= "blue">As </font>String = ""
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>item <font color= "blue">As </font>ListItem
+<font color= "blue">            For Each</font> item In authRoles.Items
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>item.Selected = True <font color= "blue">Then</font>
+<font color= "blue">                    </font>authorizedRoles <font color= "blue"></font>= authorizedRoles & item.Text & ";"
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue">            Next</font> item
+<font color= "blue"></font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(Context.Items("PortalSettings"), PortalSettings)
+<font color= "blue"></font>
+<font color= "green">            ' update Tab info in the database</font>
+<font color= "blue">            Dim </font>admin <font color= "blue">As </font>New AdminDB()
+<font color= "blue">            </font>admin.UpdateTab(_portalSettings.PortalId, tabId, tabName.Text, _portalSettings.ActiveTab.TabOrder, authorizedRoles, mobileTabName.Text, showMobile.Checked)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The EditBtn_Click server event handler on this page is</font>
+<font color= "green">        ' used to edit an individual portal module's settings</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> EditBtn_Click(ByVal sender As Object, ByVal e As ImageClickEventArgs) Handles LeftEditBtn.Click, ContentEditBtn.Click, RightEditBtn.Click
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>pane <font color= "blue">As </font>String = CType(sender, ImageButton).CommandArgument
+<font color= "blue">            Dim </font>_listbox <font color= "blue">As </font>ListBox = CType(Page.FindControl(pane), ListBox)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>_listbox.SelectedIndex <> -1 <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>mid <font color= "blue">As </font>Integer = Int32.Parse(_listbox.SelectedItem.Value)
+<font color= "blue"></font>
+<font color= "green">                ' Redirect to module settings page</font>
+<font color= "blue">                </font>Response.Redirect(("ModuleSettings.aspx?mid=" & mid & "&tabid=" & tabId))
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The DeleteBtn_Click server event handler on this page is</font>
+<font color= "green">        ' used to delete an portal module from the page</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> DeleteBtn_Click(ByVal sender As Object, ByVal e As ImageClickEventArgs) Handles LeftDeleteBtn.Click, ContentDeleteBtn.Click, RightDeleteBtn.Click
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>pane <font color= "blue">As </font>String = CType(sender, ImageButton).CommandArgument
+<font color= "blue">            Dim </font>_listbox <font color= "blue">As </font>ListBox = CType(Page.FindControl(pane), ListBox)
+<font color= "blue">            Dim </font>modules <font color= "blue">As </font>ArrayList = GetModules(pane)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>_listbox.SelectedIndex <> -1 <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>m <font color= "blue">As </font>ModuleItem = CType(modules(_listbox.SelectedIndex), ModuleItem)
+<font color= "blue"></font><font color= "blue">                If </font>m.ModuleId > -1 <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                    ' must delete from database too</font>
+<font color= "blue">                    Dim </font>admin <font color= "blue">As </font>New AdminDB()
+<font color= "blue">                    </font>admin.DeleteModule(m.ModuleId)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Redirect to the same page to pick up changes</font>
+<font color= "blue">            </font>Response.Redirect(Request.RawUrl)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The BindData helper method is used to update the tab's</font>
+<font color= "green">        ' layout panes with the current configuration information</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue">        Sub</font> BindData()
+<font color= "blue"></font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(Context.Items("PortalSettings"), PortalSettings)
+<font color= "blue">            Dim </font>tab <font color= "blue">As </font>TabSettings = _portalSettings.ActiveTab
+<font color= "blue"></font>
+<font color= "green">            ' Populate Tab Names, etc.</font>
+<font color= "blue">            </font>tabName.Text = tab.TabName
+<font color= "blue">            </font>mobileTabName.Text = tab.MobileTabName
+<font color= "blue">            </font>showMobile.Checked = tab.ShowMobile
+<font color= "blue"></font>
+<font color= "green">            ' Populate checkbox list with all security roles for this portal</font>
+<font color= "green">            ' and "check" the ones already configured for this tab</font>
+<font color= "blue">            Dim </font>admin <font color= "blue">As </font>New AdminDB()
+<font color= "blue">            Dim </font>roles <font color= "blue">As </font>SqlDataReader = admin.GetPortalRoles(_portalSettings.PortalId)
+<font color= "blue"></font>
+<font color= "green">            ' Clear existing items in checkboxlist</font>
+<font color= "blue">            </font>authRoles.Items.Clear()
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>allItem <font color= "blue">As </font>New ListItem()
+<font color= "blue">            </font>allItem.Text = "All Users"
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>tab.AuthorizedRoles.LastIndexOf("All Users") > -1 <font color= "blue">Then</font>
+<font color= "blue">                </font>allItem.Selected = True
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            </font>authRoles.Items.Add(allItem)
+<font color= "blue"></font>
+<font color= "blue">            While</font> roles.Read()
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>item <font color= "blue">As </font>New ListItem()
+<font color= "blue">                </font>item.Text = CType(roles("RoleName"), String)
+<font color= "blue">                </font>item.Value = roles("RoleID").ToString()
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>tab.AuthorizedRoles.LastIndexOf(item.Text) > -1 <font color= "blue">Then</font>
+<font color= "blue">                    </font>item.Selected = True
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                </font>authRoles.Items.Add(item)
+<font color= "blue"></font>
+<font color= "blue">            </font>End <font color= "blue"></font>While
+<font color= "blue"></font>
+<font color= "green">            ' Populate the "Add Module" Data</font>
+<font color= "blue">            </font>moduleType.DataSource = admin.GetModuleDefinitions(_portalSettings.PortalId)
+<font color= "blue">            </font>moduleType.DataBind()
+<font color= "blue"></font>
+<font color= "green">            ' Populate Right Hand Module Data</font>
+<font color= "blue">            </font>rightList <font color= "blue"></font>= GetModules("RightPane")
+<font color= "blue">            </font>rightPane.DataBind()
+<font color= "blue"></font>
+<font color= "green">            ' Populate Content Pane Module Data</font>
+<font color= "blue">            </font>contentList <font color= "blue"></font>= GetModules("ContentPane")
+<font color= "blue">            </font>contentPane.DataBind()
+<font color= "blue"></font>
+<font color= "green">            ' Populate Left Hand Pane Module Data</font>
+<font color= "blue">            </font>leftList <font color= "blue"></font>= GetModules("LeftPane")
+<font color= "blue">            </font>leftPane.DataBind()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The GetModules helper method is used to get the modules</font>
+<font color= "green">        ' for a single pane within the tab</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Function</font> GetModules(ByVal pane As String) As ArrayList
+<font color= "blue"></font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(Context.Items("PortalSettings"), PortalSettings)
+<font color= "blue">            Dim </font>paneModules <font color= "blue">As </font>New ArrayList()
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>_module <font color= "blue">As </font>ModuleSettings
+<font color= "blue">            For Each</font> _module In _portalSettings.ActiveTab.Modules
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>_module.PaneName.ToLower() = pane.ToLower() <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                    Dim </font>m <font color= "blue">As </font>New ModuleItem()
+<font color= "blue">                    </font>m.ModuleTitle = _module.ModuleTitle
+<font color= "blue">                    </font>m.ModuleId = _module.ModuleId
+<font color= "blue">                    </font>m.ModuleDefId = _module.ModuleDefId
+<font color= "blue">                    </font>m.ModuleOrder = _module.ModuleOrder
+<font color= "blue">                    </font>paneModules.Add(m)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            Next</font> _module
+<font color= "blue"></font>
+<font color= "blue">            </font>Return <font color= "blue"></font>paneModules
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The OrderModules helper method is used to reset the display</font>
+<font color= "green">        ' order for modules within a pane</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Sub</font> OrderModules(ByVal list As ArrayList)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>i <font color= "blue">As </font>Integer = 1
+<font color= "blue"></font>
+<font color= "green">            ' sort the arraylist</font>
+<font color= "blue">            </font>list.Sort()
+<font color= "blue"></font>
+<font color= "green">            ' renumber the order</font>
+<font color= "blue">            Dim </font>m <font color= "blue">As </font>ModuleItem
+<font color= "blue">            For Each</font> m In list
+<font color= "blue"></font>
+<font color= "green">                ' number the items 1, 3, 5, etc. to provide an empty order</font>
+<font color= "green">                ' number when moving items up and down in the list.</font>
+<font color= "blue">                </font>m.ModuleOrder = i
+<font color= "blue">                </font>i <font color= "blue"></font>+= 2
+<font color= "blue"></font>
+<font color= "blue">            Next</font> m
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

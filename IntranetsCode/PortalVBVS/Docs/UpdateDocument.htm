@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "UpdateDocument" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure is used by the Documents edit page to add a new document 
+            item to the database, or apply changes to an existing document item. The input 
+            parameters include the item's primary key (ItemID), plus category, and friendly 
+            name.
+        </P>
+        <p>
+            The document item stores either an URL to browse the document, or the actual 
+            contents of the of the document. If supplied, the document content is stored as 
+            an image field to support binary as well as text formats. The HTTP content type 
+            for the document and the content size in bytes are also stored.  The maximum
+            document size that may be stored is 2,147,483,647 bytes.
+        </p>
+        <b>Definition:</b>
+        <pre>
+        
+    CREATE PROCEDURE UpdateDocument
+    (
+        @ItemID           int,
+        @ModuleID         int,
+        @FileFriendlyName nvarchar(150),
+        @FileNameUrl      nvarchar(250),
+        @UserName         nvarchar(100),
+        @Category         nvarchar(50),
+        @Content          image,
+        @ContentType      nvarchar(50),
+        @ContentSize      int
+    )
+    AS
+    IF NOT EXISTS (
+        SELECT 
+            * 
+        FROM 
+            Documents 
+        WHERE 
+            ItemID = @ItemID
+    )
+    INSERT INTO Documents
+    (
+        ModuleID,
+        FileFriendlyName,
+        FileNameUrl,
+        CreatedByUser,
+        CreatedDate,
+        Category,
+        Content,
+        ContentType,
+        ContentSize
+    )
+
+    VALUES
+    (
+        @ModuleID,
+        @FileFriendlyName,
+        @FileNameUrl,
+        @UserName,
+        GetDate(),
+        @Category,
+        @Content,
+        @ContentType,
+        @ContentSize
+    )
+    ELSE
+    UPDATE
+        Documents
+
+    SET
+        CreatedByUser     = @UserName,
+        CreatedDate       = GetDate(),
+        Category          = @Category,
+        FileFriendlyName  = @FileFriendlyName,
+        FileNameUrl       = @FileNameUrl,
+        Content           = @Content,
+        ContentType       = @ContentType,
+        ContentSize       = @ContentSize
+
+    WHERE
+        ItemID = @ItemID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Documents:</i>
+        &nbsp;Each record in the Documents table is a single item, as displayed by the 
+        Documents Portal Module. Since all Documents modules store their record in this 
+        table, each item contains a ModuleID to permit related items to be retrieved in 
+        a single query.
+        <p>
+        The primary key in this table is the ItemID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/documents.jpg">
+    </body>
+</html>

@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetAuthRoles" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure returns all of the authorized security roles for the 
+            specified tab and module. This single list of roles is used to control edit 
+            access for a specific module.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE GetAuthRoles
+    (
+        @PortalID    int,
+        @ModuleID    int,
+        @AccessRoles nvarchar (256) OUTPUT,
+        @EditRoles   nvarchar (256) OUTPUT
+    )
+    AS
+
+    SELECT  
+        @AccessRoles = Tabs.AuthorizedRoles,
+        @EditRoles   = Modules.AuthorizedEditRoles
+        
+    FROM    
+        Modules
+    INNER JOIN
+        Tabs ON Modules.TabID = Tabs.TabID
+        
+    WHERE   
+        Modules.ModuleID = @ModuleID
+    AND
+        Tabs.PortalID = @PortalID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Tabs:</i>
+        &nbsp;Each record in the Tabs table defines the name and access permissions for 
+        a tab in the selected portal.
+        <p>
+        The primary key in this table is the TabID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/tabs.jpg">
+        </p>
+        <i>Modules:</i> &nbsp;Each record in the Modules table represents a single 
+        module instance on a specific tab in the selected portal. The definition for 
+        the module type is pulled via the ModuleDefID field from the ModuleDefinitions 
+        table. The data for the module is stored in a database table for the selected 
+        module type, and indexed by ModuleID.
+        <p>
+        The primary key in this table is the ModuleID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/modules.jpg">
+        </p>
+    </body>
+</html>

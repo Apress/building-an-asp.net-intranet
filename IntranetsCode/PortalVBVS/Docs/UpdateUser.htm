@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "UpdateUser" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure updates the settings for a user in the database. The input parameters 
+            include UserID, Email and Password.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE UpdateUser
+    (
+        @UserID      int,
+        @Email       nvarchar(100),
+        @Password    nvarchar(20)
+    )
+    AS
+
+    UPDATE
+        Users
+
+    SET
+        Email    =   @Email,
+        Password =   @Password
+
+    WHERE
+        UserId    =  @UserID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Users:</i>
+        &nbsp;Each record in the Users table is a unique user identity. The primary key 
+        in this table is the UserID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/users.jpg">
+        </p>
+    </body>
+</html>

@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetDocumentContent" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure returns the Content, ContentType and ContentSize for a 
+            document stored in the database. The input parameters is the ItemID for the 
+            document.
+        </P>
+        <b>Definition:</b>
+        <pre>
+        
+    CREATE PROCEDURE GetDocumentContent
+    (
+        @ItemID int
+    )
+    AS
+
+    SELECT
+        Content,
+        ContentType,
+        ContentSize
+
+    FROM
+        Documents
+
+    WHERE
+        ItemID = @ItemID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Documents:</i>
+        &nbsp;Each record in the Documents table is a single item, as displayed by the 
+        Documents Portal Module. Since all Documents modules store their record in this 
+        table, each item contains a ModuleID to permit related items to be retrieved in 
+        a single query.
+        <p>
+        The primary key in this table is the ItemID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/documents.jpg">
+    </body>
+</html>

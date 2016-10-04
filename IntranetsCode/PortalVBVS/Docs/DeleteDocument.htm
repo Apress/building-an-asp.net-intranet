@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "DeleteDocument" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure deletes a single document item from the database. The 
+            input parameter is ItemID, the primary key for the record.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE DeleteDocument
+    (
+        @ItemID int
+    )
+    AS
+
+    DELETE FROM
+        Documents
+
+    WHERE
+        ItemID = @ItemID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Documents:</i>
+        &nbsp;Each record in the Documents table is a single item, as displayed by the 
+        Documents Portal Module. Since all Documents modules store their record in this 
+        table, each item contains a ModuleID to permit related items to be retrieved in 
+        a single query.
+        <p>
+        The primary key in this table is the ItemID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/documents.jpg">
+    </body>
+</html>

@@ -1,0 +1,74 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Imports</font> System.IO
+<font color= "blue"></font>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">   </font>MustInherit <font color= "blue"></font>Public Class XmlModule
+<font color= "blue">        Inherits</font> ASPNetPortal.PortalModuleControl
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>xml1 As System.Web.UI.WebControls.Xml
+<font color= "blue">      </font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Load event handler on this User Control uses</font>
+<font color= "green">        ' the Portal configuration system to obtain an xml document</font>
+<font color= "green">        ' and xsl/t transform file location.  It then sets these</font>
+<font color= "green">        ' properties on an <asp:Xml> server control.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>xmlsrc <font color= "blue">As </font>String = CType(Settings("xmlsrc"), String)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (xmlsrc Is Nothing) And xmlsrc <> "" <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>File.Exists(Server.MapPath(xmlsrc)) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>xml1.DocumentSource = xmlsrc
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>Controls.Add(New LiteralControl("<" & "br" & "><" & "span class=NormalRed" & ">" & "File " & xmlsrc & " not found.<" & "br" & ">"))
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>xslsrc <font color= "blue">As </font>String = CType(Settings("xslsrc"), String)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (xslsrc Is Nothing) And xslsrc <> "" <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>File.Exists(Server.MapPath(xslsrc)) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>xml1.TransformSource = xslsrc
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>Controls.Add(New LiteralControl("<" & "br" & "><" & "span class=NormalRed>File " & xslsrc & " not found.<" & "br" & ">"))
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

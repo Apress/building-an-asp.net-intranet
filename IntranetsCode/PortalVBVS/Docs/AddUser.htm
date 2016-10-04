@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "AddUser" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure adds a new user to the database. The input parameters 
+            include Name, Email and Password.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE Procedure AddUser
+    (
+        @Name     nvarchar(50),
+        @Email    nvarchar(100),
+        @Password nvarchar(20),
+        @UserID   int OUTPUT
+    )
+    AS
+
+    INSERT INTO Users
+    (
+        Name,
+        Email,
+        Password
+    )
+
+    VALUES
+    (
+        @Name,
+        @Email,
+        @Password
+    )
+
+    SELECT
+        @UserID = @@Identity
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Users:</i>
+        &nbsp;Each record in the Users table is a unique user identity. The primary key 
+        in this table is the UserID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/users.jpg">
+        </p>
+    </body>
+</html>

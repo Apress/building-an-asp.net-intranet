@@ -1,0 +1,55 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public </font>MustInherit <font color= "blue"></font>Class DesktopModuleTitle
+<font color= "blue">        Inherits</font> System.Web.UI.UserControl
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>ModuleTitle <font color= "blue">As </font>System.Web.UI.WebControls.Label
+<font color= "blue">        Protected </font>EditButton <font color= "blue">As </font>System.Web.UI.WebControls.HyperLink
+<font color= "blue"></font>
+<font color= "blue">        Public </font>EditText <font color= "blue">As </font>[String] = Nothing
+<font color= "blue">        Public </font>EditUrl <font color= "blue">As </font>[String] = Nothing
+<font color= "blue">        Public </font>EditTarget <font color= "blue">As </font>[String] = Nothing
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+<font color= "blue"></font>
+<font color= "green">            ' Obtain PortalSettings from Current Context</font>
+<font color= "blue">            Dim </font>_portalSettings <font color= "blue">As </font>PortalSettings = CType(HttpContext.Current.Items("PortalSettings"), PortalSettings)
+<font color= "blue"></font>
+<font color= "green">            ' Obtain reference to parent portal module</font>
+<font color= "blue">            Dim </font>portalModule <font color= "blue">As </font>PortalModuleControl = CType(Me.Parent, PortalModuleControl)
+<font color= "blue"></font>
+<font color= "green">            ' Display Modular Title Text and Edit Buttons</font>
+<font color= "blue">            </font>ModuleTitle.Text = portalModule.ModuleConfiguration.ModuleTitle
+<font color= "blue"></font>
+<font color= "green">            ' Display the Edit button if the parent portalmodule has configured the PortalModuleTitle User Control</font>
+<font color= "green">            ' to display it -- and the current client has edit access permissions</font>
+<font color= "blue"></font><font color= "blue">            If </font>_portalSettings.AlwaysShowEditButton = True Or (PortalSecurity.IsInRoles(portalModule.ModuleConfiguration.AuthorizedEditRoles) And Not (EditText Is Nothing)) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                </font>EditButton.Text = EditText
+<font color= "blue">                </font>EditButton.NavigateUrl = EditUrl + "?mid=" + portalModule.ModuleId.ToString()
+<font color= "blue">                </font>EditButton.Target = EditTarget
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace </font><font color= "blue"></font>
+</pre>

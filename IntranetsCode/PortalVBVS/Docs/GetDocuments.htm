@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetDocuments" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure returns all of the documents for a specific Documents 
+            module within the portal. The input parameter is the ModuleID.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE GetDocuments
+    (
+        @ModuleID int
+    )
+    AS
+
+    SELECT
+        ItemID,
+        FileFriendlyName,
+        FileNameUrl,
+        CreatedByUser,
+        CreatedDate,
+        Category,
+        ContentSize
+        
+    FROM
+        Documents
+
+    WHERE
+        ModuleID = @ModuleID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Documents:</i>
+        &nbsp;Each record in the Documents table is a single item, as displayed by the 
+        Documents Portal Module. Since all Documents modules store their record in this 
+        table, each item contains a ModuleID to permit related items to be retrieved in 
+        a single query.
+        <p>
+        The primary key in this table is the ItemID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/documents.jpg">
+    </body>
+</html>

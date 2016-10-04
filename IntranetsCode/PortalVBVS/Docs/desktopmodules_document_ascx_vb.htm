@@ -1,0 +1,92 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public </font>MustInherit <font color= "blue"></font>Class Document
+<font color= "blue">        Inherits</font> ASPNetPortal.PortalModuleControl
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>myDataGrid As System.Web.UI.WebControls.DataGrid
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Page_Load event handler on this User Control is used to</font>
+<font color= "green">        ' obtain a SqlDataReader of document information from the </font>
+<font color= "green">        ' Documents table, and then databind the results to a DataGrid</font>
+<font color= "green">        ' server control.  It uses the ASPNetPortal.DocumentDB()</font>
+<font color= "green">        ' data component to encapsulate all data functionality.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+<font color= "blue"></font>
+<font color= "green">            ' Obtain Document Data from Documents table</font>
+<font color= "green">            ' and bind to the datalist control</font>
+<font color= "blue">            Dim </font>documents <font color= "blue">As </font>New ASPNetPortal.DocumentDB()
+<font color= "blue"></font>
+<font color= "blue">            </font>myDataGrid.DataSource = documents.GetDocuments(ModuleId)
+<font color= "blue">            </font>myDataGrid.DataBind()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*******************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' GetBrowsePath() is a helper method used to create the url   </font>
+<font color= "green">        ' to the document.  If the size of the content stored in the   </font>
+<font color= "green">        ' database is non-zero, it creates a path to browse that.   </font>
+<font color= "green">        ' Otherwise, the FileNameUrl value is used.</font>
+<font color= "green">        '</font>
+<font color= "green">        ' This method is used in the databinding expression for</font>
+<font color= "green">        ' the browse Hyperlink within the DataGrid, and is called </font>
+<font color= "green">        ' for each row when DataGrid.DataBind() is called.  It is </font>
+<font color= "green">        ' defined as a helper method here (as opposed to inline </font>
+<font color= "green">        ' within the template) to improve code organization and</font>
+<font color= "green">        ' avoid embedding logic within the content template.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*******************************************************'</font>
+<font color= "blue"></font>
+<font color= "blue">        Function</font> GetBrowsePath(ByVal url As String, ByVal size As Object, ByVal documentId As Integer) As String
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>hasSize <font color= "blue">As </font>Boolean = True
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>size Is DBNull.Value <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                </font>hasSize <font color= "blue"></font>= False
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            ElseIf </font>CInt(size) < 1 <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                </font>hasSize <font color= "blue"></font>= False
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>hasSize = False <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                ' return the FileNameUrl</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>url
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' if there is content in the database, create an </font>
+<font color= "green">            ' url to browse it</font>
+<font color= "blue">            </font>Return <font color= "blue"></font>"~/DesktopModules/ViewDocument.aspx?DocumentID=" & documentId.ToString()
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

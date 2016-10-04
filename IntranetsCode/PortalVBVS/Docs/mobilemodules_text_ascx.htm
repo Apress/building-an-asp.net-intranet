@@ -1,0 +1,75 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Control Language="VB" Inherits="ASPNetPortal.MobilePortalModuleControl" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="mobile" Namespace="System.Web.UI.MobileControls" Assembly="System.Web.Mobile" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="portal" TagName="Title" Src="~/MobileModuleTitle.ascx" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="portal" Namespace="ASPNetPortal.MobileControls" Assembly="Portal" %<font color= "blue">&gt</font>
+&lt%@ Import Namespace="System.Data.SqlClient" %<font color= "blue">&gt</font>
+
+<font color= "green">&lt%--
+
+    The Text Mobile User Control renders text modules in the mobile portal. 
+
+    The control consists of two pieces: a summary panel that is rendered when
+    portal view shows a summarized view of all modules, and a multi-part panel 
+    that renders the module details.
+
+--%<font color= "blue">&gt</font></font>
+
+<font color= "blue">&lt</font><font color="maroon">script</font> runat="server"<font color= "blue">&gt</font>
+<font color= "blue"></font>
+<font color= "blue">    Private </font>mobileSummary As String = ""
+<font color= "blue">    Private </font>mobileDetails As String = ""
+<font color= "blue"></font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' Page_Load Event Handler</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> ' The Page_Load event handler on this User Control is used to</font>
+<font color= "blue">   </font><font color= "green"> ' load the contents of the text message from a file, and databind</font>
+<font color= "blue">   </font><font color= "green"> ' the message to the module contents.</font>
+<font color= "blue">   </font><font color= "green"> '</font>
+<font color= "blue">   </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    </font>Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' Obtain the selected item from the HtmlText table</font>
+<font color= "blue">        </font>Dim [text] As New ASPNetPortal.HtmlTextDB()
+<font color= "blue">        </font>Dim dr As SqlDataReader = [text].GetHtmlText(ModuleId)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        If </font>dr.Read() Then<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">           </font><font color= "green"> ' Dynamically add the file content into the page</font>
+<font color= "blue">            </font>mobileSummary = Server.HtmlDecode(CStr(dr("MobileSummary")))
+<font color= "blue">            </font>mobileDetails = Server.HtmlDecode(CStr(dr("MobileDetails")))
+<font color= "blue"></font>
+<font color= "blue">        </font>End If
+<font color= "blue"></font>
+<font color= "blue">        </font>DataBind()
+<font color= "blue"></font>
+<font color= "blue">       </font><font color= "green"> ' Close the datareader</font>
+<font color= "blue">        </font>dr.Close()
+<font color= "blue"></font>
+<font color= "blue">    </font>End Sub
+<font color= "blue">        </font>
+<font color= "blue">&lt/</font><font color="maroon">script</font><font color= "blue">&gt</font>
+
+<font color= "blue">&lt</font>mobile:Panel id="summary" runat="server"<font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">DeviceSpecific</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">Choice</font> Filter="isJScript"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">ContentTemplate</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color=blue>portal:Title runat="server" /</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">font</font> face="Verdana" size="-2"<font color= "blue">&gt</font>
+                    &lt%# mobileSummary %<font color= "blue">&gt</font>
+                    <font color= "blue">&lt</font><font color=blue>asp:LinkButton runat="server" Visible="&lt%# mobileDetails <font color= "blue">&lt</font><font color= "blue">&gt</font> String.Empty %<font color= "blue">&gt</font>" Text="more" CommandName="Details" /</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt/</font><font color="maroon">font</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">ContentTemplate</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">Choice</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">DeviceSpecific</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font>mobile:Panel<font color= "blue">&gt</font>
+
+<font color= "blue">&lt</font><font color=blue>portal:Title runat="server" /</font><font color= "blue">&gt</font>
+<font color= "blue">&lt</font>mobile:TextView runat="server" Text="&lt%# mobileDetails %<font color= "blue">&gt</font>" Font-Name="Verdana" Font-Size="Small" <font color= "blue">/&gt</font>
+<font color= "blue">&lt</font><font color=blue>portal:LinkCommand runat="server" Text="back" CommandName="summary" Font-Name="Verdana" Font-Size="Small" /</font><font color= "blue">&gt</font>
+</pre>

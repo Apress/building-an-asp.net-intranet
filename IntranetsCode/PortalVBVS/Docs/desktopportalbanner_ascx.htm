@@ -1,0 +1,51 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Control CodeBehind="DesktopPortalBanner.ascx.vb" language="vb" AutoEventWireup="false" Inherits="ASPNetPortal.DesktopPortalBanner" %<font color= "blue">&gt</font>
+&lt%@ Import Namespace="ASPNetPortal" %<font color= "blue">&gt</font>
+
+<font color= "green">&lt%--
+
+   The DesktopPortalBanner User Control is responsible for displaying the standard Portal
+   banner at the top of each .aspx page.
+
+   The DesktopPortalBanner uses the Portal Configuration System to obtain a list of the
+   portal's sitename and tab settings. It then render's this content into the page.
+
+--%<font color= "blue">&gt</font></font>
+
+
+<font color= "blue">&lt</font><font color="maroon">table</font> width="100%" cellspacing="0" class="HeadBg" border="0"<font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">tr</font> valign="top"<font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font> colspan="3" class="SiteLink" background="&lt%= Request.ApplicationPath %<font color= "blue">&gt</font>/images/bars.gif" align="right"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color=blue>asp:label id="WelcomeMessage" forecolor="#eeeeee" runat="server" /</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">a</font> href="&lt%= Request.ApplicationPath %<font color= "blue">&gt</font>" class="SiteLink"<font color= "blue">&gt</font>Portal Home<font color= "blue">&lt/</font><font color="maroon">a</font><font color= "blue">&gt</font> <font color= "blue">&lt</font><font color="maroon">span</font> class="Accent"<font color= "blue">&gt</font>
+                |<font color= "blue">&lt/</font><font color="maroon">span</font><font color= "blue">&gt</font> <font color= "blue">&lt</font><font color="maroon">a</font> href="&lt%= Request.ApplicationPath %<font color= "blue">&gt</font>/Docs/Docs.htm" target="_blank" class="SiteLink"<font color= "blue">&gt</font>
+                Portal Documentation<font color= "blue">&lt/</font><font color="maroon">a</font><font color= "blue">&gt</font>
+            &lt%= LogoffLink %<font color= "blue">&gt</font>
+            &nbsp;&nbsp;
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font> width="10" rowspan="2"<font color= "blue">&gt</font>
+            &nbsp;
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font> height="40"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color=blue>asp:label id="siteName" CssClass="SiteTitle" EnableViewState="false" runat="server" /</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font> align="middle" rowspan="2"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">a</font> href="http://www.asp.net"<font color= "blue">&gt</font><font color= "blue">&lt</font><font color="maroon">img</font> id="logo" src="&lt%=Request.ApplicationPath%<font color= "blue">&gt</font>/images/poweredby_simple.gif" border="0"<font color= "blue">&gt</font><font color= "blue">&lt/</font><font color="maroon">a</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">td</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color=blue>asp:datalist id="tabs" cssclass="OtherTabsBg" repeatdirection="horizontal" ItemStyle-Height="25" SelectedItemStyle-CssClass="TabBg" ItemStyle-BorderWidth="1" EnableViewState="false" runat="server"</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+                    &nbsp;<font color= "blue">&lt</font><font color="maroon">a</font> href='&lt%= Request.ApplicationPath %<font color= "blue">&gt</font>/DesktopDefault.aspx?tabindex=&lt%# Container.ItemIndex %<font color= "blue">&gt</font>&tabid=&lt%# Ctype(Container.DataItem, TabStripDetails).TabId %<font color= "blue">&gt</font>' class="OtherTabs"<font color= "blue">&gt</font>&lt%# Ctype(Container.DataItem, TabStripDetails).TabName %<font color= "blue">&gt</font><font color= "blue">&lt/</font><font color="maroon">a</font><font color= "blue">&gt</font>&nbsp;
+                <font color= "blue">&lt/</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">SelectedItemTemplate</font><font color= "blue">&gt</font>
+                    &nbsp;<font color= "blue">&lt</font><font color="maroon">span</font> class="SelectedTab"<font color= "blue">&gt</font>&lt%# Ctype(Container.DataItem, TabStripDetails).TabName %<font color= "blue">&gt</font><font color= "blue">&lt/</font><font color="maroon">span</font><font color= "blue">&gt</font>&nbsp;
+                <font color= "blue">&lt/</font><font color="maroon">SelectedItemTemplate</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color=blue>asp:datalist</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">td</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">tr</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font><font color="maroon">table</font><font color= "blue">&gt</font>
+</pre>

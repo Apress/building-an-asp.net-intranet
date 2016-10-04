@@ -1,0 +1,55 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Imports</font> System.Web.Security
+<font color= "blue"></font>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "blue">    Public </font>MustInherit <font color= "blue"></font>Class Signin
+<font color= "blue">        Inherits</font> ASPNetPortal.PortalModuleControl
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>email As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>password As System.Web.UI.WebControls.TextBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>RememberCheckbox As System.Web.UI.WebControls.CheckBox
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>SigninBtn As System.Web.UI.WebControls.ImageButton
+<font color= "blue">        Protected </font>WithEvents <font color= "blue"></font>Message As System.Web.UI.WebControls.Label
+<font color= "blue"></font>
+<font color= "blue"></font>#Region " Web Form Designer Generated Code "
+<font color= "blue"></font>
+<font color= "green">        'This call is required by the Web Form Designer.</font>
+<font color= "blue">        </font><System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> Page_Init(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Init
+<font color= "green">            'CODEGEN: This method call is required by the Web Form Designer</font>
+<font color= "green">            'Do not modify it using the code editor.</font>
+<font color= "blue">            </font>InitializeComponent()
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>#End Region
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> LoginBtn_Click(ByVal sender As Object, ByVal e As ImageClickEventArgs) Handles SigninBtn.Click
+<font color= "blue"></font>
+<font color= "green">            ' Attempt to Validate User Credentials using UsersDB</font>
+<font color= "blue">            Dim </font>accountSystem <font color= "blue">As </font>New UsersDB()
+<font color= "blue">            Dim </font>userId <font color= "blue">As </font>String = accountSystem.Login(email.Text, password.Text)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (userId Is Nothing) And userId <> "" <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                ' Use security system to set the UserID within a client-side Cookie</font>
+<font color= "blue">                </font>FormsAuthentication.SetAuthCookie(email.Text, RememberCheckbox.Checked)
+<font color= "blue"></font>
+<font color= "green">                ' Redirect browser back to originating page</font>
+<font color= "blue">                </font>Response.Redirect(Request.ApplicationPath)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                </font>Message.Text = "<" & "br" & ">Login Failed!" & "<" & "br" & ">"
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

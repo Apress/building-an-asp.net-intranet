@@ -1,0 +1,5 @@
+User Control:Documents.ascx|DesktopModules_Document_ascx.htm, Documents.ascx.vb|DesktopModules_Document_ascx_vb.htm
+Business Component:DocumentsDB.vb|Components_DocumentDB_vb.htm
+Stored Procedures: DeleteDocument|DeleteDocument.htm,GetDocumentContent|GetDocumentContent.htm,GetDocuments|GetDocuments.htm,GetSingleDocument|GetSingleDocument.htm,UpdateDocument|UpdateDocument.htm
+Edit Page:EditDocs.aspx|DesktopModules_EditDocs_aspx.htm, EditDocs.aspx.vb|DesktopModules_EditDocs_aspx_vb.htm
+Document Viewer:ViewDocument.aspx|DesktopModules_ViewDocument_aspx.htm, ViewDocument.aspx.vb|DesktopModules_ViewDocument_aspx_vb.htm

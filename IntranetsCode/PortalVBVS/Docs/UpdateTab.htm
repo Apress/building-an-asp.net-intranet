@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "UpdateTab" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure is used by the TabLayout administration&nbsp;page to update
+            the settings of the specified tab. The input parameters include the item's primary 
+            key (TabID), plus display name, security roles and mobile settings for the tab.
+        </P>
+        <b>Definition:</b>
+        <pre>
+
+    CREATE PROCEDURE UpdateTab
+    (
+        @TabID           int,
+        @TabOrder        int,
+        @TabName         nvarchar(50),
+        @AuthorizedRoles nvarchar(256),
+        @MobileTabName   nvarchar(50),
+        @ShowMobile      bit
+    )
+    AS
+    UPDATE
+        Tabs
+
+    SET
+        TabOrder = @TabOrder,
+        TabName = @TabName,
+        AuthorizedRoles = @AuthorizedRoles,
+        MobileTabName = @MobileTabName,
+        ShowMobile = @ShowMobile
+    WHERE
+        TabID = @TabID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Tabs:</i>
+        &nbsp;Each record in the Tabs table defines the name and access permissions for 
+        a tab in the selected portal. The primary key in this table is the TabID 
+        identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/tabs.jpg">
+        </p>
+    </body>
+</html>

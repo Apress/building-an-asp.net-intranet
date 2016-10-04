@@ -1,0 +1,3 @@
+Page Source:ModuleSettings.aspx|Admin_ModuleSettings_aspx.htm,ModuleSettings.aspx.vb|Admin_ModuleSettings_aspx_vb.htm
+Business Component:AdminDB.vb|Components_AdminDB_vb.htm, Security.vb|Components_Security_vb.htm
+Stored Procedures:GetPortalRoles|GetPortalRoles.htm,UpdateModule|UpdateModule.htm

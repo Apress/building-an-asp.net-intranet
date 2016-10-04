@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetModuleDefinitions" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure returns all of the module type definitions for the 
+            specified portal. The input parameter is the PortalID.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE GetModuleDefinitions
+    (
+        @PortalID  int
+    )
+    AS
+
+    SELECT  
+        FriendlyName,
+        DesktopSrc,
+        MobileSrc,
+        ModuleDefID
+
+    FROM
+        ModuleDefinitions
+        
+    WHERE   
+        PortalID = @PortalID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>ModuleDefinitions:</i>
+        &nbsp;Each record in the ModuleDefinitions table defines a different type of 
+        modules that may be used in the selected portal. Individual modules reference 
+        this definition via the ModuleDefID, the primary key for this table. All 
+        modules must define a Desktop modules version; optionally they may also define 
+        a Mobile version.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/moduledefinitions.jpg">
+        </p>
+    </body>
+</html>

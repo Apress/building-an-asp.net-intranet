@@ -1,0 +1,83 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Control Language="vb" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="mobile" Namespace="System.Web.UI.MobileControls" Assembly="System.Web.Mobile" %<font color= "blue">&gt</font>
+&lt%@ Import Namespace="ASPNetPortal" %<font color= "blue">&gt</font>
+
+<font color= "green">&lt%--
+
+    The MobileModuleTitle User Control is responsible for displaying the title of
+    each portal module within the mobile portal. It include device-specific
+    templates for richer rendering of the title on Pocket PCs.
+
+--%<font color= "blue">&gt</font></font>
+
+<font color= "blue">&lt</font><font color="maroon">script</font> runat="server"<font color= "blue">&gt</font>
+<font color= "blue"></font>
+<font color= "blue">   Public </font>Text As String
+<font color= "blue"></font>
+<font color= "blue">  </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue">  </font><font color= "green"> '</font>
+<font color= "blue">  </font><font color= "green"> ' Page_Load Event Handler</font>
+<font color= "blue">  </font><font color= "green"> '</font>
+<font color= "blue">  </font><font color= "green"> ' The Page_Load event handler executes after the user control is loaded</font>
+<font color= "blue">  </font><font color= "green"> ' and inserted into the control tree.</font>
+<font color= "blue">  </font><font color= "green"> '</font>
+<font color= "blue">  </font><font color= "green"> ' The Page_Load event handler checks to see if</font>
+<font color= "blue">  </font><font color= "green"> '</font>
+<font color= "blue">  </font><font color= "green"> '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">   </font>Sub Page_Load(sender As Object, e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">      If </font>Text Is Nothing Then<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        </font><font color= "green"> ' If the Text property has not been explicitly specified,</font>
+<font color= "blue">        </font><font color= "green"> ' walk the parent control chain to find a MobilePortalModuleControl,</font>
+<font color= "blue">        </font><font color= "green"> ' and obtain the title from the corresponding module.</font>
+<font color= "blue">         </font>Dim _module As MobilePortalModuleControl = Nothing
+<font color= "blue">         </font>Dim _control As Control = Me
+<font color= "blue"></font>
+<font color= "blue">         While</font> _module Is Nothing
+<font color= "blue"></font>
+<font color= "blue">            </font>_control = _control.Parent
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not _control Is Nothing<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                Try</font>
+<font color= "blue">                    </font>_module = CType(_control, MobilePortalModuleControl)
+<font color= "blue">                    </font>Text = _module.ModuleTitle
+<font color= "blue">                Catch</font>
+<font color= "blue">                   </font><font color= "green"> ' assignment failed -- _control is wrong type</font>
+<font color= "blue">                   </font><font color= "green"> ' don't set Text</font>
+<font color= "blue">                </font>End Try
+<font color= "blue"></font>
+<font color= "blue">            </font>End If
+<font color= "blue"></font>
+<font color= "blue">         </font>End While
+<font color= "blue"></font>
+<font color= "blue">      </font>End If
+<font color= "blue"></font>
+<font color= "blue">     </font><font color= "green"> ' Databind the User control.</font>
+<font color= "blue">      </font>DataBind()
+<font color= "blue"></font>
+<font color= "blue">   </font>End Sub
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">&lt/</font><font color="maroon">script</font><font color= "blue">&gt</font>
+
+<font color= "blue">&lt</font>mobile:Panel runat="server"<font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">DeviceSpecific</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color="maroon">Choice</font> Filter="isJScript"<font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">ContentTemplate</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">font</font> face="Verdana" size="-1" color="#666633"<font color= "blue">&gt</font><font color= "blue">&lt</font><font color="maroon">b</font><font color= "blue">&gt</font>
+                        &lt%# Text %<font color= "blue">&gt</font>
+                    <font color= "blue">&lt/</font><font color="maroon">b</font><font color= "blue">&gt</font><font color= "blue">&lt/</font><font color="maroon">font</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">br</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color="maroon">hr</font> noshade size="1pt" color="#666633"<font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">ContentTemplate</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color="maroon">Choice</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">DeviceSpecific</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt</font>mobile:Label runat="server" ForeColor="#666633" Font-Size="Large" Font-Bold="True"<font color= "blue">&gt</font>
+        &lt%# Text %<font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font>mobile:Label<font color= "blue">&gt</font>
+<font color= "blue">&lt/</font>mobile:Panel<font color= "blue">&gt</font>
+</pre>

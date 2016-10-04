@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetSingleEvent" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+        This stored procedure returns a single event item from the database. The input 
+        parameter is ItemID, the primary key for the record. The return values include 
+        the event details, as well as information about the users that created and last 
+        edited this item.
+        <p>
+            This stored procedure is used by the edit page for Events.
+        </p>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE GetSingleEvent
+    (
+        @ItemID int
+    )
+    AS
+
+    SELECT
+        CreatedByUser,
+        CreatedDate,
+        Title,
+        ExpireDate,
+        Description,
+        WhereWhen
+
+    FROM
+        Events
+
+    WHERE
+        ItemID = @ItemID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Events:</i>
+        &nbsp;Each record in the Events table is a single item, as displayed by the 
+        Events Portal Module. Since all Events modules store their record in this 
+        table, each item contains a ModuleID to permit related items to be retrieved in 
+        a single query.
+        <p>
+        The primary key in this table is the ItemID identity field. Note that event 
+        descriptions are limited to 2000 characters.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/events.jpg">
+        </p>
+    </body>
+</html>

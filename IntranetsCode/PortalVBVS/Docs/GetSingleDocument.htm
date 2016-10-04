@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetSingleDocument" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+        This stored procedure returns a single document item from the database. The 
+        input parameter is ItemID, the primary key for the record. The return values 
+        include the document details, as well as information about the users that 
+        created and last edited this item.
+        <p>
+            This stored procedure is used by the edit page for Documents.
+        </p>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE GetSingleDocument
+    (
+        @ItemID int
+    )
+    AS
+
+    SELECT
+        FileFriendlyName,
+        FileNameUrl,
+        CreatedByUser,
+        CreatedDate,
+        Category,
+        ContentSize
+
+    FROM
+        Documents
+
+    WHERE
+        ItemID = @ItemID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Documents:</i>
+        &nbsp;Each record in the Documents table is a single item, as displayed by the 
+        Documents Portal Module. Since all Documents modules store their record in this 
+        table, each item contains a ModuleID to permit related items to be retrieved in 
+        a single query.
+        <p>
+        The primary key in this table is the ItemID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/documents.jpg">
+        </p>
+    </body>
+</html>

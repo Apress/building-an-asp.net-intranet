@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetRolesByUser" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure returns all of the portal security roles to which the 
+            specified user belongs. The input parameter is the user's Email address.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE GetRolesByUser
+    (
+        @Email         nvarchar(100)
+    )
+    AS
+
+    SELECT  
+        Roles.RoleName,
+        Roles.RoleID
+
+    FROM
+        UserRoles
+    INNER JOIN 
+        Users ON UserRoles.UserID = Users.UserID
+    INNER JOIN 
+        Roles ON UserRoles.RoleID = Roles.RoleID
+
+    WHERE   
+        Users.Email = @Email
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>UserRoles:</i>
+        &nbsp;The UserRoles table provides a many-to-many connection between portal 
+        security roles (defined in the Roles table) and users (defined in the Users 
+        table). Using the UserRoles table, each user may belong to multiple roles and 
+        and each role may have multiple users as members.
+        <p>
+        The UserRoles table has no primary key.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/userroles.jpg">
+        </p>
+        <i>Users:</i> &nbsp;Each record in the Users table is a unique user identity. 
+        The primary key in this table is the UserID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/users.jpg">
+        </p>
+        <i>Roles:</i> &nbsp;Each record in the Roles table defines a unique role in the 
+        selected portal. Users are added to a role via the UserRoles lookup value 
+        table.
+        <p>
+        The primary key in this table is the RoleID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/roles.jpg">
+        </p>
+    </body>
+</html>

@@ -1,0 +1,1761 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+<font color= "blue">Imports</font> System
+<font color= "blue">Imports</font> System.Data
+<font color= "blue">Imports</font> System.Drawing
+<font color= "blue">Imports</font> System.Collections
+<font color= "blue">Imports</font> System.Collections.Specialized
+<font color= "blue">Imports</font> System.ComponentModel
+<font color= "blue">Imports</font> System.Web
+<font color= "blue">Imports</font> System.Web.UI
+<font color= "blue">Imports</font> System.Web.UI.MobileControls
+<font color= "blue">Imports</font> System.Web.UI.MobileControls.Adapters
+<font color= "blue">Imports</font> ASPNetPortal.MobileControls
+<font color= "blue"></font>
+<font color= "blue"></font><Assembly: TagPrefix("ASPNetPortal.MobileControls", "portal")> 
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">Namespace</font> ASPNetPortal
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' MobilePortalModuleControl</font>
+<font color= "green">    '</font>
+<font color= "green">    ' The MobilePortalModuleControl class is the base class used for</font>
+<font color= "green">    ' each module user control in the mobile portal. Since it implements</font>
+<font color= "green">    ' the IContentsPane interface, any control inheriting from this class</font>
+<font color= "green">    ' can be used as a module in a portal tab.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> MobilePortalModuleControl
+<font color= "blue">        Inherits</font> UserControl
+<font color= "blue">        Implements</font> IContentsPane
+<font color= "blue"></font>
+<font color= "blue">        Private </font>_moduleConfiguration <font color= "blue">As </font>ModuleSettings
+<font color= "blue">        Private </font>_summaryControl <font color= "blue">As </font>Control
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MobilePortalModuleControl.ModuleConfiguration Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns the configuration information for this module.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Property</font> ModuleConfiguration() As ModuleSettings
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>_moduleConfiguration
+<font color= "blue">            End Get</font>
+<font color= "blue">            </font>Set(ByVal Value As ModuleSettings)
+<font color= "blue">                </font>_moduleConfiguration <font color= "blue"></font>= Value
+<font color= "blue">            End Set</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MobilePortalModuleControl.Tab Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns the parent portal tab.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public ReadOnly Property</font> Tab() As MobilePortalTab
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>Parent
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MobilePortalModuleControl.ModuleTitle Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns the name of this module.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        </font><Browsable(False), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)> _
+<font color= "blue">        Public ReadOnly Property</font> ModuleTitle() As String
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>_moduleConfiguration.ModuleTitle
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MobilePortalModuleControl.ModuleId Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns the unique ID of this module.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        </font><Browsable(False), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)> _
+<font color= "blue">        Public ReadOnly Property</font> ModuleId() As Integer
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>_moduleConfiguration.ModuleId
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' IContentsPane.Title Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns the name of the module, to be used as the pane title</font>
+<font color= "green">        ' when used inside a tab.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        </font><Browsable(False), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)> _
+<font color= "blue">        ReadOnly Property</font> Title() As String Implements IContentsPane.Title
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>_moduleConfiguration.ModuleTitle
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' IContentsPane.OnSetSummaryMode Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' OnSetSummaryMode is called on each child pane when the parent tab</font>
+<font color= "green">        ' changes from showing summaries to individual details or vice versa.</font>
+<font color= "green">        ' This method calls the UpdateVisibility utility method to </font>
+<font color= "green">        ' update the visibility of child controls.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Sub</font> OnSetSummaryMode() Implements IContentsPane.OnSetSummaryMode
+<font color= "blue"></font>
+<font color= "blue">            </font>UpdateVisibility()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MobilePortalModuleControl.OnInit Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' OnInit is called when the control is created and added to the </font>
+<font color= "green">        ' control tree. OnInit looks for a child control that renders the</font>
+<font color= "green">        ' summary view of the module, and creates a default one (with a</font>
+<font color= "green">        ' simple LinkCommand control) if no summary is found.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Overrides <font color= "blue"></font>Sub OnInit(ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue">            </font>MyBase.OnInit(e)
+<font color= "blue"></font>
+<font color= "green">            ' Look for a control that renders the summary.</font>
+<font color= "blue">            </font>_summaryControl <font color= "blue"></font>= FindControl("summary")
+<font color= "blue"></font>
+<font color= "green">            ' There could be no summary control, or the summary control may be</font>
+<font color= "green">            ' an empty panel. If there's no summary UI, automatically generate one.</font>
+<font color= "blue"></font><font color= "blue">            If </font>_summaryControl Is Nothing Or (TypeOf _summaryControl Is Panel And Not _summaryControl.HasControls()) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                ' Create and initialize a new LinkCommand control</font>
+<font color= "blue">                Dim </font>command <font color= "blue"></font>= New LinkCommand()
+<font color= "blue">                </font>command.Text = Me.ModuleTitle
+<font color= "blue"></font>
+<font color= "green">                ' Set the command name to the details command, so that</font>
+<font color= "green">                ' event bubbling can recognize it as a command to go to</font>
+<font color= "green">                ' details view.</font>
+<font color= "blue">                </font>command.CommandName = ContentsPanel.DetailsCommand
+<font color= "blue"></font>
+<font color= "green">                ' Add it to the appropriate place.</font>
+<font color= "blue"></font><font color= "blue">                If </font>Not (_summaryControl Is Nothing) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>_summaryControl.Controls.Add(command)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>Controls.Add(command)
+<font color= "blue">                    </font>_summaryControl <font color= "blue"></font>= command
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MobilePortalModuleControl.OnLoad Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' OnLoad is called when the control is created and added to the </font>
+<font color= "green">        ' control tree, after OnInit. OnLoad calls the UpdateVisibility</font>
+<font color= "green">        ' utility method to update the visibility of child controls.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Overrides <font color= "blue"></font>Sub OnLoad(ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue">            </font>MyBase.OnLoad(e)
+<font color= "blue">            </font>UpdateVisibility()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MobilePortalModuleControl.UpdateVisibility Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' UpdateVisibility updates the visibility of child controls</font>
+<font color= "green">        ' depending on the current setting. If the module is currently</font>
+<font color= "green">        ' being shown in summary mode, all children except the summary</font>
+<font color= "green">        ' control are hidden. If the module is currently being shown</font>
+<font color= "green">        ' in details mode, only the summary control is hidden.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> UpdateVisibility()
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>summary <font color= "blue">As </font>Boolean = Not (Tab Is Nothing) And Tab.SummaryView
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>child <font color= "blue">As </font>Control
+<font color= "blue">            For Each</font> child In Controls
+<font color= "blue">                </font>child.Visible = Not summary
+<font color= "blue">            Next</font> child
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (_summaryControl Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                </font>_summaryControl.Visible = summary
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' MobilePortalTab Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' The MobilePortalTab class is used for each tab of the mobile </font>
+<font color= "green">    ' portal.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> MobilePortalTab
+<font color= "blue">        Inherits</font> ContentsPanel
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">Namespace</font> ASPNetPortal.MobileControls
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' LinkCommand Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' The LinkCommand class is used for a simple custom version of the</font>
+<font color= "green">    ' Command control. Although the class itself has no added or modified</font>
+<font color= "green">    ' functionality, it allows a new adapter to be specified. On</font>
+<font color= "green">    ' HTML devices, this control renders as a hyperlink rather than</font>
+<font color= "green">    ' a button.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> LinkCommand
+<font color= "blue">        Inherits</font> Command
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' HtmlLinkCommandAdapter Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' The HtmlLinkCommandAdapter class is used to render the LinkCommand</font>
+<font color= "green">    ' control on an HTML device. Unlike the Command control, which renders</font>
+<font color= "green">    ' as a button, the HtmlLinkCommandAdapter renders a LinkCommand as</font>
+<font color= "green">    ' a hyperlink. Only the Render method needs to be overriden.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> HtmlLinkCommandAdapter
+<font color= "blue">        Inherits</font> HtmlCommandAdapter
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' HtmlLinkCommandAdapter.Render Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The Render method performs rendering of the LinkCommand control.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue">        Public </font>Overloads <font color= "blue"></font>Overrides Sub Render(ByVal writer As HtmlMobileTextWriter)
+<font color= "green">            ' Render a postback event as an anchor.</font>
+<font color= "blue">            </font>RenderPostBackEventAsAnchor(writer, Nothing, Control.Text)
+<font color= "blue"></font>
+<font color= "green">            ' Write a break, if necessary.</font>
+<font color= "blue">            </font>writer.WriteBreak()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' Panels Package</font>
+<font color= "green">    '</font>
+<font color= "green">    ' The Panels Package is a set of bonus mobile controls used for</font>
+<font color= "green">    ' the IBuySpy Mobile Portal. The package provides a new set of </font>
+<font color= "green">    ' control classes. All of these controls inherit from the </font>
+<font color= "green">    ' System.Web.UI.MobileControls.Panel class.</font>
+<font color= "green">    '</font>
+<font color= "green">    '      MultiPanel</font>
+<font color= "green">    '          A base class capable of managing multiple child controls,</font>
+<font color= "green">    '          called "panes". Each child pane must implement the </font>
+<font color= "green">    '          IPanelPane interface.</font>
+<font color= "green">    '      ChildPanel</font>
+<font color= "green">    '          A base class for panels that can be used as child panes</font>
+<font color= "green">    '          of MultiPanel panels. MultiPanel itself inherits from</font>
+<font color= "green">    '          ChildPanel, so you can nest one MultiPanel as a child</font>
+<font color= "green">    '          pane of another.</font>
+<font color= "green">    '      TabbedPanel</font>
+<font color= "green">    '          A specialized type of MultiPanel that comes with </font>
+<font color= "green">    '          adapters for rendering the panel as a tab view where</font>
+<font color= "green">    '          appropriate. On other devices, adapters render the</font>
+<font color= "green">    '          TabbedPanel using a separate menu screen.</font>
+<font color= "green">    '      ContentsPanel</font>
+<font color= "green">    '          A specialized type of MultiPanel that can show either</font>
+<font color= "green">    '          a summary view, where all child panes are shown</font>
+<font color= "green">    '          simultaneously, or a details view that shows the</font>
+<font color= "green">    '          active pane. Each child pane must implement the</font>
+<font color= "green">    '          IContentsPane interface.</font>
+<font color= "green">    '</font>
+<font color= "green">    ' Although these controls are fairly advanced compared to the</font>
+<font color= "green">    ' rest of the portal, full source code is provided.</font>
+<font color= "green">    ' </font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' IPanelPane interface</font>
+<font color= "green">    '</font>
+<font color= "green">    ' The IPanelPane interface must be implemented by any control </font>
+<font color= "green">    ' that needs to be a child pane of a MultiPanel or derivative</font>
+<font color= "green">    ' control. The interface has the following members:</font>
+<font color= "green">    '</font>
+<font color= "green">    '      Title property</font>
+<font color= "green">    '          Returns the title of the pane.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue">    Public </font>Interface <font color= "blue"></font>IPanelPane
+<font color= "blue"></font>
+<font color= "blue">        ReadOnly Property</font> Title() As String
+<font color= "blue"></font>
+<font color= "blue">    </font>End <font color= "blue"></font>Interface
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' IContentsPane interface</font>
+<font color= "green">    '</font>
+<font color= "green">    ' The IContentsPane interface must be implemented by any control </font>
+<font color= "green">    ' that needs to be a child pane of a ContentsPanel control.</font>
+<font color= "green">    ' The interface has the following members:</font>
+<font color= "green">    '</font>
+<font color= "green">    '      Title property</font>
+<font color= "green">    '          Returns the title of the pane.</font>
+<font color= "green">    '      OnSetSummaryMode method</font>
+<font color= "green">    '          Called when the ContentsPane control switches</font>
+<font color= "green">    '          from summary view to item details view.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue">    Public </font>Interface <font color= "blue"></font>IContentsPane
+<font color= "blue">        Inherits</font> IPanelPane
+<font color= "blue"></font>
+<font color= "blue">        Sub</font> OnSetSummaryMode()
+<font color= "blue"></font>
+<font color= "blue">    </font>End <font color= "blue"></font>Interface
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' ChildPanel Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' The ChildPanel Class is a control that inherits from </font>
+<font color= "green">    ' System.Web.UI.MobileControls.Panel, and can be placed inside</font>
+<font color= "green">    ' a MultiPanel control. Even MultiPanel inherits from ChildPanel,</font>
+<font color= "green">    ' allowing nesting of MultiPanel controls.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue">    Public Class</font> ChildPanel
+<font color= "blue">        Inherits</font> Panel
+<font color= "blue">        Implements</font> IPanelPane, INamingContainer
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' IPanelPane.Title Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns the title of the pane.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        ReadOnly Property</font> Title() As String Implements IPanelPane.Title
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>Me.PaneTitle
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' ChildPanel.PaneTitle Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns the title of the pane.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Property</font> PaneTitle() As String
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "green">                ' Load the title from the ViewState property bag, </font>
+<font color= "green">                ' defaulting to an empty String.</font>
+<font color= "blue">                Dim </font>s <font color= "blue">As </font>String = CStr(ViewState("Title"))
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>Not (s Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>s
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>String.Empty
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">            </font>Set(ByVal Value As String)
+<font color= "blue"></font>
+<font color= "green">                ' Save the title to the ViewState property bag.</font>
+<font color= "blue">                </font>ViewState("Title") = Value
+<font color= "blue"></font>
+<font color= "blue">            End Set</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' ChildPanel.PaginateChildren Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The PaginateChildren property controls whether the form</font>
+<font color= "green">        ' can paginate children of the panel individually. Overriden</font>
+<font color= "green">        ' to allow contents to be paginated.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Overrides <font color= "blue"></font>ReadOnly Property PaginateChildren() As Boolean
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>True
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' MultiPanel Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' The MultiPanel Class is a control that inherits from </font>
+<font color= "green">    ' ChildPanel, and can manage one or more child controls or "panes".</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> MultiPanel
+<font color= "blue">        Inherits</font> ChildPanel
+<font color= "blue"></font>
+<font color= "green">        ' Collection of panes.</font>
+<font color= "blue">        Private </font>_panes <font color= "blue">As </font>PanelPaneCollection
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MultiPanel.Panes Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns the collection of child panes.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public ReadOnly Property</font> Panes() As PanelPaneCollection
+<font color= "blue">            Get</font>
+<font color= "green">                ' If not yet created, create the collection.</font>
+<font color= "blue"></font><font color= "blue">                If </font>_panes Is Nothing <font color= "blue">Then</font>
+<font color= "blue">                    </font>_panes <font color= "blue"></font>= New PanelPaneCollection(Me)
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue">                </font>Return <font color= "blue"></font>_panes
+<font color= "blue">            End Get</font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MultiPanel.ActivePane Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Get or set the currently active child pane.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Property</font> ActivePane() As IPanelPane
+<font color= "blue">            Get</font>
+<font color= "green">                ' Get the index of the active pane, and use it to</font>
+<font color= "green">                ' look up the active pane.</font>
+<font color= "blue">                Dim </font>index <font color= "blue">As </font>Integer = ActivePaneIndex
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>index <> -1 <font color= "blue">Then</font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>Panes(index)
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>Nothing
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">            </font>Set(ByVal Value As IPanelPane)
+<font color= "green">                ' Find the index of the given pane, and use it to</font>
+<font color= "green">                ' set the active pane index.</font>
+<font color= "blue">                Dim </font>index <font color= "blue">As </font>Integer = Panes.IndexOf(Value)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>index = -1 <font color= "blue">Then</font>
+<font color= "blue">                    </font>Throw <font color= "blue"></font>New Exception("Pane not in Panes collection")
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                </font>ActivePaneIndex <font color= "blue"></font>= index
+<font color= "blue"></font>
+<font color= "blue">            End Set</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MultiPanel.ActivePaneIndex Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Get or set the index of the currently active child pane.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Property</font> ActivePaneIndex() As Integer
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "green">                ' Get the index from the ViewState property bag, defaulting</font>
+<font color= "green">                ' to the first pane if not found.</font>
+<font color= "blue">                Dim </font>o <font color= "blue">As </font>Object = ViewState("ActivePaneIndex")
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>Not (o Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>CInt(o)
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    If </font>Panes.Count > 0 <font color= "blue">Then</font>
+<font color= "blue">                        </font>Return <font color= "blue"></font>0
+<font color= "blue"></font><font color= "blue">                    Else</font><font color= "blue"></font>
+<font color= "blue">                        </font>Return <font color= "blue"></font>-1
+<font color= "blue"></font><font color= "blue">                    End If</font><font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">            </font>Set(ByVal Value As Integer)
+<font color= "blue"></font>
+<font color= "green">                ' Make sure index is within range.</font>
+<font color= "blue"></font><font color= "blue">                If </font>Value < 0 Or Value >= Panes.Count <font color= "blue">Then</font>
+<font color= "blue">                    </font>Throw <font color= "blue"></font>New Exception("Active pane index out of range")
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">                ' Set the index in the ViewState property bag.</font>
+<font color= "blue">                </font>ViewState("ActivePaneIndex") = Value
+<font color= "blue"></font>
+<font color= "blue">            End Set</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MultiPanel.AddParsedSubObject Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' AddParsedSubObject is called by the framework when a child</font>
+<font color= "green">        ' control is being added to the control from the persistence format.</font>
+<font color= "green">        ' AddParsedSubObject below checks if the added control is a </font>
+<font color= "green">        ' child pane, and automatically adds it to the Panes collection.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Overrides <font color= "blue"></font>Sub AddParsedSubObject(ByVal obj As Object)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>pane <font color= "blue">As </font>IPanelPane = obj
+<font color= "blue"></font>
+<font color= "green">            ' Only allow panes as children.</font>
+<font color= "blue"></font><font color= "blue">            If </font>pane Is Nothing <font color= "blue">Then</font>
+<font color= "blue">                </font>Throw <font color= "blue"></font>New Exception("A MultiPanel control can only contain panes.")
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Add the pane to the Panes collection.</font>
+<font color= "blue">            </font>Panes.AddInternal(pane)
+<font color= "blue">            </font>MyBase.AddParsedSubObject(obj)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MultiPanel.OnRender Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' OnRender is called by the framework to render the control.</font>
+<font color= "green">        ' By default, OnRender of a MultiPanel only renders the active </font>
+<font color= "green">        ' child pane. Specialized versions of the control, such as</font>
+<font color= "green">        ' TabbedPanel and ContentsPanel, have different behavior.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Overrides <font color= "blue"></font>Sub OnRender(ByVal writer As HtmlTextWriter)
+<font color= "blue"></font>
+<font color= "blue">            </font>CType(ActivePane, Control).RenderControl(writer)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MultiPanel.PaginateRecursive Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PaginateRecursive is called by the framework to recursively</font>
+<font color= "green">        ' paginate children. For MultiPanel controls, PaginateRecursive</font>
+<font color= "green">        ' only paginates the active child pane.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Overrides Sub</font> PaginateRecursive(ByVal pager As ControlPager)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>_activePane <font color= "blue">As </font>Control = CType(ActivePane, Control)
+<font color= "blue"></font>
+<font color= "green">            ' Active pane may not be a mobile control (e.g. it may be</font>
+<font color= "green">            ' a user control).</font>
+<font color= "blue">            Dim </font>mobileCtl <font color= "blue">As </font>MobileControl = Nothing
+<font color= "blue"></font>
+<font color= "blue">            Try</font>
+<font color= "blue">                </font>mobileCtl <font color= "blue"></font>= CType(_activePane, MobileControl)
+<font color= "blue">            Catch</font>
+<font color= "green">                ' cast failed, not a mobile control</font>
+<font color= "blue">            End Try</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (mobileCtl Is Nothing) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                ' Paginate the children.</font>
+<font color= "blue">                </font>mobileCtl.PaginateRecursive(pager)
+<font color= "blue"></font>
+<font color= "green">                ' Set own first and last page from results of child</font>
+<font color= "green">                ' pagination.</font>
+<font color= "blue">                </font>Me.FirstPage = mobileCtl.FirstPage
+<font color= "blue">                </font>Me.LastPage = pager.PageCount
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">                ' Call the DoPaginateChildren utility method to </font>
+<font color= "green">                ' paginate a non-mobile child.</font>
+<font color= "blue">                Dim </font>firstAssignedPage <font color= "blue">As </font>Integer = -1
+<font color= "blue">                </font>DoPaginateChildren(pager, _activePane, firstAssignedPage)
+<font color= "blue"></font>
+<font color= "green">                ' Set own first and last page from results of child</font>
+<font color= "green">                ' pagination.</font>
+<font color= "blue"></font><font color= "blue">                If </font>firstAssignedPage <> -1 <font color= "blue">Then</font>
+<font color= "blue">                    </font>Me.FirstPage = firstAssignedPage
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue">                    </font>Me.FirstPage = pager.GetPage(100)
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                </font>Me.LastPage = pager.PageCount
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' MultiPanel.DoPaginateChildren Static Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The DoPaginateChildren method paginates non-mobile child</font>
+<font color= "green">        ' controls, looking for mobile controls inside them.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Private Shared Sub</font> DoPaginateChildren(ByVal pager As ControlPager, ByVal ctl As Control, ByRef firstAssignedPage As Integer)
+<font color= "blue"></font>
+<font color= "green">            ' Search all children of the control.</font>
+<font color= "blue"></font><font color= "blue">            If </font>ctl.HasControls() <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>child <font color= "blue">As </font>Control
+<font color= "blue"></font>
+<font color= "blue">                For Each</font> child In ctl.Controls
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    If </font>child.Visible <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                        ' Look for a visible mobile control.</font>
+<font color= "blue">                        Dim </font>mobileCtl <font color= "blue">As </font>MobileControl = Nothing
+<font color= "blue">                        Try</font>
+<font color= "blue">                            </font>mobileCtl <font color= "blue"></font>= CType(child, MobileControl)
+<font color= "blue">                        Catch</font>
+<font color= "green">                            ' cast failed -- not a mobile control</font>
+<font color= "blue">                        End Try</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                        If </font>Not (mobileCtl Is Nothing) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                            ' Paginate the mobile control.</font>
+<font color= "blue">                            </font>mobileCtl.PaginateRecursive(pager)
+<font color= "blue"></font>
+<font color= "green">                            ' If this is the first control being paginated,</font>
+<font color= "green">                            ' set the first assigned page.</font>
+<font color= "blue"></font><font color= "blue">                            If </font>firstAssignedPage = -1 <font color= "blue">Then</font>
+<font color= "blue">                                </font>firstAssignedPage <font color= "blue"></font>= mobileCtl.FirstPage
+<font color= "blue"></font><font color= "blue">                            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                        Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                            If </font>TypeOf child Is UserControl <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                                ' Continue paginating user controls, which may contain</font>
+<font color= "green">                                ' their own mobile children.</font>
+<font color= "blue">                                </font>DoPaginateChildren(pager, child, firstAssignedPage)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                        End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                Next</font> child
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' PanelPaneCollection Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' The PanelPaneCollection Class is used to keep a collection of</font>
+<font color= "green">    ' child panes of a MultiPanel control. The class implements </font>
+<font color= "green">    ' ICollection, so it can be used as a general collection.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> PanelPaneCollection
+<font color= "blue">        Implements</font> ICollection
+<font color= "blue"></font>
+<font color= "green">        ' Private instance variables.</font>
+<font color= "blue">        Private </font>_parent <font color= "blue">As </font>MultiPanel
+<font color= "blue">        Private </font>_items <font color= "blue">As </font>New ArrayList()
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        ' Can only be instantiated by MultiPanel.</font>
+<font color= "blue">        Friend Sub</font> New(ByVal parent As MultiPanel)
+<font color= "blue"></font>
+<font color= "green">            ' Save off reference to parent control.</font>
+<font color= "blue">            </font>_parent <font color= "blue"></font>= parent
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PanelPaneCollection.Add Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Adds a pane to the collection.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Sub</font> Add(ByVal pane As IPanelPane)
+<font color= "blue"></font>
+<font color= "green">            ' Add the pane to the parent's child controls collection.</font>
+<font color= "blue">            </font>_parent.Controls.Add(CType(pane, Control))
+<font color= "blue">            </font>_items.Add(pane)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PanelPaneCollection.AddInternal Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Adds a pane to the collection, but does not add it to the parent's</font>
+<font color= "green">        ' controls. This is called by the parent control itself to add </font>
+<font color= "green">        ' panes.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Friend Sub</font> AddInternal(ByVal pane As IPanelPane)
+<font color= "blue"></font>
+<font color= "blue">            </font>_items.Add(pane)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PanelPaneCollection.Remove Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Removes a pane from the collection.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Sub</font> Remove(ByVal pane As IPanelPane)
+<font color= "blue"></font>
+<font color= "green">            ' Remove the pane from the parent's child controls collection.</font>
+<font color= "blue">            </font>_parent.Controls.Remove(CType(pane, Control))
+<font color= "blue">            </font>_items.Remove(pane)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PanelPaneCollection.Clear Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Removes all panes from the collection.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Sub</font> Clear()
+<font color= "blue"></font>
+<font color= "green">            ' Remove all child controls from the parent.</font>
+<font color= "blue">            Dim </font>pane <font color= "blue">As </font>Control
+<font color= "blue"></font>
+<font color= "blue">            For Each</font> pane In _items
+<font color= "blue">                </font>_parent.Controls.Remove(pane)
+<font color= "blue">            Next</font> pane
+<font color= "blue"></font>
+<font color= "blue">            </font>_items.Clear()
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PanelPaneCollection.this[] Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns a pane by index.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        </font>Default <font color= "blue"></font>Public ReadOnly Property Item(ByVal index As Integer) As IPanelPane
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>CType(_items(index), IPanelPane)
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PanelPaneCollection.Count Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns the number of panes in the collection.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public ReadOnly Property</font> Count() As Integer Implements ICollection.Count
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>_items.Count
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PanelPaneCollection.IndexOf Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns the index of a given pane.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Function</font> IndexOf(ByVal pane As IPanelPane) As Integer
+<font color= "blue"></font>
+<font color= "blue">            </font>Return <font color= "blue"></font>_items.IndexOf(pane)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PanelPaneCollection.IsReadOnly Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns whether the collection is read-only.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public ReadOnly Property</font> IsReadOnly() As Boolean
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>_items.IsReadOnly
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PanelPaneCollection.IsSynchronized Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns whether the collection is synchronized.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public ReadOnly Property</font> IsSynchronized() As Boolean Implements ICollection.IsSynchronized
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>False
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PanelPaneCollection.SyncRoot Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns the collection's synchronization root.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public ReadOnly Property</font> SyncRoot() As Object Implements ICollection.SyncRoot
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>Me
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PanelPaneCollection.CopyTo Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Copies the contents of the collection to an array.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Sub</font> CopyTo(ByVal array As Array, ByVal index As Integer) Implements ICollection.CopyTo
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>item <font color= "blue">As </font>Object
+<font color= "blue">            For Each</font> item In _items
+<font color= "blue"></font>
+<font color= "blue">                </font>array.SetValue(item, index)
+<font color= "blue">                </font>index <font color= "blue"></font>+= 1
+<font color= "blue"></font>
+<font color= "blue">            Next</font> item
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' PanelPaneCollection.GetEnumerator Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns an object capable of enumerating the collection.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue">        Public </font>Overridable <font color= "blue"></font>Function GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+<font color= "blue"></font>
+<font color= "blue">            </font>Return <font color= "blue"></font>_items.GetEnumerator()
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' TabbedPanel Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' The TabbedPanel Class is a control that inherits from MultiPanel,</font>
+<font color= "green">    ' and provides the ability for the user to switch between panels.</font>
+<font color= "green">    ' The TabbedPanel also has adapters defined for custom rendering.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> TabbedPanel
+<font color= "blue">        Inherits</font> MultiPanel
+<font color= "blue">        Implements</font> IPostBackEventHandler
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' TabbedPanel.OnRender Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' OnRender is called by the framework to render the control.</font>
+<font color= "green">        ' The TabbedPanel's OnRender method overrides the behavior</font>
+<font color= "green">        ' of MultiPanel, and directly calls the adapter to do rendering.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Overrides <font color= "blue"></font>Sub OnRender(ByVal writer As HtmlTextWriter)
+<font color= "blue"></font>
+<font color= "blue">            </font>Adapter.Render(writer)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' TabbedPanel.TabColor Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Gets or sets the background color used for each tab label, when</font>
+<font color= "green">        ' tabbed rendering is used.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Property</font> TabColor() As Color
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "green">                ' Get the color from the ViewState property bag, defaulting</font>
+<font color= "green">                ' to an empty color.</font>
+<font color= "blue">                Dim </font>o <font color= "blue">As </font>Object = ViewState("TabColor")
+<font color= "blue"></font><font color= "blue">                If </font>Not (o Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>CType(o, Color)
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>Color.Empty
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">            </font>Set(ByVal Value As Color)
+<font color= "blue"></font>
+<font color= "green">                ' Save the color in the ViewState property bag.</font>
+<font color= "blue">                </font>ViewState("TabColor") = Value
+<font color= "blue"></font>
+<font color= "blue">            End Set</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' TabbedPanel.TabTextColor Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Gets or sets the text color used for each tab label, when</font>
+<font color= "green">        ' tabbed rendering is used.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Property</font> TabTextColor() As Color
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "green">                ' Get the color from the ViewState property bag, defaulting</font>
+<font color= "green">                ' to an empty color.</font>
+<font color= "blue">                Dim </font>o <font color= "blue">As </font>Object = ViewState("TabTextColor")
+<font color= "blue"></font><font color= "blue">                If </font>Not (o Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>CType(o, Color)
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>Color.Empty
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">            </font>Set(ByVal Value As Color)
+<font color= "blue"></font>
+<font color= "green">                ' Save the color in the ViewState property bag.</font>
+<font color= "blue">                </font>ViewState("TabTextColor") = Value
+<font color= "blue"></font>
+<font color= "blue">            End Set</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' TabbedPanel.ActiveTabColor Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Gets or sets the background color used for the active tab label, when</font>
+<font color= "green">        ' tabbed rendering is used.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Property</font> ActiveTabColor() As Color
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "green">                ' Get the color from the ViewState property bag, defaulting</font>
+<font color= "green">                ' to an empty color.</font>
+<font color= "blue">                Dim </font>o <font color= "blue">As </font>Object = ViewState("ActiveTabColor")
+<font color= "blue"></font><font color= "blue">                If </font>Not (o Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>CType(o, Color)
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>Color.Empty
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">            </font>Set(ByVal Value As Color)
+<font color= "blue"></font>
+<font color= "green">                ' Save the color in the ViewState property bag.</font>
+<font color= "blue">                </font>ViewState("ActiveTabColor") = Value
+<font color= "blue"></font>
+<font color= "blue">            End Set</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' TabbedPanel.ActiveTabTextColor Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Gets or sets the text color used for the active tab label, when</font>
+<font color= "green">        ' tabbed rendering is used.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Property</font> ActiveTabTextColor() As Color
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "green">                ' Get the color from the ViewState property bag, defaulting</font>
+<font color= "green">                ' to an empty color.</font>
+<font color= "blue">                Dim </font>o <font color= "blue">As </font>Object = ViewState("ActiveTabTextColor")
+<font color= "blue"></font><font color= "blue">                If </font>Not (o Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>CType(o, Color)
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>Color.Empty
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">            </font>Set(ByVal Value As Color)
+<font color= "blue"></font>
+<font color= "green">                ' Save the color in the ViewState property bag.</font>
+<font color= "blue">                </font>ViewState("ActiveTabTextColor") = Value
+<font color= "blue"></font>
+<font color= "blue">            End Set</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' TabbedPanel.TabsPerRow Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Gets or sets the number of tabs to be displayed per row, when</font>
+<font color= "green">        ' tabbed rendering is used.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Property</font> TabsPerRow() As Integer
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "green">                ' Get the value from the ViewState property bag, defaulting</font>
+<font color= "green">                ' to 4.</font>
+<font color= "blue">                Dim </font>o <font color= "blue">As </font>Object = ViewState("TabsPerRow")
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>Not (o Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>CInt(o)
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>4
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">            </font>Set(ByVal Value As Integer)
+<font color= "blue"></font>
+<font color= "green">                ' Save the value in the ViewState property bag.</font>
+<font color= "blue">                </font>ViewState("TabsPerRow") = Value
+<font color= "blue"></font>
+<font color= "blue">            End Set</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' IPostBackEventHandler.RaisePostBackEvent Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' RaisePostBackEvent is called by the framework when the control</font>
+<font color= "green">        ' is to receive a postback event. Responds to the event by </font>
+<font color= "green">        ' using the event information to switch to another active pane.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public </font>Overridable <font color= "blue"></font>Sub RaisePostBackEvent(ByVal eventArgument As String) Implements IPostBackEventHandler.RaisePostBackEvent
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>e <font color= "blue">As </font>New EventArgs()
+<font color= "blue"></font>
+<font color= "green">            ' Call Deactivate event handler.</font>
+<font color= "blue">            </font>OnTabDeactivate(e)
+<font color= "blue"></font>
+<font color= "blue">            </font>ActivePaneIndex <font color= "blue"></font>= CInt(eventArgument)
+<font color= "blue"></font>
+<font color= "green">            ' Call Activate event handler.</font>
+<font color= "blue">            </font>OnTabActivate(e)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Public events.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public </font>Event <font color= "blue"></font>TabActivate As EventHandler
+<font color= "blue">        Public </font>Event <font color= "blue"></font>TabDeactivate As EventHandler
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' IPostBackEventHandler.OnTabActivate Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' OnTabActivate is called when a child pane is newly activated</font>
+<font color= "green">        ' as a result of user interaction, and raises the TabActivate event.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Overridable <font color= "blue"></font>Sub OnTabActivate(ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (e Is Nothing) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                </font>RaiseEvent <font color= "blue"></font>TabActivate(Me, e)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' IPostBackEventHandler.OnTabDeactivate Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' OnTabDeactivate is called when a child pane is deactivated</font>
+<font color= "green">        ' as a result of user interaction, and raises the TabDeactivate event.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Overridable <font color= "blue"></font>Sub OnTabDeactivate(ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (e Is Nothing) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                </font>RaiseEvent <font color= "blue"></font>TabDeactivate(Me, e)
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' ContentsPanel Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' The ContentsPanel Class is a control that inherits from MultiPanel,</font>
+<font color= "green">    ' and can render child panes in one of two views. In Summary View,</font>
+<font color= "green">    ' the control renders each of its child panes (which, in turn, would</font>
+<font color= "green">    ' probably show only summarized views of themselves) In Details View</font>
+<font color= "green">    ' the control only renders the active pane.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue">    Public Class</font> ContentsPanel
+<font color= "blue">        Inherits</font> MultiPanel
+<font color= "blue"></font>
+<font color= "green">        ' Constants for command names that can be used for</font>
+<font color= "green">        ' event bubbling in custom UI.</font>
+<font color= "blue">        Public Shared </font>DetailsCommand <font color= "blue">As </font>String = "details"
+<font color= "blue">        Public Shared </font>SummaryCommand <font color= "blue">As </font>String = "summary"
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' ContentsPanel.SummaryView Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Get or set the view of the panel to either Summary (true) </font>
+<font color= "green">        ' or Details (false) view.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Property</font> SummaryView() As Boolean
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "green">                ' Get the setting from the ViewState property bag, </font>
+<font color= "green">                ' defaulting to true.</font>
+<font color= "blue">                Dim </font>o <font color= "blue">As </font>Object = ViewState("SummaryView")
+<font color= "blue"></font><font color= "blue">                If </font>Not (o Is Nothing) <font color= "blue">Then</font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>CBool(o)
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue">                    </font>Return <font color= "blue"></font>True
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">            </font>Set(ByVal Value As Boolean)
+<font color= "green">                ' Save the setting in the ViewState property bag.</font>
+<font color= "blue">                </font>ViewState("SummaryView") = Value
+<font color= "blue"></font>
+<font color= "green">                ' Notify each child pane of the switched mode.</font>
+<font color= "blue">                Dim </font>pane <font color= "blue">As </font>IContentsPane
+<font color= "blue">                For Each</font> pane In Panes
+<font color= "blue">                    </font>pane.OnSetSummaryMode()
+<font color= "blue">                Next</font> pane
+<font color= "blue"></font>
+<font color= "blue">            End Set</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' ContentsPanel.Render Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Called by the framework to render the control. The behavior differs</font>
+<font color= "green">        ' depending on whether Summary or Details view is showing.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Overrides <font color= "blue"></font>Sub Render(ByVal writer As HtmlTextWriter)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>SummaryView <font color= "blue">Then</font>
+<font color= "green">                ' Render all panes in Summary view.</font>
+<font color= "blue">                </font>RenderChildren(writer)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            Else</font><font color= "blue"></font>
+<font color= "green">                ' Render only the active pane in Details view.</font>
+<font color= "blue">                </font>CType(ActivePane, Control).RenderControl(writer)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' ContentsPanel.OnBubbleEvent Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Called by the framework when postback events are bubbled up </font>
+<font color= "green">        ' from a child control. If the event source uses the special</font>
+<font color= "green">        ' command names listed above, this method automatically responds</font>
+<font color= "green">        ' to the event to change modes. This allows the developer to </font>
+<font color= "green">        ' provide UI for showing item details by simply placing a </font>
+<font color= "green">        ' control with the appropriate command name in a child pane.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Overrides <font color= "blue"></font>Function OnBubbleEvent(ByVal sender As Object, ByVal e As EventArgs) As Boolean
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>handled <font color= "blue">As </font>Boolean = False
+<font color= "blue">            Dim </font>commandArgs <font color= "blue">As </font>System.Web.UI.WebControls.CommandEventArgs = e
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not (commandArgs Is Nothing) And Not (commandArgs.CommandName Is Nothing) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>commandName <font color= "blue">As </font>String = commandArgs.CommandName.ToLower()
+<font color= "blue"></font>
+<font color= "green">                ' Look for recognized command names.</font>
+<font color= "blue"></font><font color= "blue">                If </font>commandName = DetailsCommand <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                    ' To show details, first find the child pane in which the</font>
+<font color= "green">                    ' event source is located.</font>
+<font color= "blue">                    Dim </font>ctl <font color= "blue">As </font>Control = CType(sender, Control)
+<font color= "blue">                    Dim </font>pane <font color= "blue">As </font>IPanelPane = Nothing
+<font color= "blue"></font>
+<font color= "blue">                    While</font> Not (ctl Is Nothing) And Not ctl Is Me
+<font color= "blue"></font>
+<font color= "blue">                        Try</font>
+<font color= "blue">                            </font>pane <font color= "blue"></font>= CType(ctl, IPanelPane)
+<font color= "blue">                        Catch</font>
+<font color= "green">                            ' cast failed</font>
+<font color= "blue">                        End Try</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                        If </font>Not (pane Is Nothing) <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                            ' Make the pane active, and switch into Details view.</font>
+<font color= "blue">                            </font>ActivePane <font color= "blue"></font>= pane
+<font color= "blue">                            </font>SummaryView <font color= "blue"></font>= False
+<font color= "blue">                            </font>handled <font color= "blue"></font>= True
+<font color= "blue">                            </font>Exit <font color= "blue"></font>While
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                        End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                        </font>ctl <font color= "blue"></font>= ctl.Parent
+<font color= "blue"></font>
+<font color= "blue">                    </font>End <font color= "blue"></font>While
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    If </font>commandName = SummaryCommand <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "green">                        ' Switch into Summary view.</font>
+<font color= "blue">                        </font>SummaryView <font color= "blue"></font>= True
+<font color= "blue">                        </font>handled <font color= "blue"></font>= True
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            </font>Return <font color= "blue"></font>handled
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' ContentsPanel.ShowDetails Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' The ShowDetails method switches the control into Details view,</font>
+<font color= "green">        ' and makes the specified child pane active. Child panes can</font>
+<font color= "green">        ' call this method to activate themselves.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public Sub</font> ShowDetails(ByVal pane As IPanelPane)
+<font color= "blue"></font>
+<font color= "blue">            </font>SummaryView <font color= "blue"></font>= False
+<font color= "blue">            </font>ActivePane <font color= "blue"></font>= pane
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "green">    '</font>
+<font color= "green">    ' HtmlTabbedPanelAdapter Class</font>
+<font color= "green">    '</font>
+<font color= "green">    ' The HtmlTabbedPanelAdapter provides rendering for the TabbedPanel</font>
+<font color= "green">    ' class on devices that support HTML and JScript.</font>
+<font color= "green">    '</font>
+<font color= "green">    '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> HtmlTabbedPanelAdapter
+<font color= "blue">        Inherits</font> HtmlControlAdapter
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' HtmlTabbedPanelAdapter.Control Property</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Returns the attached control, strongly typed as a TabbedPanel.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Shadows <font color= "blue"></font>ReadOnly Property Control() As TabbedPanel
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>CType(MyBase.Control, TabbedPanel)
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "green">        '</font>
+<font color= "green">        ' HtmlTabbedPanelAdapter.Render Method</font>
+<font color= "green">        '</font>
+<font color= "green">        ' Renders the control. The TabbedPanel is rendered as one or more</font>
+<font color= "green">        ' rows of tabs that the user can click on to move between tabs.</font>
+<font color= "green">        '</font>
+<font color= "green">        '*********************************************************************</font>
+<font color= "blue"></font>
+<font color= "blue">        Public </font>Overloads <font color= "blue"></font>Overrides Sub Render(ByVal writer As HtmlMobileTextWriter)
+<font color= "blue">        </font>
+<font color= "blue">            Dim </font>_activePane <font color= "blue">As </font>IPanelPane = Control.ActivePane
+<font color= "blue">            Dim </font>tabsPerRow <font color= "blue">As </font>Integer = Control.TabsPerRow
+<font color= "blue">            Dim </font>panes <font color= "blue">As </font>PanelPaneCollection = Control.Panes
+<font color= "blue">            Dim </font>paneCount <font color= "blue">As </font>Integer = panes.Count
+<font color= "blue"></font>
+<font color= "green">            ' Figure out the number of visible panes.</font>
+<font color= "blue">            </font>Dim <font color= "blue"></font>visiblePanes(paneCount) As Integer
+<font color= "blue">            Dim </font>visiblePaneCount <font color= "blue">As </font>Integer = 0
+<font color= "blue">            Dim </font>i <font color= "blue">As </font>Integer
+<font color= "blue"></font>
+<font color= "blue">            For</font> i = 0 To paneCount - 1
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>CType(panes(i), Control).Visible <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>visiblePanes(visiblePaneCount) = i
+<font color= "blue">                    </font>visiblePaneCount <font color= "blue"></font>+= 1
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            Next</font> i
+<font color= "blue"></font>
+<font color= "green">            ' Calculate how many rows are necessary.</font>
+<font color= "blue">            Dim </font>rows <font color= "blue">As </font>Integer = (visiblePaneCount + tabsPerRow - 1) / tabsPerRow
+<font color= "blue"></font>
+<font color= "green">            ' make sure tabsPerRow doesn't exceed the number of visible panes</font>
+<font color= "blue"></font><font color= "blue">            If </font>Control.TabsPerRow > visiblePaneCount <font color= "blue">Then</font>
+<font color= "blue">                </font>tabsPerRow <font color= "blue"></font>= visiblePaneCount
+<font color= "blue"></font><font color= "blue">            Else</font><font color= "blue"></font>
+<font color= "blue">                </font>tabsPerRow <font color= "blue"></font>= Control.TabsPerRow
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "green">            ' Open the table.</font>
+<font color= "blue">            </font>writer.WriteBeginTag("table")
+<font color= "blue">            </font>writer.WriteAttribute("cellspacing", "0")
+<font color= "blue">            </font>writer.WriteAttribute("cellpadding", "2")
+<font color= "blue">            </font>writer.WriteAttribute("border", "0")
+<font color= "blue">            </font>writer.WriteLine(">")
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>row <font color= "blue">As </font>Integer
+<font color= "blue"></font>
+<font color= "blue">            For</font> row = rows - 1 To 0 Step -1
+<font color= "blue"></font>
+<font color= "blue">                </font>writer.WriteFullBeginTag("tr")
+<font color= "blue">                </font>writer.WriteLine()
+<font color= "blue"></font>
+<font color= "blue">                Dim </font>col <font color= "blue">As </font>Integer
+<font color= "blue"></font>
+<font color= "blue">                For</font> col = 0 To tabsPerRow - 1
+<font color= "blue">                    </font>writer.WriteBeginTag("td")
+<font color= "blue">                    </font>writer.WriteAttribute("width", "0")
+<font color= "blue">                    </font>writer.Write(">")
+<font color= "blue">                    </font>writer.WriteEndTag("td")
+<font color= "blue"></font>
+<font color= "blue">                    </font>i <font color= "blue"></font>= row * tabsPerRow + col
+<font color= "blue"></font><font color= "blue">                    If </font>row > 0 And i >= visiblePaneCount <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                        </font>writer.WriteFullBeginTag("td")
+<font color= "blue">                        </font>writer.WriteEndTag("td")
+<font color= "blue">                        </font>Goto <font color= "blue"></font>ContinueNextCol
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                    Dim </font>index <font color= "blue">As </font>Integer = visiblePanes(i)
+<font color= "blue">                    Dim </font>child <font color= "blue">As </font>IPanelPane = panes(index)
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                    If </font>child Is _activePane <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                        </font>writer.WriteBeginTag("td")
+<font color= "blue">                        </font>writer.WriteAttribute("bgcolor", GetColorString(Control.ActiveTabColor, "#333333"))
+<font color= "blue">                        </font>writer.Write(">")
+<font color= "blue"></font>
+<font color= "blue">                        </font>writer.WriteBeginTag("font")
+<font color= "blue">                        </font>writer.WriteAttribute("face", "Verdana")
+<font color= "blue">                        </font>writer.WriteAttribute("size", "-2")
+<font color= "blue">                        </font>writer.WriteAttribute("color", GetColorString(Control.ActiveTabTextColor, "#000000"))
+<font color= "blue">                        </font>writer.Write(">")
+<font color= "blue"></font>
+<font color= "blue">                        </font>writer.WriteFullBeginTag("b")
+<font color= "blue">                        </font>writer.Write("&nbsp;")
+<font color= "blue">                        </font>writer.WriteText(child.Title, True)
+<font color= "blue">                        </font>writer.Write("&nbsp;")
+<font color= "blue">                        </font>writer.WriteEndTag("b")
+<font color= "blue"></font>
+<font color= "blue">                        </font>writer.WriteEndTag("font")
+<font color= "blue"></font>
+<font color= "blue">                        </font>writer.WriteEndTag("td")
+<font color= "blue">                        </font>writer.WriteLine()
+<font color= "blue"></font><font color= "blue">                    Else</font><font color= "blue"></font>
+<font color= "blue">                        </font>writer.WriteBeginTag("td")
+<font color= "blue">                        </font>writer.WriteAttribute("bgcolor", GetColorString(Control.TabColor, "#cccccc"))
+<font color= "blue">                        </font>writer.Write(">")
+<font color= "blue"></font>
+<font color= "blue">                        </font>writer.WriteBeginTag("font")
+<font color= "blue">                        </font>writer.WriteAttribute("face", "Verdana")
+<font color= "blue">                        </font>writer.WriteAttribute("size", "-2")
+<font color= "blue">                        </font>writer.WriteAttribute("color", GetColorString(Control.TabTextColor, "#000000"))
+<font color= "blue">                        </font>writer.Write(">")
+<font color= "blue"></font>
+<font color= "blue">                        </font>writer.Write("&nbsp;")
+<font color= "blue">                        </font>writer.WriteBeginTag("a")
+<font color= "blue">                        </font>RenderPostBackEventAsAttribute(writer, "href", index.ToString())
+<font color= "blue">                        </font>writer.Write(">")
+<font color= "blue">                        </font>writer.WriteText(child.Title, True)
+<font color= "blue">                        </font>writer.WriteEndTag("a")
+<font color= "blue">                        </font>writer.Write("&nbsp;")
+<font color= "blue"></font>
+<font color= "blue">                        </font>writer.WriteEndTag("font")
+<font color= "blue"></font>
+<font color= "blue">                        </font>writer.WriteEndTag("td")
+<font color= "blue">                        </font>writer.WriteLine()
+<font color= "blue"></font><font color= "blue">                    End If</font><font color= "blue"></font>
+<font color= "blue"></font>ContinueNextCol:
+<font color= "blue">                Next</font> col
+<font color= "blue">                </font>writer.WriteEndTag("tr")
+<font color= "blue">                </font>writer.WriteLine()
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>row > 0 <font color= "blue">Then</font>
+<font color= "blue">                    </font>writer.WriteFullBeginTag("tr")
+<font color= "blue">                    </font>writer.WriteBeginTag("td")
+<font color= "blue">                    </font>writer.WriteAttribute("height", "1")
+<font color= "blue">                    </font>writer.Write(">")
+<font color= "blue">                    </font>writer.WriteEndTag("td")
+<font color= "blue">                    </font>writer.WriteEndTag("tr")
+<font color= "blue">                    </font>writer.WriteLine()
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue">            Next</font> row
+<font color= "blue"></font>
+<font color= "blue">            </font>writer.WriteEndTag("table")
+<font color= "blue">            </font>writer.WriteLine()
+<font color= "blue"></font>
+<font color= "blue">            </font>writer.WriteBeginTag("table")
+<font color= "blue">            </font>writer.WriteAttribute("width", "100%")
+<font color= "blue">            </font>writer.WriteAttribute("height", "2")
+<font color= "blue">            </font>writer.WriteAttribute("border", "0")
+<font color= "blue">            </font>writer.WriteAttribute("cellspacing", "0")
+<font color= "blue">            </font>writer.WriteAttribute("bgcolor", "#000000")
+<font color= "blue">            </font>writer.Write(">")
+<font color= "blue">            </font>writer.WriteFullBeginTag("tr")
+<font color= "blue">            </font>writer.WriteFullBeginTag("td")
+<font color= "blue">            </font>writer.WriteEndTag("td")
+<font color= "blue">            </font>writer.WriteEndTag("tr")
+<font color= "blue">            </font>writer.WriteEndTag("table")
+<font color= "blue">            </font>writer.WriteBreak()
+<font color= "blue"></font>
+<font color= "blue">            </font>CType(_activePane, Control).RenderControl(writer)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        Private Shared Function</font> GetColorString(ByVal _color As Color, ByVal defaultColor As String) As String
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">            If </font>Not Color.Equals(_color, Color.Empty) <font color= "blue">Then</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>ColorTranslator.ToHtml(_color)
+<font color= "blue"></font><font color= "blue">            Else</font><font color= "blue"></font>
+<font color= "blue">                </font>Return <font color= "blue"></font>defaultColor
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">        End Function</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> WmlTabbedPanelAdapter
+<font color= "blue">        Inherits</font> WmlControlAdapter
+<font color= "blue"></font>
+<font color= "blue">        Private </font>_menu <font color= "blue">As </font>List
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Shadows <font color= "blue"></font>ReadOnly Property Control() As TabbedPanel
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>CType(MyBase.Control, TabbedPanel)
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        Public Overrides Sub</font> OnInit(ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue">            </font>_menu <font color= "blue"></font>= New List()
+<font color= "blue">            </font>AddHandler <font color= "blue"></font>_menu.ItemCommand, AddressOf OnListItemCommand
+<font color= "blue">            </font>Control.Controls.AddAt(0, _menu)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        Public Overrides Sub</font> OnLoad(ByVal e As EventArgs)
+<font color= "blue"></font>
+<font color= "blue">            </font>_menu.Items.Clear()
+<font color= "blue">            Dim </font>index <font color= "blue">As </font>Integer = 0
+<font color= "blue">            Dim </font>child <font color= "blue">As </font>IPanelPane
+<font color= "blue"></font>
+<font color= "blue">            For Each</font> child In Control.Panes
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>CType(child, Control).Visible <font color= "blue">Then</font>
+<font color= "blue">                    </font>_menu.Items.Add(New MobileListItem(child.Title, index.ToString()))
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue">                </font>index <font color= "blue"></font>+= 1
+<font color= "blue"></font>
+<font color= "blue">            Next</font> child
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        Public </font>Overloads <font color= "blue"></font>Overrides Sub Render(ByVal writer As WmlMobileTextWriter)
+<font color= "blue">        </font>
+<font color= "blue">            Dim </font>st <font color= "blue">as </font>Style = New Style()
+<font color= "blue">            </font>st.Wrapping = CType(Style(Style.WrappingKey, true), Wrapping)
+<font color= "blue">            </font>st.Alignment = Ctype(Style(Style.AlignmentKey, true), Alignment)
+<font color= "blue">            </font>writer.EnterLayout(st)
+<font color= "blue">            </font>
+<font color= "blue"></font><font color= "blue">            If </font>_menu.Visible <font color= "blue">Then</font>
+<font color= "blue">                </font>_menu.RenderControl(writer)
+<font color= "blue"></font><font color= "blue">            Else</font><font color= "blue"></font>
+<font color= "blue">                </font>CType(Control.ActivePane, Control).RenderControl(writer)
+<font color= "blue"></font><font color= "blue">            End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">            </font>writer.ExitLayout(st)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        Private Sub</font> OnListItemCommand(ByVal sender As Object, ByVal e As ListCommandEventArgs)
+<font color= "blue">            </font>_menu.Visible = False
+<font color= "blue">            </font>Control.RaisePostBackEvent(e.ListItem.Value)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">    Public Class</font> ChtmlTabbedPanelAdapter
+<font color= "blue">        Inherits</font> HtmlControlAdapter
+<font color= "blue"></font>
+<font color= "blue">        Protected </font>Shadows <font color= "blue"></font>ReadOnly Property Control() As TabbedPanel
+<font color= "blue"></font>
+<font color= "blue">            Get</font>
+<font color= "blue">                </font>Return <font color= "blue"></font>CType(MyBase.Control, TabbedPanel)
+<font color= "blue">            End Get</font>
+<font color= "blue"></font>
+<font color= "blue">        End Property</font>
+<font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">        Public </font>Overloads <font color= "blue"></font>Overrides Sub Render(ByVal writer As HtmlMobileTextWriter)
+<font color= "blue"></font>
+<font color= "blue">            </font>writer.EnterStyle(Style)
+<font color= "blue"></font>
+<font color= "blue">            Dim </font>_activePane <font color= "blue">As </font>IPanelPane = Control.ActivePane
+<font color= "blue">            </font>writer.Write("[ ")
+<font color= "blue">            Dim </font>index <font color= "blue">As </font>Integer = 0
+<font color= "blue">            Dim </font>child <font color= "blue">As </font>IPanelPane
+<font color= "blue"></font>
+<font color= "blue">            For Each</font> child In Control.Controls
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>Not CType(child, Control).Visible <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>index <font color= "blue"></font>+= 1
+<font color= "blue">                    </font>Goto <font color= "blue"></font>ContinueNextChild
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>index > 0 <font color= "blue">Then</font>
+<font color= "blue">                    </font>writer.Write(" | ")
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                If </font>child Is _activePane <font color= "blue">Then</font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>writer.Write("<b>")
+<font color= "blue">                    </font>writer.WriteText(child.Title, True)
+<font color= "blue">                    </font>writer.Write("</b>")
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                Else</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                    </font>writer.WriteBeginTag("a")
+<font color= "blue">                    </font>RenderPostBackEventAsAttribute(writer, "href", index.ToString())
+<font color= "blue">                    </font>writer.Write(">")
+<font color= "blue">                    </font>writer.WriteText(child.Title, True)
+<font color= "blue">                    </font>writer.WriteEndTag("a")
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">                End If</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue">                </font>index <font color= "blue"></font>+= 1
+<font color= "blue"></font>
+<font color= "blue"></font>ContinueNextChild:
+<font color= "blue">            Next</font> child
+<font color= "blue">            </font>writer.Write(" ]")
+<font color= "blue">            </font>writer.WriteBreak()
+<font color= "blue">            </font>CType(_activePane, Control).RenderControl(writer)
+<font color= "blue"></font>
+<font color= "blue">            </font>writer.ExitStyle(Style)
+<font color= "blue"></font>
+<font color= "blue">        End Sub</font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">    End Class</font><font color= "blue"></font>
+<font color= "blue"></font>
+<font color= "blue"></font><font color= "blue">End Namespace</font><font color= "blue"></font>
+</pre>

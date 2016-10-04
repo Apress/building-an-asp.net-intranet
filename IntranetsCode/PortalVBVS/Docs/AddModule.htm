@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "AddModule" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure adds a new module to the database for a specific tab in 
+            the portal. The input parameters include the name of the pane where the module 
+            should be displayed, the Module Title, and the Module Definition Type. The 
+            output parameter is the ModuleId of the new database record.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE AddModule
+    (
+        @TabID          int,
+        @ModuleOrder    int,
+        @ModuleTitle    nvarchar(256),
+        @PaneName       nvarchar(50),
+        @ModuleDefID    int,
+        @CacheTime      int,
+        @EditRoles      nvarchar(256),
+        @ShowMobile     bit,
+        @ModuleID       int OUTPUT
+    )
+    AS
+
+    INSERT INTO Modules (
+        TabID,
+        ModuleOrder,
+        ModuleTitle,
+        PaneName,
+        ModuleDefID,
+        CacheTime,
+        AuthorizedEditRoles,
+        ShowMobile
+    ) 
+    VALUES (
+        @TabID,
+        @ModuleOrder,
+        @ModuleTitle,
+        @PaneName,
+        @ModuleDefID,
+        @CacheTime,
+        @EditRoles,
+        @ShowMobile
+    )
+
+    SELECT 
+        @ModuleID = @@Identity
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Modules:</i>
+        &nbsp;Each record in the Modules table represents a single module instance on a 
+        specific tab in the selected portal. The definition for the module type is 
+        pulled via the ModuleDefID field from the ModuleDefinitions table. The data for 
+        the module is stored in a database table for the selected module type, and 
+        indexed by ModuleID.
+        <p>
+        The primary key in this table is the ModuleID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/modules.jpg">
+        </p>
+    </body>
+</html>

@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetRoleMembership" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure returns all of the users who are members of the specified 
+            portal security role. The input parameter is the RoleID.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE GetRoleMembership
+    (
+        @RoleID  int
+    )
+    AS
+
+    SELECT  
+        UserRoles.UserID,
+        Name,
+        Email
+
+    FROM
+        UserRoles
+        
+    INNER JOIN 
+        Users On Users.UserID = UserRoles.UserID
+
+    WHERE   
+        UserRoles.RoleID = @RoleID
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>UserRoles:</i>
+        &nbsp;The UserRoles table provides a many-to-many connection between portal 
+        security roles (defined in the Roles table) and users (defined in the Users 
+        table). Using the UserRoles table, each user may belong to multiple roles and 
+        and each role may have multiple users as members.
+        <p>
+        The UserRoles table has no primary key.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/userroles.jpg">
+        </p>
+        <i>Users:</i> &nbsp;Each record in the Users table is a unique user identity. 
+        The primary key in this table is the UserID identity field.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/users.jpg">
+        </p>
+    </body>
+</html>

@@ -1,0 +1,24 @@
+<html><head><link rel=stylesheet href=style.css></head><body><div class=SourcePanel style='font-size:12'><pre style='background-color:white'>
+&lt%@ Control language="vb" Inherits="ASPNetPortal.Document" CodeBehind="Document.ascx.vb" AutoEventWireup="false" %<font color= "blue">&gt</font>
+&lt%@ Register TagPrefix="Portal" TagName="Title" Src="~/DesktopModuleTitle.ascx"%<font color= "blue">&gt</font>
+
+<font color= "blue">&lt</font><font color=blue>portal:title EditText="Add New Document" EditUrl="~/DesktopModules/EditDocs.aspx" runat="server" id=Title1 /</font><font color= "blue">&gt</font>
+
+<font color= "blue">&lt</font><font color=blue>asp:datagrid id="myDataGrid" Border="0" width="100%" AutoGenerateColumns="false" EnableViewState="false" runat="server"</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt</font><font color="maroon">Columns</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>asp:TemplateColumn</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color=blue>asp:HyperLink id="editLink" ImageUrl="~/images/edit.gif" NavigateUrl='&lt%# "~/DesktopModules/EditDocs.aspx?ItemID=" & DataBinder.Eval(Container.DataItem,"ItemID")  & "&mid=" & ModuleId %<font color= "blue">&gt</font>' Visible="&lt%# IsEditable %<font color= "blue">&gt</font>" runat="server" /</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color=blue>asp:TemplateColumn</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>asp:TemplateColumn HeaderText="Title" HeaderStyle-CssClass="NormalBold"</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+                <font color= "blue">&lt</font><font color=blue>asp:HyperLink id="docLink" Text='&lt%# DataBinder.Eval(Container.DataItem,"FileFriendlyName") %<font color= "blue">&gt</font>' NavigateUrl='&lt%# GetBrowsePath(DataBinder.Eval(Container.DataItem,"FileNameUrl"), DataBinder.Eval(Container.DataItem,"ContentSize"), CInt(DataBinder.Eval(Container.DataItem,"ItemId"))) %<font color= "blue">&gt</font>' CssClass="Normal" Target="_new" runat="server" /</font><font color= "blue">&gt</font>
+            <font color= "blue">&lt/</font><font color="maroon">ItemTemplate</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt/</font><font color=blue>asp:TemplateColumn</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>asp:BoundColumn HeaderText="Owner" DataField="CreatedByUser" ItemStyle-CssClass="Normal" HeaderStyle-Cssclass="NormalBold" /</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>asp:BoundColumn HeaderText="Area" DataField="Category" ItemStyle-Wrap="false" ItemStyle-CssClass="Normal" HeaderStyle-Cssclass="NormalBold" /</font><font color= "blue">&gt</font>
+        <font color= "blue">&lt</font><font color=blue>asp:BoundColumn HeaderText="Last Updated" DataField="CreatedDate" DataFormatString="{0:d}" ItemStyle-CssClass="Normal" HeaderStyle-Cssclass="NormalBold" /</font><font color= "blue">&gt</font>
+    <font color= "blue">&lt/</font><font color="maroon">Columns</font><font color= "blue">&gt</font>
+<font color= "blue">&lt/</font><font color=blue>asp:datagrid</font><font color= "blue">&gt</font>
+</pre>

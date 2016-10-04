@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>
+            "GetAnnouncements" Stored Procedure
+        </h1>
+        <b>Description:</b>
+        <P>
+            This stored procedure returns all of the announcements for a specific 
+            Announcement module within the portal. The input parameters are ModuleID and 
+            PortalID. Only announcements whose expiration date is later than today are 
+            shown.
+        </P>
+        <b>Definition:</b>
+        <pre>
+    
+    CREATE PROCEDURE GetAnnouncements
+    (
+        @ModuleID int
+    )
+    AS
+
+    SELECT
+        ItemID,
+        CreatedByUser,
+        CreatedDate,
+        Title,
+        MoreLink,
+        MobileMoreLink,
+        ExpireDate,
+        Description
+
+    FROM 
+        Announcements
+
+    WHERE
+        ModuleID = @ModuleID
+    AND
+        ExpireDate > GetDate()
+        </pre>
+        <b>Database Tables Used: </b>
+        <P>
+            <i>Announcements:</i>
+        &nbsp;Each record in the Announcements table is a single item, as displayed by 
+        the Announcements Portal Module. Since all Announcement modules store their 
+        record in this table, each item contains a ModuleID to permit related items to 
+        be retrieved in a single query.
+        <p>
+        The primary key in this table is the ItemID identity field. Note that 
+        announcement descriptions are limited to 2000 characters.
+        <p>
+            <img src="../docs/images/1x1.gif" width="25"> <IMG src="../docs/images/announcements.jpg">
+    </body>
+</html>
